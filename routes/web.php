@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('/', function () {
+//     return view('top');
+// });
+
+// Route::get('/check', function () {
+//     return view('check');
+// });
+Route::get('/', 'App\Http\Controllers\addController@getIndex');
+Route::post('/check', 'App\Http\Controllers\addController@postIndex');
