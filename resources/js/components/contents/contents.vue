@@ -1,9 +1,9 @@
 <template>
-    <PageIndex></PageIndex>
+    <PageLogin></PageLogin>
 </template>
 
 <script>
-import PageIndex from '../pages/PageIndex.vue';
+import PageLogin from '../pages/PageLogin.vue';
 
 export default {
     name: 'contents',
@@ -14,7 +14,7 @@ export default {
     //     }
     // },
     components: {
-        PageIndex,
+        PageLogin,
     }
 }
 

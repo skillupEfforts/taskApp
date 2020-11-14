@@ -2136,13 +2136,19 @@ var month = getTimes.getMonth() + 1;
 var day = getTimes.getDate();
 var week = getTimes.getDay();
 var weekElem = ['日', '月', '火', '水', '木', '金', '土'];
-var today = year + '年' + month + '月' + day + '日' + weekElem[week] + '曜日';
+
+var _today = year + '年' + month + '月' + day + '日' + weekElem[week] + '曜日';
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'HeadingDate',
   data: function data() {
-    return {
-      date: today
+    return {// date: today
     };
+  },
+  computed: {
+    today: function today() {
+      return _today;
+    }
   }
 });
 
@@ -20271,7 +20277,7 @@ var render = function() {
   return _c(
     "p",
     { staticClass: "badge badge-primary p-3", attrs: { id: "today" } },
-    [_vm._v(_vm._s(_vm.date))]
+    [_vm._v(_vm._s(_vm.today))]
   )
 }
 var staticRenderFns = []
