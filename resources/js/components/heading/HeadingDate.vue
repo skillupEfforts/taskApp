@@ -1,5 +1,5 @@
 <template>
-    <p id="today" class="badge badge-primary p-3">{{ date }}</p>
+    <p id="today" class="badge badge-primary p-3">{{ today }}</p>
 </template>
 
 <script>
@@ -17,8 +17,13 @@ export default {
     name: 'HeadingDate',
     data () {
         return {
-            date: today
+            // date: today
         }
     },
+    computed: {
+    today () {
+        return today
+    }
+  }
 }
 </script>
