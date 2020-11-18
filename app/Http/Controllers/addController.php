@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Schema\Blueprint;
+use App\Models\usersTable;
+use Illuminate\Support\Facades\Hash;
 
 class addController extends Controller
 {
@@ -91,12 +94,20 @@ class addController extends Controller
     {
         if ($request->filled('name')) {
             $name = $request->input('name');
+            $password = $request->input('password');
+            $userstable = new usersTable();
+            $userstable->name = $name;
+            $userstable->password = Hash::make($password);
+            $userstable->save();
+            $getData = $userstable->getData($name);
+            $getName = $getData[0]->name;
+            $userInfo = array(
+                'name' => $getName
+                //'password' => $password
+            );
+            return view('fin', $userInfo);
         } else {
-            $name = '名無し';
+            return view('error', $userInfo);
         }
-        $useInfo = array(
-            'name' => $name
-        );
-        return view('check', $useInfo);
     }
 }

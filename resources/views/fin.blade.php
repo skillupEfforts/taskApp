@@ -23,7 +23,7 @@
     <body class="antialiased">
         <div>
             <div>
-                名前：{{$name}}
+                {{$name}}さん、登録しました。
             </div>
         </div>
     </body>

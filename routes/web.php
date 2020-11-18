@@ -25,3 +25,9 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', 'App\Http\Controllers\addController@getIndex');
 Route::post('/check', 'App\Http\Controllers\addController@postIndex');
+Route::post('/fin', function () {
+    return view('fin');
+});
+Route::post('/error', function () {
+    return view('error');
+});
