@@ -96,16 +96,20 @@ class addController extends Controller
             $name = $request->input('name');
             $password = $request->input('password');
             $userstable = new usersTable();
-            $userstable->name = $name;
-            $userstable->password = Hash::make($password);
-            $userstable->save();
-            $getData = $userstable->getData($name);
-            $getName = $getData[0]->name;
-            $userInfo = array(
-                'name' => $getName
-                //'password' => $password
-            );
-            return view('fin', $userInfo);
+            // $userstable->name = $name;
+            // $userstable->password = Hash::make($password);
+            // $userstable->save();
+            try {
+                $getData = $userstable->getData($name);
+                $getName = $getData[0]->name;
+                $userInfo = array(
+                    'name' => $getName
+                    //'password' => $password
+                );
+                return view('fin', $userInfo);
+            } catch(\Exception $e) {
+                return view('error');
+            }
         } else {
             return view('error', $userInfo);
         }
