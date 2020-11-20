@@ -30,7 +30,8 @@
         <div id="container">
             <Theheader></Theheader>
             <div class="container-fluid">
-                <contents></contents>
+                <!-- <contents></contents> -->
+                <router-view />
             </div>
             <Thefooter></Thefooter>
         </div>
