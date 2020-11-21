@@ -1,15 +1,22 @@
 <template>
     <div id="wrapper">
-        <header>header</header>
+        <Theheader></Theheader>
         <router-view/>
-        <footer>footer</footer>
+        <Thefooter></Thefooter>
     </div>
 </template>
 
 <script>
+import Theheader from './header/Theheader.vue'
+import Thefooter from './footer/Thefooter.vue'
+
     export default {
         mounted() {
             console.log('Component mounted.')
+        },
+        components: {
+            Theheader,
+            Thefooter,
         }
     }
 </script>
