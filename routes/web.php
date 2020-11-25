@@ -13,8 +13,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('/', function () {
+//     return view('top');
+// });
+
+// Route::get('/check', function () {
+//     return view('check');
+// });
+// Route::get('/', 'App\Http\Controllers\addController@getIndex');
+// Route::post('/check', 'App\Http\Controllers\addController@postIndex');
+// Route::post('/fin', function () {
+//     return view('fin');
+// });
+// Route::post('/error', function () {
+//     return view('error');
+// });
+// Auth::routes();
+
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/', function () {
+<<<<<<< HEAD
     return view('login');
 });
 
 // Auth::routes();
+=======
+    return view('app');
+})->where('any','.*');;
+>>>>>>> c10a66e2da53a4be5dc28b71b1a32167f0c71698

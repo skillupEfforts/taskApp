@@ -92,8 +92,13 @@ class addController extends Controller
 
     public function postIndex(Request $request)
     {
+<<<<<<< HEAD
         if ($request->userId) {
             $name = $request->userId;
+=======
+        if ($request->filled('name')) {
+            $name = $request->input('name');
+>>>>>>> c10a66e2da53a4be5dc28b71b1a32167f0c71698
             $password = $request->input('password');
             $userstable = new usersTable();
             // $userstable->name = $name;
@@ -106,13 +111,21 @@ class addController extends Controller
                     'name' => $getName
                     //'password' => $password
                 );
+<<<<<<< HEAD
                 // return view('home', $userInfo);
                 return $userInfo;
+=======
+                return view('fin', $userInfo);
+>>>>>>> c10a66e2da53a4be5dc28b71b1a32167f0c71698
             } catch(\Exception $e) {
                 return view('error');
             }
         } else {
+<<<<<<< HEAD
             return view('error', []);
+=======
+            return view('error', $userInfo);
+>>>>>>> c10a66e2da53a4be5dc28b71b1a32167f0c71698
         }
     }
 }

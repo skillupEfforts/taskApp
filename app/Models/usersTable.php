@@ -17,4 +17,8 @@ class UsersTable extends Model
         $data = DB::table($this->table)->where('name', $name)->get();
         return $data;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c10a66e2da53a4be5dc28b71b1a32167f0c71698
