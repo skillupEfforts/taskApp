@@ -1,14 +1,11 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-
-Vue.use(VueRouter);
-
+import Router from 'vue-router'
 import PageLogin from "./components/pages/PageLogin.vue";
 import PageIndex from "./components/pages/PageIndex.vue";
+import PageError from "./components/pages/PageError.vue";
 
 
-const router = new VueRouter({
-    mode: "pages",
+export default new Router({
+    mode: "history",
     routes: [
         {
             path: "/",
@@ -20,7 +17,10 @@ const router = new VueRouter({
             name: "PageIndex",
             component: PageIndex
         },
+        {
+            path: "/error",
+            name: "PageError",
+            component: PageError
+        }
     ]
 });
-
-export default router;
