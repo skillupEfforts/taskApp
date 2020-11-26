@@ -36,12 +36,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/', function () {
-<<<<<<< HEAD
     return view('login');
 });
 
 // Auth::routes();
-=======
-    return view('app');
-})->where('any','.*');;
->>>>>>> c10a66e2da53a4be5dc28b71b1a32167f0c71698

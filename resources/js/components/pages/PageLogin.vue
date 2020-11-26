@@ -49,12 +49,12 @@ export default {
     methods: {
         submit() {
             axios.patch('/api/home', {userId: this.userId})
-            .then(response => {
+            .then(response => {console.log(response)
                 this.$router.push({
                     name: 'PageIndex',
                     params :{ id: response.data.name }});
             })
-            .catch(error => {
+            .catch(error => {console.log(error)
                 this.$router.push('/error');
             });
         }
