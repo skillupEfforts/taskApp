@@ -1,7 +1,7 @@
 <template>
     <div>
         <label v-bind:for="id">{{ labelTxt }}</label>
-        <input v-bind:type="inputType" class="form-control" v-bind:id="id"  v-bind:placeholder="placeHolder">
+        <input v-bind:type="inputType" class="form-control" v-bind:id="id"  v-bind:placeholder="placeHolder" :value="value" @input="$emit('input', $event.target.value)">
     </div>
 </template>
 
@@ -13,6 +13,7 @@ export default {
         'labelTxt',
         'inputType',
         'placeHolder',
+        'value'
         ],
     // data () {
     //     return {
