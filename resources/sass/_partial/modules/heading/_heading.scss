@@ -1,0 +1,17 @@
+.m-heading{
+    &-1{
+        color: #fff;
+        display: block;
+        text-decoration: none;
+        transition: all .4s ease;
+        // transform: translateY(0);
+        &:hover{
+            color: #fff;
+            text-decoration: none;
+            // transform: translateY(-10px);
+        }
+        &:visited{
+            color: #fff;
+        }
+    }
+}

@@ -1,51 +1,40 @@
 <template>
-    <form method="post" @submit.prevent="submit">
-        <div class="form-row">
-            <FormTextBox class="col"
-                v-bind:id="loginId"
-                v-bind:label-txt="loginIdTxt"
-                v-bind:input-type="loginIdInputType"
-                v-bind:place-holder="loginIdPlaceHolder"
-                name="loginId"
-                v-model="userId"
-            >
-            </FormTextBox>
-            <FormTextBox class="col"
-                v-bind:id="loginPassId"
-                v-bind:label-txt="loginPassTxt"
-                v-bind:input-type="loginPassInputType"
-                v-bind:place-holder="loginPassPlaceHolder"
-            >
-            </FormTextBox>
-        </div>
-        <BtnSubmit class="mt-3"
-            type="submit"
-            v-bind:submit-id="submitId"
-        >ログイン
-        </BtnSubmit>
-    </form>
+    <div class="l-form">
+        <form method="post" @submit.prevent="submit">
+            <div class="form-row">
+                <FormLoginIdBox class="col"
+                    loginId="loginId"
+                    loginInputType="text"
+                    loginPlaceHolder="ログインID"
+                    loginIdName="loginId"
+                    v-model="userId"
+                >ログインID
+                </FormLoginIdBox>
+                <FormLoginPassBox class="col"
+                    loginPassId="loginPassId"
+                    loginPassInputType="text"
+                    loginPassPlaceHolder="ログインパスワード"
+                    loginPassName="loginPass"
+                    v-model="userPass"
+                >ログインパス
+                </FormLoginPassBox>
+            </div>
+            <FormSubmitBtn class="mt-3"
+                loginSubmitId="loginSubmit"
+                loginButtonType="submit"
+            >ログイン
+            </FormSubmitBtn>
+        </form>
+    </div>
 </template>
 
 <script>
-import BtnSubmit from '../btn/BtnSubmit.vue';
-import FormTextBox from '../form/FormTextBox.vue';
+import FormLoginIdBox from '../form/FormLoginIdBox.vue';
+import FormLoginPassBox from '../form/FormLoginPassBox.vue';
+import FormSubmitBtn from '../form/FormSubmitBtn.vue';
 
 export default {
     name: 'PageLogin',
-    data () {
-        return {
-            loginId: 'loginId',
-            loginIdTxt: 'ID',
-            loginIdInputType: 'text',
-            loginIdPlaceHolder: 'ログインID',
-            loginPassId: 'password',
-            loginPassTxt: 'パスワード',
-            loginPassInputType: 'text',
-            loginPassPlaceHolder: 'ログインパスワード',
-            submitId: 'loginSubmit',
-            userId: ''
-        }
-    },
     methods: {
         submit() {
             axios.patch('/api/home', {userId: this.userId})
@@ -60,8 +49,9 @@ export default {
         }
     },
     components: {
-        BtnSubmit,
-        FormTextBox,
+        FormSubmitBtn,
+        FormLoginIdBox,
+        FormLoginPassBox
     }
 }
 </script>

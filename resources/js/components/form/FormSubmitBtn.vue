@@ -6,10 +6,15 @@
 
 <script>
 export default {
-    name: 'BtnSubmit',
+    name: 'FormSubmitBtn',
     props: {
         loginSubmitId: String,
         loginButtonType: String
     }
+    // data () {
+    //     return {
+    //         headingTtl: "タスク一覧表示画面​"
+    //     }
+    // },
 }
 </script>
