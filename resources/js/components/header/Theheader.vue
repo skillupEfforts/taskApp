@@ -1,6 +1,11 @@
 <template>
     <header>
-        <h1 class="bg-primary text-white p-3 mb-3">{{ heading1Txt }}</h1>
+        <h1 class="bg-primary text-white p-3 mb-3">
+            <router-link class="m-heading-1"
+            to="/"
+            >{{ heading1Txt }}
+            </router-link>
+        </h1>
     </header>
 </template>
 
