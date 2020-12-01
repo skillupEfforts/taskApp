@@ -1,24 +1,17 @@
 <template>
     <div>
-        <label v-bind:for="id">{{ labelTxt }}</label>
-        <input v-bind:type="inputType" class="form-control" v-bind:id="id"  v-bind:placeholder="placeHolder" :value="value" @input="$emit('input', $event.target.value)">
+        <label :for="loginId"><slot></slot></label>
+        <input :type="loginInputType" class="form-control" :id="loginId" :placeholder="loginPlaceHolder" :value="value" @input="$emit('input', $event.target.value)" required>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'FormTextBox',
-    props: [
-        'id',
-        'labelTxt',
-        'inputType',
-        'placeHolder',
-        'value'
-        ],
-    // data () {
-    //     return {
-    //         headingTtl: "タスク一覧表示画面​"
-    //     }
-    // },
+    name: 'FormLoginIdBox',
+    props: {
+        loginId: String,
+        loginInputType: String,
+        loginPlaceHolder: String,
+    }
 }
 </script>

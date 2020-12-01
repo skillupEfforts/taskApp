@@ -3,12 +3,17 @@
 </template>
 
 <script>
+// const defaultClass = 'text-center mb-3';
+
 export default {
     name: 'PageHeading',
-    // data () {
-    //     return {
-    //         headingTtl: "タスク一覧表示画面​"
+    props: {
+        PageHeadingClass: String,
+    },
+    // computed: {
+    //     PageHeadingClass () {
+    //         return defaultClass
     //     }
-    // },
+    // }
 }
 </script>

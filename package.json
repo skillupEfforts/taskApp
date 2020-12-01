@@ -28,5 +28,8 @@
         "vue": "^2.6.12",
         "vue-router": "^3.4.9"
     },
-    "browserslist": [ "last 2 versions", "ie >= 11", "Android >= 4.0" ] 
+    "browserslist": [
+        "last 2 versions",
+        "ie 9"
+      ]
 }
