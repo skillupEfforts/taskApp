@@ -2326,6 +2326,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2338,10 +2340,11 @@ __webpack_require__.r(__webpack_exports__);
       loginIdPlaceHolder: 'ログインID',
       loginPassId: 'password',
       loginPassTxt: 'パスワード',
-      loginPassInputType: 'text',
+      loginPassInputType: 'password',
       loginPassPlaceHolder: 'ログインパスワード',
       submitId: 'loginSubmit',
-      userId: ''
+      userId: '',
+      userPassword: ''
     };
   },
   methods: {
@@ -2349,16 +2352,21 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.patch('/api/home', {
-        userId: this.userId
+        userId: this.userId,
+        userPassword: this.userPassword
       }).then(function (response) {
         console.log(response);
 
-        _this.$router.push({
-          name: 'PageIndex',
-          params: {
-            id: response.data.name
-          }
-        });
+        if (response.data === 0) {
+          _this.$router.push('/error');
+        } else {
+          _this.$router.push({
+            name: 'PageIndex',
+            params: {
+              id: response.data.userId
+            }
+          });
+        }
       })["catch"](function (error) {
         console.log(error);
 
@@ -38581,7 +38589,15 @@ var render = function() {
               id: _vm.loginPassId,
               "label-txt": _vm.loginPassTxt,
               "input-type": _vm.loginPassInputType,
-              "place-holder": _vm.loginPassPlaceHolder
+              "place-holder": _vm.loginPassPlaceHolder,
+              name: "password"
+            },
+            model: {
+              value: _vm.userPassword,
+              callback: function($$v) {
+                _vm.userPassword = $$v
+              },
+              expression: "userPassword"
             }
           })
         ],

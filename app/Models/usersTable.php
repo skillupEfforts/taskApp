@@ -12,9 +12,9 @@ class UsersTable extends Model
     protected $table = 'usersTable';
     public $timestamps = false;
 
-    public function getData(string $name)
+    public function getData(string $userId, string $password)
     {
-        $data = DB::table($this->table)->where('name', $name)->get();
+        $data = DB::table($this->table)->where('name', $userId)->where('password', $password)->get();
         return $data;
     }
 }

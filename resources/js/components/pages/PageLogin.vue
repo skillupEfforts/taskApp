@@ -15,6 +15,8 @@
                 v-bind:label-txt="loginPassTxt"
                 v-bind:input-type="loginPassInputType"
                 v-bind:place-holder="loginPassPlaceHolder"
+                name="password"
+                v-model="userPassword"
             >
             </FormTextBox>
         </div>
@@ -40,19 +42,29 @@ export default {
             loginIdPlaceHolder: 'ログインID',
             loginPassId: 'password',
             loginPassTxt: 'パスワード',
-            loginPassInputType: 'text',
+            loginPassInputType: 'password',
             loginPassPlaceHolder: 'ログインパスワード',
             submitId: 'loginSubmit',
-            userId: ''
+            userId: '',
+            userPassword: ''
         }
     },
     methods: {
         submit() {
-            axios.patch('/api/home', {userId: this.userId})
-            .then(response => {console.log(response)
-                this.$router.push({
-                    name: 'PageIndex',
-                    params :{ id: response.data.name }});
+            axios.patch('/api/home', {
+                userId: this.userId,
+                userPassword: this.userPassword
+            })
+            .then(response => {
+                console.log(response)
+                if(response.data === 0) {
+                    this.$router.push('/error');
+                } else {
+                    this.$router.push({
+                        name: 'PageIndex',
+                        params :{ id: response.data.userId }
+                    });
+                }
             })
             .catch(error => {console.log(error)
                 this.$router.push('/error');
