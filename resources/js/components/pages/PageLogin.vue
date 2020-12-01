@@ -1,6 +1,6 @@
 <template>
     <div class="l-form">
-        <form method="post" @submit.prevent="submit">
+        <form @submit.prevent="submit">
             <div class="form-row">
                 <FormLoginIdBox class="col"
                     loginId="loginId"
@@ -12,7 +12,7 @@
                 </FormLoginIdBox>
                 <FormLoginPassBox class="col"
                     loginPassId="loginPassId"
-                    loginPassInputType="text"
+                    loginPassInputType="password"
                     loginPassPlaceHolder="ログインパスワード"
                     loginPassName="loginPass"
                     v-model="userPass"
@@ -35,11 +35,19 @@ import FormSubmitBtn from '../form/FormSubmitBtn.vue';
 
 export default {
     name: 'PageLogin',
+    data() {
+        return {
+            userId: '',
+            userPass: ''
+        }
+    },
     methods: {
         submit() {
-            axios.patch('/api/home', {
-                userId: this.userId,
-                userPassword: this.userPassword
+            axios.get('/api/home', {
+                params: {
+                    userId: this.userId,
+                    userPassword: this.userPass
+                }
             })
             .then(response => {
                 console.log(response)
@@ -48,7 +56,7 @@ export default {
                 } else {
                     this.$router.push({
                         name: 'PageIndex',
-                        params :{ id: response.data.userId }
+                        params :{ userId: response.data.userId }
                     });
                 }
             })

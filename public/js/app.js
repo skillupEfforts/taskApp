@@ -2132,8 +2132,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormLoginIdBox',
+  model: {
+    prop: 'loginIdvalue',
+    event: 'input'
+  },
   props: {
     loginId: String,
     loginInputType: String,
@@ -2165,8 +2175,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormLoginPassBox',
+  model: {
+    prop: 'loginPassvalue',
+    event: 'input'
+  },
   props: {
     loginPassId: String,
     loginPassInputType: String,
@@ -2469,15 +2491,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'PageLogin',
+  data: function data() {
+    return {
+      userId: '',
+      userPass: ''
+    };
+  },
   methods: {
     submit: function submit() {
       var _this = this;
 
-      axios.patch('/api/home', {
-        userId: this.userId,
-        userPassword: this.userPassword
+      axios.get('/api/home', {
+        params: {
+          userId: this.userId,
+          userPassword: this.userPass
+        }
       }).then(function (response) {
         console.log(response);
 
@@ -2487,7 +2518,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.$router.push({
             name: 'PageIndex',
             params: {
-              id: response.data.userId
+              userId: response.data.userId
             }
           });
         }
@@ -38817,7 +38848,6 @@ var render = function() {
     _c(
       "form",
       {
-        attrs: { method: "post" },
         on: {
           submit: function($event) {
             $event.preventDefault()
@@ -38857,7 +38887,7 @@ var render = function() {
                 staticClass: "col",
                 attrs: {
                   loginPassId: "loginPassId",
-                  loginPassInputType: "text",
+                  loginPassInputType: "password",
                   loginPassPlaceHolder: "ログインパスワード",
                   loginPassName: "loginPass"
                 },
@@ -55303,8 +55333,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/tatsuro.hayashi/works/skillupEfforts/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/tatsuro.hayashi/works/skillupEfforts/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/taskApp/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/taskApp/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
