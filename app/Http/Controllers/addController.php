@@ -92,31 +92,25 @@ class addController extends Controller
 
     public function postIndex(Request $request)
     {
-        // if ($request->userId) {
-            $userId = $request->userId;
-            $password = $request->userPassword;
-            $userstable = new usersTable();
-            // $userstable->name = $name;
-            // $userstable->password = Hash::make($password);
-            // $userstable->save();
-            // var_dump($userstable);
-            try {
-                $getData = $userstable->getData($userId, $password);
-                if($getData->isEmpty()) {
-                    return 0;
-                }
-                $getUserId = $getData[0]->name;
-                $userInfo = array(
-                    'userId' => $getUserId
-                    //'password' => $password
-                );
-                // return view('home', $userInfo);
-                return $userInfo;
-            } catch(\Exception $e) {
-                return $e;
+        $userId = $request->userId;
+        $password = $request->userPassword;
+        $userstable = new usersTable();
+        // $userstable->name = $name;
+        // $userstable->password = Hash::make($password);
+        // $userstable->save();
+        // var_dump($userstable);
+        try {
+            $getData = $userstable->getData($userId, $password);
+            if($getData->isEmpty()) {
+                return 0;
             }
-        // } else {
-        //     return view('error', []);
-        // }
+            $getUserId = $getData[0]->name;
+            $userInfo = array(
+                'userId' => $getUserId
+            );
+            return $userInfo;
+        } catch(\Exception $e) {
+            return $e;
+        }
     }
 }
