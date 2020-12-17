@@ -1,7 +1,7 @@
 <template>
     <nav class="nav nav-pills nav-fill border border-primary mb-5">
-        <a class="nav-item nav-link active" href="#">{{ navTxt01 }}</a>
-        <a class="nav-item nav-link" href="#">{{ navTxt02 }}</a>
+        <a class="nav-item nav-link active" href="#">当日タスク</a>
+        <a class="nav-item nav-link" href="#" @click="$emit('open')">タスク登録</a>
     </nav>
 </template>
 
@@ -9,11 +9,15 @@
 
 export default {
     name: 'navigation',
-    data () {
-        return {
-            navTxt01: '当日タスク',
-            navTxt02: 'タスク登録',
-        }
-    },
+    // data () {
+    //     return {
+    //         navTxt01: '当日タスク',
+    //         navTxt02: 'タスク登録',
+    //     }
+    // },
+    // props: {
+    //     SubmitId: String,
+    //     ButtonType: String
+    // }
 }
 </script>

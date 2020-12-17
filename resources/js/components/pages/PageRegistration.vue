@@ -46,11 +46,12 @@ export default {
             registrationId: '',
             registrationPass: '',
             headingTtl: 'アカウント新規追加',
-            danger:false
+            danger: false
         }
     },
     methods: {
         registration() {
+            console.log(this.registrationId)
             if(this.registrationId !== '' && this.registrationPass !== ''){
                 this.$router.push({
                     name: 'PageIndex'

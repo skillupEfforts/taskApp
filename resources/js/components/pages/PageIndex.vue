@@ -2,7 +2,9 @@
     <div>
         <div class="container">
             <PageHeading>タスク一覧表示画面​</PageHeading>
-            <navigation></navigation>
+            <navigation
+                @open="openModal"
+            ></navigation>
         </div>
         <HeadingDate></HeadingDate>
         <DataTable></DataTable>
@@ -10,9 +12,22 @@
             <BtnSubmit
                 SubmitId="SubmitHours"
                 ButtonType="submit"
-            >実工数保存
-            </BtnSubmit>
+            >実工数保存</BtnSubmit>
         </div>
+        <!-- modal -->
+        <modalRegistration @close="closeModal" v-if="showModal">
+            <template v-slot:modalTtl>タスク新規追加</template>
+            <template slot="modal-input-task-parent">
+            </template>
+            <!-- footer スロットコンテンツ -->
+            <template slot="footer">
+                <button @click="add">追加</button>
+                <button @click="closeModal" v-if="showModal">閉じる</button>
+                <!-- <button @click="doSend">閉じる</button> -->
+            </template>
+            <!-- /footer -->
+        </modalRegistration>
+        <!-- /.modal -->
     </div>
 </template>
 
@@ -22,15 +37,50 @@ import navigation from '../nav/navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
 import DataTable from '../datatable/DataTable.vue';
+import modalRegistration from '../modal/modalRegistration.vue';
 
 export default {
     name: 'PageIndex',
+    data() {
+        return {
+            showModal: false,
+            parentTaskName: '',
+        }
+    },
+    // computed: {
+    //     aaa: {
+    //         get () {
+    //             return console.log(this.parentTaskName);
+    //         }
+    //     }
+    // },
+    methods:{
+        openModal() {
+            this.showModal = true;
+        },
+        closeModal() {
+            this.showModal = false;
+        },
+        doSend() {
+            if (this.message.length > 0) {
+                alert(this.message);
+                this.message = '';
+                this.closeModal();
+            } else {
+                alert('メッセージを入力してください');
+            }
+        },
+        add() {
+                alert('タスクを登録しました。');
+        },
+    },
     components: {
         PageHeading,
         navigation,
         HeadingDate,
         BtnSubmit,
         DataTable,
+        modalRegistration,
     }
 }
 </script>
