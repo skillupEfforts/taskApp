@@ -1,5 +1,5 @@
 <template>
-    <h2 class="text-center mb-3"><slot></slot></h2>
+    <h2 class="text-center mb-3"><slot>{{ headingTtl }}</slot></h2>
 </template>
 
 <script>
@@ -8,7 +8,7 @@
 export default {
     name: 'PageHeading',
     props: {
-        PageHeadingClass: String,
+        headingTtl: String,
     },
     // computed: {
     //     PageHeadingClass () {

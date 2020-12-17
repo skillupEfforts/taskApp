@@ -1,7 +1,11 @@
 <template>
     <div class="l-form">
-    <PageHeading>アカウント新規追加</PageHeading>
-        <form @submit.prevent="submit">
+    <PageHeading
+        :headingTtl="headingTtl"
+        :class="{ 'text-danger':danger }"
+    >
+    </PageHeading>
+        <form @submit.prevent="registration">
             <div class="form-row">
                 <FormRegistrationIdBox class="col"
                     registrationId="registrationId"
@@ -40,31 +44,22 @@ export default {
     data() {
         return {
             registrationId: '',
-            registrationPass: ''
+            registrationPass: '',
+            headingTtl: 'アカウント新規追加',
+            danger:false
         }
     },
     methods: {
-        submit() {
-            axios.get('/api/home', {
-                params: {
-                    registrationId: this.registrationId,
-                    registrationPassword: this.registrationPass
-                }
-            })
-            .then(response => {
-                console.log(response)
-                if(response.data === 0) {
-                    this.$router.push('/error');
-                } else {
-                    this.$router.push({
-                        name: 'PageIndex',
-                        params :{ registrationId: response.data.registrationId }
-                    });
-                }
-            })
-            .catch(error => {console.log(error)
-                this.$router.push('/error');
-            });
+        registration() {
+            if(this.registrationId !== '' && this.registrationPass !== ''){
+                this.$router.push({
+                    name: 'PageIndex'
+                });
+            } else {
+                console.log(this.PageHeading)
+                this.headingTtl = '登録するID、パスワードを入力してください。';
+                this.danger = true;
+            }
         }
     },
     components: {

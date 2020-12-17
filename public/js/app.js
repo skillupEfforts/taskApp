@@ -1949,8 +1949,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'BtnSubmit',
   props: {
-    loginSubmitId: String,
-    loginButtonType: String
+    SubmitId: String,
+    ButtonType: String
   }
 });
 
@@ -2433,7 +2433,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'PageHeading',
   props: {
-    PageHeadingClass: String
+    headingTtl: String
   } // computed: {
   //     PageHeadingClass () {
   //         return defaultClass
@@ -2536,6 +2536,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2543,12 +2549,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'PageIndex',
-  data: function data() {
-    return {
-      headingTtl: 'タスク一覧表示画面​',
-      submitTxt: '実工数保存'
-    };
-  },
   components: {
     PageHeading: _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     navigation: _nav_navigation_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2699,6 +2699,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2708,36 +2712,22 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       registrationId: '',
-      registrationPass: ''
+      registrationPass: '',
+      headingTtl: 'アカウント新規追加',
+      danger: false
     };
   },
   methods: {
-    submit: function submit() {
-      var _this = this;
-
-      axios.get('/api/home', {
-        params: {
-          registrationId: this.registrationId,
-          registrationPassword: this.registrationPass
-        }
-      }).then(function (response) {
-        console.log(response);
-
-        if (response.data === 0) {
-          _this.$router.push('/error');
-        } else {
-          _this.$router.push({
-            name: 'PageIndex',
-            params: {
-              registrationId: response.data.registrationId
-            }
-          });
-        }
-      })["catch"](function (error) {
-        console.log(error);
-
-        _this.$router.push('/error');
-      });
+    registration: function registration() {
+      if (this.registrationId !== '' && this.registrationPass !== '') {
+        this.$router.push({
+          name: 'PageIndex'
+        });
+      } else {
+        console.log(this.PageHeading);
+        this.headingTtl = '登録するID、パスワードを入力してください。';
+        this.danger = true;
+      }
     }
   },
   components: {
@@ -38380,7 +38370,7 @@ var render = function() {
       "button",
       {
         staticClass: "btn btn-primary w-100",
-        attrs: { id: _vm.loginSubmitId, type: _vm.loginButtonType }
+        attrs: { id: _vm.SubmitId, type: _vm.ButtonType }
       },
       [_vm._t("default")],
       2
@@ -39038,7 +39028,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("h2", { staticClass: "text-center mb-3" }, [_vm._t("default")], 2)
+  return _c(
+    "h2",
+    { staticClass: "text-center mb-3" },
+    [_vm._t("default", [_vm._v(_vm._s(_vm.headingTtl))])],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39146,7 +39141,7 @@ var render = function() {
         "div",
         { staticClass: "container" },
         [
-          _c("PageHeading", [_vm._v(_vm._s(_vm.headingTtl))]),
+          _c("PageHeading", [_vm._v("タスク一覧表示画面​")]),
           _vm._v(" "),
           _c("navigation")
         ],
@@ -39157,7 +39152,18 @@ var render = function() {
       _vm._v(" "),
       _c("DataTable"),
       _vm._v(" "),
-      _c("BtnSubmit", [_vm._v(_vm._s(_vm.submitTxt))])
+      _c(
+        "div",
+        { staticClass: "l-w50-center mt-5" },
+        [
+          _c(
+            "BtnSubmit",
+            { attrs: { SubmitId: "SubmitHours", ButtonType: "submit" } },
+            [_vm._v("実工数保存\n        ")]
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -39291,7 +39297,10 @@ var render = function() {
     "div",
     { staticClass: "l-form" },
     [
-      _c("PageHeading", [_vm._v("アカウント新規追加")]),
+      _c("PageHeading", {
+        class: { "text-danger": _vm.danger },
+        attrs: { headingTtl: _vm.headingTtl }
+      }),
       _vm._v(" "),
       _c(
         "form",
@@ -39299,7 +39308,7 @@ var render = function() {
           on: {
             submit: function($event) {
               $event.preventDefault()
-              return _vm.submit($event)
+              return _vm.registration($event)
             }
           }
         },

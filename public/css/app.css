@@ -11972,8 +11972,13 @@ a.text-dark:focus {
   }
 }
 
+.l-w50-center {
+  max-width: 50%;
+  margin: 0 auto;
+}
+
 .l-form {
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
 }
 

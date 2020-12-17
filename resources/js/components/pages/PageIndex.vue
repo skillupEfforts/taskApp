@@ -1,12 +1,18 @@
 <template>
     <div>
         <div class="container">
-            <PageHeading>{{ headingTtl }}</PageHeading>
+            <PageHeading>タスク一覧表示画面​</PageHeading>
             <navigation></navigation>
         </div>
         <HeadingDate></HeadingDate>
         <DataTable></DataTable>
-        <BtnSubmit>{{ submitTxt }}</BtnSubmit>
+        <div class="l-w50-center mt-5">
+            <BtnSubmit
+                SubmitId="SubmitHours"
+                ButtonType="submit"
+            >実工数保存
+            </BtnSubmit>
+        </div>
     </div>
 </template>
 
@@ -19,12 +25,6 @@ import DataTable from '../datatable/DataTable.vue';
 
 export default {
     name: 'PageIndex',
-    data () {
-        return {
-            headingTtl: 'タスク一覧表示画面​',
-            submitTxt: '実工数保存',
-        }
-    },
     components: {
         PageHeading,
         navigation,
