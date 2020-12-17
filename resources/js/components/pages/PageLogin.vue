@@ -1,5 +1,6 @@
 <template>
     <div class="l-form">
+        <PageHeading>ログイン</PageHeading>
         <form @submit.prevent="submit">
             <div class="form-row">
                 <FormLoginIdBox class="col"
@@ -32,6 +33,7 @@
 import FormLoginIdBox from '../form/FormLoginIdBox.vue';
 import FormLoginPassBox from '../form/FormLoginPassBox.vue';
 import FormSubmitBtn from '../form/FormSubmitBtn.vue';
+import PageHeading from '../heading/PageHeading.vue';
 
 export default {
     name: 'PageLogin',
@@ -68,7 +70,8 @@ export default {
     components: {
         FormSubmitBtn,
         FormLoginIdBox,
-        FormLoginPassBox
+        FormLoginPassBox,
+        PageHeading,
     }
 }
 </script>

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-    name: 'FormLoginIdBox',
+    name: 'FormTextBox',
     props: {
         loginId: String,
         loginInputType: String,
