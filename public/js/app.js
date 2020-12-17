@@ -2845,7 +2845,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.registrationId !== '' && this.registrationPass !== '') {
         this.$router.push({
-          name: 'PageIndex'
+          name: 'PageLogin'
         });
       } else {
         console.log(this.PageHeading);

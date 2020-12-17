@@ -54,7 +54,7 @@ export default {
             console.log(this.registrationId)
             if(this.registrationId !== '' && this.registrationPass !== ''){
                 this.$router.push({
-                    name: 'PageIndex'
+                    name: 'PageLogin'
                 });
             } else {
                 console.log(this.PageHeading)
