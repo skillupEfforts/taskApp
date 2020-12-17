@@ -1,30 +1,41 @@
 <template>
-  <transition name="modal" appear>
-    <div class="modal modal-overlay" @click.self="$emit('close')">
-      <div class="modal-window">
-        <div class="modal-content">
-            <!--<form @submit.prevent="add">-->
-                <!--<div class="form-row">-->
-                    <h3 class="text-info"><slot name="modalTtl"></slot></h3>
-                    <slot name="modal-input-task-parent">
-                        <div class="modal-input-task-parent">
-                        <FormRegistrationIdBox>
-                        <slot></slot>
-                        </FormRegistrationIdBox>
-                            <label :for="parentTaskId"><slot name="parentTaskName"></slot></label>
-                            <input
-                                class="form-control"
-                                :id="parentTaskId"
-                                :name="parentTaskIdName"
-                                :placeholder="parentTaskIdPlaceHolder"
-                                :value="parentTaskNameValue"
-                                @input="$emit('input', $event.target.value)">
-                        </div>
-                    </slot>
-                <!--</div>-->
-            <!--</from>-->
+  <transition name="l-modal" appear>
+    <div class="l-modal l-modal-overlay" @click.self="$emit('close')">
+      <div class="l-modal-window">
+        <div class="l-modal-content">
+            <Heading2>タスク新規追加</Heading2>
+            <div class="l-task-input">
+                <FormTaskNameBox
+                    taskNameId="taskNameId"
+                    taskNameInputType="text"
+                    taskNamePlaceHolder="親タスクを入力してください"
+                    taskNameIdName="taskNameId"
+                >親タスク入力</FormTaskNameBox>
+                <FormTaskHourBox
+                    taskHourId="taskHourId"
+                    taskHourInputType="text"
+                    taskHourPlaceHolder="予定工数を入力してください"
+                    taskHourIdName="taskHourId"
+                >工数入力</FormTaskHourBox>
+                <FormTaskDateBox
+                    taskStartDateId="taskStartDateStartId"
+                    taskStartDateInputType="date"
+                    taskStartDateMin="2021-01-01"
+                    taskStartDateMax="2022-01-01"
+                    taskStartDateIdName="taskStartDateStartId"
+                    taskEndDateId="taskEndDateStartId"
+                    taskEndDateInputType="date"
+                    taskEndDateMin="2021-01-01"
+                    taskEndDateMax="2022-01-01"
+                    taskEndDateIdName="taskEndDateStartId"
+                >
+                <template slot="start">期間（開始日）</template>
+                <template slot="end">期間（終了日）</template>
+                </FormTaskDateBox>
+                <FormTaskStatus>ステータス</FormTaskStatus>
+            </div>
         </div>
-        <footer class="modal-footer">
+        <footer class="l-modal-footer">
           <slot name="footer">
             <button @click="$emit('add')"><slot></slot></button>
             <button @click="$emit('close')"><slot></slot></button>
@@ -36,82 +47,38 @@
 </template>
 
 <script>
-import FormRegistrationIdBox from '../form/FormRegistrationIdBox.vue';
+import Heading2 from '../heading/Heading2.vue';
+import FormTaskNameBox from '../form/task/FormTaskNameBox.vue';
+import FormTaskHourBox from '../form/task/FormTaskHourBox.vue';
+import FormTaskDateBox from '../form/task/FormTaskDateBox.vue';
+import FormTaskStatus from '../form/task/FormTaskStatus.vue';
 
 export default {
     name: 'modalRegistration',
-    model: {
-        prop: 'parentTaskNameValue',
-        event: 'input'
+    data() {
+        return {
+            taskName: '',
+            taskHour: '',
+            taskDate: '',
+            taskNameValue: '',
+        }
     },
-    props: {
-        parentTaskId: String,
-        parentTaskIdName: String,
-        parentTaskIdPlaceHolder: String,
-        parentTaskNameValue: String,
-    },
+    // model: {
+    //     // prop: 'parentTaskNameValue',
+    //     event: 'input'
+    // },
+    // props: {
+    //     parentTaskId: String,
+    //     parentTaskIdName: String,
+    //     parentTaskIdPlaceHolder: String,
+    //     parentTaskNameValue: String,
+    // },
     components: {
-        FormRegistrationIdBox,
+        Heading2,
+        FormTaskNameBox,
+        FormTaskHourBox,
+        FormTaskDateBox,
+        FormTaskStatus,
     }
 }
 </script>
-
-
-<style lang="scss" scoped>
-.modal {
-  &.modal-overlay {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    z-index: 30;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-  }
-
-  &-window {
-    width: 80%;
-    height: 80%;
-    background: #fff;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  &-content {
-    padding: 10px 20px;
-  }
-
-  &-footer {
-    background: #ccc;
-    padding: 10px;
-    text-align: right;
-  }
-}
-
-// オーバーレイのトランジション
-.modal-enter-active, .modal-leave-active {
-  transition: opacity 0.4s;
-
-  // オーバーレイに包含されているモーダルウィンドウのトランジション
-  .modal-window {
-    transition: opacity 0.4s, transform 0.4s;
-  }
-}
-
-// ディレイを付けるとモーダルウィンドウが消えた後にオーバーレイが消える
-.modal-leave-active {
-  transition: opacity 0.6s ease 0.4s;
-}
-
-.modal-enter, .modal-leave-to {
-  opacity: 0;
-
-  .modal-window {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
-</style>

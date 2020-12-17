@@ -16,9 +16,6 @@
         </div>
         <!-- modal -->
         <modalRegistration @close="closeModal" v-if="showModal">
-            <template v-slot:modalTtl>タスク新規追加</template>
-            <template slot="modal-input-task-parent">
-            </template>
             <!-- footer スロットコンテンツ -->
             <template slot="footer">
                 <button @click="add">追加</button>
@@ -33,6 +30,7 @@
 
 <script>
 import PageHeading from '../heading/PageHeading.vue';
+import Heading2 from '../heading/Heading2.vue';
 import navigation from '../nav/navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
@@ -76,6 +74,7 @@ export default {
     },
     components: {
         PageHeading,
+        Heading2,
         navigation,
         HeadingDate,
         BtnSubmit,
