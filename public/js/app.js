@@ -2547,22 +2547,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var statusArray = ['着手前', '対応中', 'Dir確認中', 'FB修正中', '完了'];
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormTaskStatus',
-  // model: {
-  //     prop: 'taskNameValue',
-  //     event: 'input'
-  // },
+  model: {
+    prop: 'taskSelected',
+    event: 'input'
+  },
   computed: {
     status: function status() {
       // console.log(statusArray)
       return statusArray;
     }
   },
+  methods: {
+    updateValue: function updateValue(e) {
+      this.$emit("input", e.target.value);
+    }
+  },
   props: {
     taskStatusId: String,
-    taskStatusName: String
+    taskStatusName: String,
+    taskSelected: String
   }
 });
 
@@ -2597,15 +2604,10 @@ __webpack_require__.r(__webpack_exports__);
     prop: 'taskMemo',
     event: 'input'
   },
-  computed: {
-    status: function status() {
-      // console.log(statusArray)
-      return statusArray;
-    }
-  },
   props: {
     taskTextAreaId: String,
-    taskStatusName: String
+    taskStatusName: String,
+    taskMemo: String
   }
 });
 
@@ -2823,19 +2825,10 @@ __webpack_require__.r(__webpack_exports__);
       taskName: '',
       taskHour: '',
       taskDate: '',
+      taskSelected: '',
       taskMemo: ''
     };
   },
-  model: {
-    prop: 'parentTaskNameValue',
-    event: 'input'
-  },
-  // props: {
-  //     parentTaskId: String,
-  //     parentTaskIdName: String,
-  //     parentTaskIdPlaceHolder: String,
-  //     parentTaskNameValue: String,
-  // },
   components: {
     Heading2: _heading_Heading2_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     BtnSubmit: _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -39596,7 +39589,10 @@ var render = function() {
     _vm._v(" "),
     _c(
       "select",
-      { attrs: { name: _vm.taskStatusName, id: _vm.taskStatusId } },
+      {
+        attrs: { name: _vm.taskStatusName, id: _vm.taskStatusId },
+        on: { change: _vm.updateValue }
+      },
       _vm._l(_vm.status, function(statusArray, index) {
         return _c("option", { domProps: { value: index } }, [
           _vm._v(_vm._s(statusArray))
@@ -39835,7 +39831,7 @@ var render = function() {
                         expression: "taskName"
                       }
                     },
-                    [_vm._v("親タスク入力")]
+                    [_vm._v("親タスク入力" + _vm._s(_vm.taskName))]
                   ),
                   _vm._v(" "),
                   _c(
@@ -39855,7 +39851,7 @@ var render = function() {
                         expression: "taskHour"
                       }
                     },
-                    [_vm._v("工数入力")]
+                    [_vm._v("工数入力" + _vm._s(_vm.taskHour))]
                   ),
                   _vm._v(" "),
                   _c(
@@ -39892,9 +39888,16 @@ var render = function() {
                       attrs: {
                         taskStatusId: "taskStatusId",
                         taskStatusName: "taskStatusName"
+                      },
+                      model: {
+                        value: _vm.taskSelected,
+                        callback: function($$v) {
+                          _vm.taskSelected = $$v
+                        },
+                        expression: "taskSelected"
                       }
                     },
-                    [_vm._v("ステータス")]
+                    [_vm._v("ステータス" + _vm._s(_vm.taskSelected))]
                   ),
                   _vm._v(" "),
                   _c(
@@ -39909,10 +39912,7 @@ var render = function() {
                         expression: "taskMemo"
                       }
                     },
-                    [_vm._v("メモ")]
-                  ),
-                  _vm._v(
-                    "\n              " + _vm._s(_vm.taskMemo) + "\n          "
+                    [_vm._v("メモ" + _vm._s(_vm.taskMemo))]
                   )
                 ],
                 1
@@ -40085,7 +40085,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n            ああああ\n            ")]
+                    [_vm._v("\n            追加\n            ")]
                   )
                 ],
                 1

@@ -1,8 +1,9 @@
 <template>
     <div class="l-task-input-box">
         <label :for="taskStatusId"><slot></slot></label>
-        <select :name="taskStatusName" :id="taskStatusId">
-            <option v-for="(statusArray, index) in status" :value="index">{{ statusArray }}</option>
+        <select :name="taskStatusName" :id="taskStatusId" @change="updateValue">
+            <option v-for="(statusArray, index) in status"
+                    :value="index">{{ statusArray }}</option>
         </select>
     </div>
 </template>
@@ -18,19 +19,25 @@ const statusArray = [
 
 export default {
     name: 'FormTaskStatus',
-    // model: {
-    //     prop: 'taskNameValue',
-    //     event: 'input'
-    // },
+    model: {
+        prop: 'taskSelected',
+        event: 'input'
+    },
     computed: {
         status () {
             // console.log(statusArray)
             return statusArray
         }
     },
+    methods: {
+        updateValue: function(e) {
+          this.$emit("input", e.target.value);
+        }
+    },
     props: {
         taskStatusId: String,
         taskStatusName: String,
+        taskSelected: String,
     }
 }
 </script>

@@ -20,15 +20,10 @@ export default {
         prop: 'taskMemo',
         event: 'input'
     },
-    computed: {
-        status () {
-            // console.log(statusArray)
-            return statusArray
-        }
-    },
     props: {
         taskTextAreaId: String,
         taskStatusName: String,
+        taskMemo: String,
     }
 }
 </script>

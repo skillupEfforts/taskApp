@@ -19,7 +19,7 @@
             <!-- footer スロットコンテンツ -->
             <template slot="footer">
                 <BtnSubmit @click.native="add">
-                ああああ
+                追加
                 </BtnSubmit>
                 <!--<button @click="add">追加</button>-->
                 <!--<button @click="closeModal" v-if="showModal">閉じる</button>-->

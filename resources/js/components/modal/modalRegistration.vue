@@ -11,14 +11,14 @@
                     taskNamePlaceHolder="親タスクを入力してください"
                     taskName="taskNameId"
                     v-model="taskName"
-                >親タスク入力</FormTaskNameBox>
+                >親タスク入力{{ taskName }}</FormTaskNameBox>
                 <FormTaskHourBox
                     taskHourId="taskHourId"
                     taskHourInputType="text"
                     taskHourPlaceHolder="予定工数を入力してください"
                     taskHourName="taskHourId"
                     v-model="taskHour"
-                >工数入力</FormTaskHourBox>
+                >工数入力{{ taskHour }}</FormTaskHourBox>
                 <FormTaskDateBox
                     taskStartDateId="taskStartDateStartId"
                     taskStartDateInputType="date"
@@ -35,14 +35,14 @@
                     <template slot="end">期間（終了日）</template>
                 </FormTaskDateBox>
                 <FormTaskStatus
+                v-model="taskSelected"
                 taskStatusId="taskStatusId"
                 taskStatusName="taskStatusName"
-                >ステータス</FormTaskStatus>
+                >ステータス{{ taskSelected }}</FormTaskStatus>
                 <FormTaskTextArea
                 taskTextAreaId="taskTextAreaId"
                 v-model="taskMemo"
-                >メモ</FormTaskTextArea>
-                {{ taskMemo }}
+                >メモ{{ taskMemo }}</FormTaskTextArea>
             </div>
         </div>
         <footer class="l-modal-footer">
@@ -72,19 +72,10 @@ export default {
             taskName: '',
             taskHour: '',
             taskDate: '',
+            taskSelected: '',
             taskMemo: '',
         }
     },
-    model: {
-        prop: 'parentTaskNameValue',
-        event: 'input'
-    },
-    // props: {
-    //     parentTaskId: String,
-    //     parentTaskIdName: String,
-    //     parentTaskIdPlaceHolder: String,
-    //     parentTaskNameValue: String,
-    // },
     components: {
         Heading2,
         BtnSubmit,
