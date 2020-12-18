@@ -7,7 +7,7 @@
                     :type="taskStartDateInputType"
                     class="form-control"
                     :id="taskStartDateId"
-                    :name="taskStartDateIdName"
+                    :name="taskStartDateName"
                     :min="taskStartDateMin"
                     :max="taskStartDateMax"
                     :value=today
@@ -20,7 +20,7 @@
                     :type="taskEndDateInputType"
                     class="form-control"
                     :id="taskEndDateId"
-                    :name="taskEndDateIdName"
+                    :name="taskEndDateName"
                     :min="taskEndDateMin"
                     :max="taskEndDateMax"
                     :value=tommorow
@@ -38,7 +38,7 @@ var year = getTimes.getFullYear();
 var month = getTimes.getMonth() + 1;
 var day = getTimes.getDate();
 const today = year + '-' + month + '-' + day;
-const tommorow = year + '-' + month + '-' + (day + 1);
+const tommorow = year + '-' + month + '-' + parseInt((day + 1));
 
 export default {
     name: 'FormTaskDateBox',
@@ -49,7 +49,10 @@ export default {
     computed: {
         today () {
             return today
-        }
+        },
+        tommorow () {
+            return tommorow
+        },
     },
     props: {
         taskStartDateId: String,
@@ -57,8 +60,8 @@ export default {
         taskStartDateMin: String,
         taskStartDateMax: String,
         taskStartDateIdvalue: String,
-        taskStartDateIdName: String,
-        taskStartDateIdRequired: {
+        taskStartDateName: String,
+        taskStartDateRequired: {
             type: Boolean,
             default: false,
         },
@@ -67,11 +70,12 @@ export default {
         taskEndDateMin: String,
         taskEndDateMax: String,
         taskEndDateIdvalue: String,
-        taskEndDateIdName: String,
-        taskEndDateIdRequired: {
+        taskEndDateName: String,
+        taskEndDateRequired: {
             type: Boolean,
             default: false,
         },
     }
 }
+
 </script>

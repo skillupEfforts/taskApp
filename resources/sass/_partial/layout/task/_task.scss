@@ -19,6 +19,14 @@
                     }
                 }
             }
+            &-txt{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                textarea{
+                    height: 200px;
+                }
+            }
         }
     }
 }

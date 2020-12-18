@@ -5,7 +5,7 @@
             :type="taskHourInputType"
             class="form-control"
             :id="taskHourId"
-            :name="taskHourIdName"
+            :name="taskHourName"
             :placeholder="taskHourPlaceHolder"
             :value="taskHourValue"
             @input="$emit('input', $event.target.value)"
@@ -24,9 +24,9 @@ export default {
         taskHourId: String,
         taskHourInputType: String,
         taskHourPlaceHolder: String,
-        taskHourIdvalue: String,
-        taskHourIdName: String,
-        taskHourIdRequired: {
+        taskHourValue: String,
+        taskHourName: String,
+        taskHourRequired: {
             type: Boolean,
             default: false,
         }

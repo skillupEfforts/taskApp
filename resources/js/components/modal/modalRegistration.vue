@@ -9,13 +9,15 @@
                     taskNameId="taskNameId"
                     taskNameInputType="text"
                     taskNamePlaceHolder="親タスクを入力してください"
-                    taskNameIdName="taskNameId"
+                    taskName="taskNameId"
+                    v-model="taskName"
                 >親タスク入力</FormTaskNameBox>
                 <FormTaskHourBox
                     taskHourId="taskHourId"
                     taskHourInputType="text"
                     taskHourPlaceHolder="予定工数を入力してください"
-                    taskHourIdName="taskHourId"
+                    taskHourName="taskHourId"
+                    v-model="taskHour"
                 >工数入力</FormTaskHourBox>
                 <FormTaskDateBox
                     taskStartDateId="taskStartDateStartId"
@@ -29,16 +31,24 @@
                     taskEndDateMax="2022-01-01"
                     taskEndDateIdName="taskEndDateStartId"
                 >
-                <template slot="start">期間（開始日）</template>
-                <template slot="end">期間（終了日）</template>
+                    <template slot="start">期間（開始日）</template>
+                    <template slot="end">期間（終了日）</template>
                 </FormTaskDateBox>
-                <FormTaskStatus>ステータス</FormTaskStatus>
+                <FormTaskStatus
+                taskStatusId="taskStatusId"
+                taskStatusName="taskStatusName"
+                >ステータス</FormTaskStatus>
+                <FormTaskTextArea
+                taskTextAreaId="taskTextAreaId"
+                v-model="taskMemo"
+                >メモ</FormTaskTextArea>
+                {{ taskMemo }}
             </div>
         </div>
         <footer class="l-modal-footer">
           <slot name="footer">
-            <button @click="$emit('add')"><slot></slot></button>
-            <button @click="$emit('close')"><slot></slot></button>
+            <!--<button @click="$emit('add')"><slot></slot></button>-->
+            <!--<button @click="$emit('close')"><slot></slot></button>-->
           </slot>
         </footer>
       </div>
@@ -48,10 +58,12 @@
 
 <script>
 import Heading2 from '../heading/Heading2.vue';
+import BtnSubmit from '../btn/BtnSubmit.vue';
 import FormTaskNameBox from '../form/task/FormTaskNameBox.vue';
 import FormTaskHourBox from '../form/task/FormTaskHourBox.vue';
 import FormTaskDateBox from '../form/task/FormTaskDateBox.vue';
 import FormTaskStatus from '../form/task/FormTaskStatus.vue';
+import FormTaskTextArea from '../form/task/FormTaskTextArea.vue';
 
 export default {
     name: 'modalRegistration',
@@ -60,13 +72,13 @@ export default {
             taskName: '',
             taskHour: '',
             taskDate: '',
-            taskNameValue: '',
+            taskMemo: '',
         }
     },
-    // model: {
-    //     // prop: 'parentTaskNameValue',
-    //     event: 'input'
-    // },
+    model: {
+        prop: 'parentTaskNameValue',
+        event: 'input'
+    },
     // props: {
     //     parentTaskId: String,
     //     parentTaskIdName: String,
@@ -75,10 +87,12 @@ export default {
     // },
     components: {
         Heading2,
+        BtnSubmit,
         FormTaskNameBox,
         FormTaskHourBox,
         FormTaskDateBox,
         FormTaskStatus,
+        FormTaskTextArea,
     }
 }
 </script>

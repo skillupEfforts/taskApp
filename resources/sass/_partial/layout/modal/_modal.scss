@@ -24,7 +24,8 @@
       transition: opacity 0.4s, transform 0.4s;
     }
     &-content {
-      padding: 10px 20px;
+        position: relative;
+        padding: 10px 20px;
     }
     &-footer {
       background: #ccc;

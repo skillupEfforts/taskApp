@@ -18,8 +18,11 @@
         <modalRegistration @close="closeModal" v-if="showModal">
             <!-- footer スロットコンテンツ -->
             <template slot="footer">
-                <button @click="add">追加</button>
-                <button @click="closeModal" v-if="showModal">閉じる</button>
+                <BtnSubmit @click.native="add">
+                ああああ
+                </BtnSubmit>
+                <!--<button @click="add">追加</button>-->
+                <!--<button @click="closeModal" v-if="showModal">閉じる</button>-->
                 <!-- <button @click="doSend">閉じる</button> -->
             </template>
             <!-- /footer -->

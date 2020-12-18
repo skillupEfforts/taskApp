@@ -5,7 +5,7 @@
             :type="taskNameInputType"
             class="form-control"
             :id="taskNameId"
-            :name="taskNameIdName"
+            :name="taskName"
             :placeholder="taskNamePlaceHolder"
             :value="taskNameValue"
             @input="$emit('input', $event.target.value)"
@@ -24,9 +24,9 @@ export default {
         taskNameId: String,
         taskNameInputType: String,
         taskNamePlaceHolder: String,
-        taskNameIdvalue: String,
-        taskNameIdName: String,
-        taskNameIdRequired: {
+        taskNameValue: String,
+        taskName: String,
+        taskNameRequired: {
             type: Boolean,
             default: false,
         }
