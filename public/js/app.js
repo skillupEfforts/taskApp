@@ -3201,7 +3201,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     registration: function registration() {
       if (this.registrationId !== '' && this.registrationPass !== '') {
-        this.$router.push('PageIndex');
+        this.$router.push('/home');
       } else {
         this.headingTtl = '登録するIDもしくはパスワードを入力してください。';
         this.danger = true;

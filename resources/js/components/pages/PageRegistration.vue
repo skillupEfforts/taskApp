@@ -59,7 +59,7 @@ export default {
     methods: {
         registration() {
             if(this.registrationId !== '' && this.registrationPass !== ''){
-                this.$router.push('PageIndex');
+                this.$router.push('/home');
             }
             else {
                 this.headingTtl = '登録するIDもしくはパスワードを入力してください。';
