@@ -2226,6 +2226,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormRegistrationIdBox',
   model: {
@@ -2241,6 +2246,19 @@ __webpack_require__.r(__webpack_exports__);
     registrationIdRequired: {
       type: Boolean,
       "default": false
+    },
+    IdNotEntered: {
+      type: Boolean,
+      "default": false
+    },
+    IdAlreadyUsed: {
+      type: Boolean,
+      "default": false
+    }
+  },
+  methods: {
+    onBlur: function onBlur() {
+      this.$emit('onBlur');
     }
   }
 });
@@ -3159,6 +3177,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3170,21 +3193,30 @@ __webpack_require__.r(__webpack_exports__);
       registrationId: '',
       registrationPass: '',
       headingTtl: 'アカウント新規追加',
-      danger: false
+      danger: false,
+      IdNotEntered: false,
+      IdAlreadyUsed: false
     };
   },
   methods: {
     registration: function registration() {
-      console.log(this.registrationId);
-
       if (this.registrationId !== '' && this.registrationPass !== '') {
-        this.$router.push({
-          name: 'PageLogin'
-        });
+        this.$router.push('PageIndex');
       } else {
-        console.log(this.PageHeading);
-        this.headingTtl = '登録するID、パスワードを入力してください。';
+        this.headingTtl = '登録するIDもしくはパスワードを入力してください。';
         this.danger = true;
+      }
+    },
+    registrationIdCheck: function registrationIdCheck() {
+      if (this.registrationId === '') {
+        this.IdNotEntered = true;
+        this.IdAlreadyUsed = false;
+      } else if (this.registrationId === 'aaaaa') {
+        this.IdAlreadyUsed = true;
+        this.IdNotEntered = false;
+      } else {
+        this.IdNotEntered = false;
+        this.IdAlreadyUsed = false;
       }
     }
   },
@@ -39261,26 +39293,38 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("label", { attrs: { for: _vm.registrationId } }, [_vm._t("default")], 2),
-    _vm._v(" "),
-    _c("input", {
-      staticClass: "form-control",
-      attrs: {
-        type: _vm.registrationInputType,
-        id: _vm.registrationId,
-        name: _vm.registrationIdName,
-        placeholder: _vm.registrationPlaceHolder,
-        required: _vm.registrationIdRequired
-      },
-      domProps: { value: _vm.registrationIdvalue },
-      on: {
-        input: function($event) {
-          return _vm.$emit("input", $event.target.value)
+  return _c(
+    "div",
+    [
+      _c(
+        "label",
+        { attrs: { for: _vm.registrationId } },
+        [_vm._t("default")],
+        2
+      ),
+      _vm._v(" "),
+      _vm._t("error"),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: _vm.registrationInputType,
+          id: _vm.registrationId,
+          name: _vm.registrationIdName,
+          placeholder: _vm.registrationPlaceHolder,
+          required: _vm.registrationIdRequired
+        },
+        domProps: { value: _vm.registrationIdvalue },
+        on: {
+          input: function($event) {
+            return _vm.$emit("input", $event.target.value)
+          },
+          blur: _vm.onBlur
         }
-      }
-    })
-  ])
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40257,6 +40301,7 @@ var render = function() {
                     registrationPlaceHolder: "登録するIDを入力してください",
                     registrationIdName: "registrationId"
                   },
+                  on: { onBlur: _vm.registrationIdCheck },
                   model: {
                     value: _vm.registrationId,
                     callback: function($$v) {
@@ -40265,7 +40310,25 @@ var render = function() {
                     expression: "registrationId"
                   }
                 },
-                [_vm._v("登録するIDを入力してください。\n            ")]
+                [
+                  _vm._v("登録するIDを入力してください。\n            "),
+                  _c("template", { slot: "error" }, [
+                    _vm.IdNotEntered
+                      ? _c("p", { staticClass: "text-danger" }, [
+                          _vm._v("登録するログインIDを入力してください。")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.IdAlreadyUsed
+                      ? _c("p", { staticClass: "text-danger" }, [
+                          _vm._v(
+                            "登録するログインIDはすでに使われております。他のログインIDを試してください。"
+                          )
+                        ])
+                      : _vm._e()
+                  ])
+                ],
+                2
               ),
               _vm._v(" "),
               _c(
