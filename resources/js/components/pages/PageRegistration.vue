@@ -1,13 +1,14 @@
 <template>
     <div class="l-form">
-    <PageHeading
-        :headingTtl="headingTtl"
-        :class="{ 'text-danger':danger }"
-    >
-    </PageHeading>
+        <PageHeading
+            :headingTtl="headingTtl"
+            :class="{ 'text-danger':danger }"
+        >
+        </PageHeading>
         <form @submit.prevent="registration">
             <div class="form-row">
-                <FormRegistrationIdBox class="col"
+                <FormRegistrationIdBox
+                    class="col"
                     registrationId="registrationId"
                     registrationInputType="text"
                     registrationPlaceHolder="登録するIDを入力してください"
@@ -20,7 +21,8 @@
                     <p class="text-danger" v-if="IdAlreadyUsed">登録するログインIDはすでに使われております。他のログインIDを試してください。</p>
                 </template>
                 </FormRegistrationIdBox>
-                <FormRegistrationPassBox class="col"
+                <FormRegistrationPassBox
+                    class="col"
                     registrationPassId="registrationPassId"
                     registrationPassInputType="password"
                     registrationPassPlaceHolder="登録するパスワードを入力してください"
@@ -29,12 +31,21 @@
                 >登録するパスワードを入力してください。
                 </FormRegistrationPassBox>
             </div>
-            <FormRegistrationSubmitBtn class="mt-3"
+            <FormRegistrationSubmitBtn
+                class="mt-3"
                 registrationSubmitId="registrationSubmitId"
                 registrationButtonType="submit"
             >アカウント新規登録
             </FormRegistrationSubmitBtn>
         </form>
+        <!-- modal -->
+        <modalCreateAccount
+            v-show="showModal">
+            <template slot="footer">
+                <router-link to="/home">タスク一覧ページへ</router-link>
+            </template>
+        </modalCreateAccount>
+        <!-- /.modal -->
     </div>
 </template>
 
@@ -43,6 +54,7 @@ import FormRegistrationIdBox from '../form/FormRegistrationIdBox.vue';
 import FormRegistrationPassBox from '../form/FormRegistrationPassBox.vue';
 import FormRegistrationSubmitBtn from '../form/FormRegistrationSubmitBtn.vue';
 import PageHeading from '../heading/PageHeading.vue';
+import modalCreateAccount from '../modal/modalCreateAccount.vue';
 
 export default {
     name: 'PageRegistration',
@@ -53,15 +65,21 @@ export default {
             headingTtl: 'アカウント新規追加',
             danger: false,
             IdNotEntered: false,
-            IdAlreadyUsed: false
+            IdAlreadyUsed: false,
+            showModal: false
         }
     },
+    computed: {
+    },
     methods: {
-        registration() {
+        ModalToggle () {
+           this.showModal = !this.showModal
+        },
+        registration () {
             if(this.registrationId !== '' && this.registrationPass !== ''){
-                this.$router.push('/home');
-            }
-            else {
+                // this.$router.push('/home');
+                this.ModalToggle()
+            } else {
                 this.headingTtl = '登録するIDもしくはパスワードを入力してください。';
                 this.danger = true;
             }
@@ -77,13 +95,14 @@ export default {
                 this.IdNotEntered = false
                 this.IdAlreadyUsed = false
             }
-        }
+        },
     },
     components: {
         FormRegistrationSubmitBtn,
         FormRegistrationIdBox,
         FormRegistrationPassBox,
-        PageHeading
+        PageHeading,
+        modalCreateAccount
     }
 }
 </script>

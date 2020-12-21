@@ -2755,6 +2755,49 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _heading_Heading2_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../heading/Heading2.vue */ "./resources/js/components/heading/Heading2.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'modalCreateAcount',
+  data: function data() {
+    return {};
+  },
+  components: {
+    Heading2: _heading_Heading2_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    onClick: function onClick() {
+      this.$emit('onClick');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js& ***!
@@ -3142,6 +3185,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_FormRegistrationPassBox_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/FormRegistrationPassBox.vue */ "./resources/js/components/form/FormRegistrationPassBox.vue");
 /* harmony import */ var _form_FormRegistrationSubmitBtn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/FormRegistrationSubmitBtn.vue */ "./resources/js/components/form/FormRegistrationSubmitBtn.vue");
 /* harmony import */ var _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../heading/PageHeading.vue */ "./resources/js/components/heading/PageHeading.vue");
+/* harmony import */ var _modal_modalCreateAccount_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modalCreateAccount.vue */ "./resources/js/components/modal/modalCreateAccount.vue");
 //
 //
 //
@@ -3182,6 +3226,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -3195,13 +3251,19 @@ __webpack_require__.r(__webpack_exports__);
       headingTtl: 'アカウント新規追加',
       danger: false,
       IdNotEntered: false,
-      IdAlreadyUsed: false
+      IdAlreadyUsed: false,
+      showModal: false
     };
   },
+  computed: {},
   methods: {
+    ModalToggle: function ModalToggle() {
+      this.showModal = !this.showModal;
+    },
     registration: function registration() {
       if (this.registrationId !== '' && this.registrationPass !== '') {
-        this.$router.push('/home');
+        // this.$router.push('/home');
+        this.ModalToggle();
       } else {
         this.headingTtl = '登録するIDもしくはパスワードを入力してください。';
         this.danger = true;
@@ -3224,7 +3286,8 @@ __webpack_require__.r(__webpack_exports__);
     FormRegistrationSubmitBtn: _form_FormRegistrationSubmitBtn_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     FormRegistrationIdBox: _form_FormRegistrationIdBox_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     FormRegistrationPassBox: _form_FormRegistrationPassBox_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    PageHeading: _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    PageHeading: _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    modalCreateAccount: _modal_modalCreateAccount_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 
@@ -39817,6 +39880,57 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "l-modal", appear: "" } }, [
+    _c(
+      "div",
+      {
+        staticClass: "l-modal l-modal-overlay",
+        on: {
+          click: function($event) {
+            if ($event.target !== $event.currentTarget) {
+              return null
+            }
+            return _vm.$emit("close")
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "l-modal-window l-modal-window-account" }, [
+          _c(
+            "div",
+            { staticClass: "l-modal-content" },
+            [_c("Heading2", [_vm._v("アカウント登録しました。")])],
+            1
+          ),
+          _vm._v(" "),
+          _c("footer", { staticClass: "l-modal-footer" }, [_vm._t("footer")], 2)
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae&":
 /*!**************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae& ***!
@@ -40369,6 +40483,33 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "modalCreateAccount",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showModal,
+              expression: "showModal"
+            }
+          ]
+        },
+        [
+          _c(
+            "template",
+            { slot: "footer" },
+            [
+              _c("router-link", { attrs: { to: "/home" } }, [
+                _vm._v("タスク一覧ページへ")
+              ])
+            ],
+            1
+          )
+        ],
+        2
       )
     ],
     1
@@ -57075,6 +57216,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PageHeading_vue_vue_type_template_id_361d726a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PageHeading_vue_vue_type_template_id_361d726a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/modal/modalCreateAccount.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/modal/modalCreateAccount.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modalCreateAccount.vue?vue&type=template&id=8efb7a5e& */ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&");
+/* harmony import */ var _modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modalCreateAccount.vue?vue&type=script&lang=js& */ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/modal/modalCreateAccount.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./modalCreateAccount.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./modalCreateAccount.vue?vue&type=template&id=8efb7a5e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

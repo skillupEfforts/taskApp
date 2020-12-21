@@ -22,6 +22,11 @@
       border-radius: 4px;
       overflow: hidden;
       transition: opacity 0.4s, transform 0.4s;
+      &-account{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
     }
     &-content {
         position: relative;
@@ -30,7 +35,7 @@
     &-footer {
       background: #ccc;
       padding: 10px;
-      text-align: right;
+      text-align: center;
     }
     &-leave{
         &-active{
@@ -60,8 +65,5 @@
                 transform: translateY(-20px);
             }
         }
-    }
-    &-footer{
-
     }
 }
