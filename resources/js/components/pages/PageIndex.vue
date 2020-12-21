@@ -3,7 +3,7 @@
         <div class="container">
             <PageHeading>タスク一覧表示画面​</PageHeading>
             <navigation
-                @open="openModal"
+                @open="ToggleModal"
             ></navigation>
         </div>
         <HeadingDate></HeadingDate>
@@ -15,8 +15,7 @@
             >実工数保存</BtnSubmit>
         </div>
         <!-- modal -->
-        <modalRegistration @close="closeModal" v-if="showModal">
-            <!-- footer スロットコンテンツ -->
+        <modalRegistration @close="ToggleModal" v-show="showModal">
             <template slot="footer">
                 <BtnSubmit @click.native="add">
                 追加
@@ -25,7 +24,6 @@
                 <!--<button @click="closeModal" v-if="showModal">閉じる</button>-->
                 <!-- <button @click="doSend">閉じる</button> -->
             </template>
-            <!-- /footer -->
         </modalRegistration>
         <!-- /.modal -->
     </div>
@@ -56,20 +54,8 @@ export default {
     //     }
     // },
     methods:{
-        openModal() {
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
-        },
-        doSend() {
-            if (this.message.length > 0) {
-                alert(this.message);
-                this.message = '';
-                this.closeModal();
-            } else {
-                alert('メッセージを入力してください');
-            }
+        ToggleModal () {
+            this.showModal = !this.showModal;
         },
         add() {
                 alert('タスクを登録しました。');

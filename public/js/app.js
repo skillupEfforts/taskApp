@@ -2872,6 +2872,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -3020,8 +3024,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -3045,20 +3047,8 @@ __webpack_require__.r(__webpack_exports__);
   //     }
   // },
   methods: {
-    openModal: function openModal() {
-      this.showModal = true;
-    },
-    closeModal: function closeModal() {
-      this.showModal = false;
-    },
-    doSend: function doSend() {
-      if (this.message.length > 0) {
-        alert(this.message);
-        this.message = '';
-        this.closeModal();
-      } else {
-        alert('メッセージを入力してください');
-      }
+    ToggleModal: function ToggleModal() {
+      this.showModal = !this.showModal;
     },
     add: function add() {
       alert('タスクを登録しました。');
@@ -39992,6 +39982,10 @@ var render = function() {
                     [_vm._v("親タスク入力" + _vm._s(_vm.taskName))]
                   ),
                   _vm._v(" "),
+                  _c("p", { staticClass: "text-danger" }, [
+                    _vm._v("っっっっっっっｋ")
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "FormTaskHourBox",
                     {
@@ -40011,6 +40005,10 @@ var render = function() {
                     },
                     [_vm._v("工数入力" + _vm._s(_vm.taskHour))]
                   ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "text-danger" }, [
+                    _vm._v("っっっっっっっｋ")
+                  ]),
                   _vm._v(" "),
                   _c(
                     "FormTaskDateBox",
@@ -40040,6 +40038,10 @@ var render = function() {
                     2
                   ),
                   _vm._v(" "),
+                  _c("p", { staticClass: "text-danger" }, [
+                    _vm._v("っっっっっっっｋ")
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "FormTaskStatus",
                     {
@@ -40057,6 +40059,10 @@ var render = function() {
                     },
                     [_vm._v("ステータス" + _vm._s(_vm.taskSelected))]
                   ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "text-danger" }, [
+                    _vm._v("っっっっっっっｋ")
+                  ]),
                   _vm._v(" "),
                   _c(
                     "FormTaskTextArea",
@@ -40203,7 +40209,7 @@ var render = function() {
         [
           _c("PageHeading", [_vm._v("タスク一覧表示画面​")]),
           _vm._v(" "),
-          _c("navigation", { on: { open: _vm.openModal } })
+          _c("navigation", { on: { open: _vm.ToggleModal } })
         ],
         1
       ),
@@ -40225,33 +40231,41 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.showModal
-        ? _c(
-            "modalRegistration",
-            { on: { close: _vm.closeModal } },
+      _c(
+        "modalRegistration",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showModal,
+              expression: "showModal"
+            }
+          ],
+          on: { close: _vm.ToggleModal }
+        },
+        [
+          _c(
+            "template",
+            { slot: "footer" },
             [
               _c(
-                "template",
-                { slot: "footer" },
-                [
-                  _c(
-                    "BtnSubmit",
-                    {
-                      nativeOn: {
-                        click: function($event) {
-                          return _vm.add($event)
-                        }
-                      }
-                    },
-                    [_vm._v("\n            追加\n            ")]
-                  )
-                ],
-                1
+                "BtnSubmit",
+                {
+                  nativeOn: {
+                    click: function($event) {
+                      return _vm.add($event)
+                    }
+                  }
+                },
+                [_vm._v("\n            追加\n            ")]
               )
             ],
-            2
+            1
           )
-        : _vm._e()
+        ],
+        2
+      )
     ],
     1
   )
