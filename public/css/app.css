@@ -12008,10 +12008,10 @@ a.text-dark:focus {
 
 .l-modal-window {
   width: 80%;
-  height: 80%;
+  height: 95%;
   background: #fff;
   border-radius: 4px;
-  overflow: hidden;
+  overflow: auto;
   -webkit-transition: opacity 0.4s, -webkit-transform 0.4s;
   transition: opacity 0.4s, -webkit-transform 0.4s;
   transition: opacity 0.4s, transform 0.4s;

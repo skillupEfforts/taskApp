@@ -16,14 +16,6 @@
         </div>
         <!-- modal -->
         <modalRegistration @close="ToggleModal" v-show="showModal">
-            <template slot="footer">
-                <BtnSubmit @click.native="add">
-                追加
-                </BtnSubmit>
-                <!--<button @click="add">追加</button>-->
-                <!--<button @click="closeModal" v-if="showModal">閉じる</button>-->
-                <!-- <button @click="doSend">閉じる</button> -->
-            </template>
         </modalRegistration>
         <!-- /.modal -->
     </div>
@@ -46,19 +38,9 @@ export default {
             parentTaskName: '',
         }
     },
-    // computed: {
-    //     aaa: {
-    //         get () {
-    //             return console.log(this.parentTaskName);
-    //         }
-    //     }
-    // },
     methods:{
         ToggleModal () {
             this.showModal = !this.showModal;
-        },
-        add() {
-                alert('タスクを登録しました。');
         },
     },
     components: {

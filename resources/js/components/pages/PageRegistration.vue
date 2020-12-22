@@ -16,7 +16,7 @@
                     @onBlur="registrationIdCheck"
                     v-model="registrationId"
                 >登録するIDを入力してください。
-                <template slot="error">
+                <template #error>
                     <p class="text-danger" v-if="IdNotEntered">登録するログインIDを入力してください。</p>
                     <p class="text-danger" v-if="IdAlreadyUsed">登録するログインIDはすでに使われております。他のログインIDを試してください。</p>
                 </template>
@@ -41,7 +41,7 @@
         <!-- modal -->
         <modalCreateAccount
             v-show="showModal">
-            <template slot="footer">
+            <template #footer>
                 <router-link to="/home">タスク一覧ページへ</router-link>
             </template>
         </modalCreateAccount>

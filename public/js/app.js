@@ -2407,6 +2407,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 //日付取得
 var getTimes = new Date();
 var year = getTimes.getFullYear();
@@ -2481,6 +2483,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormTaskHourBox',
   model: {
@@ -2497,6 +2501,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": false
     }
+  },
+  methods: {
+    onBlur: function onBlur() {
+      this.$emit('onBlur');
+    }
   }
 });
 
@@ -2511,6 +2520,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2542,6 +2553,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": false
     }
+  },
+  methods: {
+    onBlur: function onBlur() {
+      this.$emit('onBlur');
+    }
   }
 });
 
@@ -2556,6 +2572,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2876,6 +2893,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2888,11 +2922,61 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       taskName: '',
+      taskNameError: false,
       taskHour: '',
+      taskHourError: false,
       taskDate: '',
       taskSelected: '',
       taskMemo: ''
     };
+  },
+  computed: {},
+  methods: {
+    taskRegistrationCheck: function taskRegistrationCheck() {
+      var thisElem = this.test;
+      var validateArray = Object.entries(thisElem);
+      var validateLength = validateArray.length;
+      console.log(validateLength);
+    },
+    taskNameCheck: function taskNameCheck() {
+      if (this.taskName === '') {
+        this.taskNameError = true;
+      } else {
+        this.taskNameError = false;
+      }
+    },
+    taskHourCheck: function taskHourCheck() {
+      if (this.taskHour === '') {
+        this.taskHourError = true;
+      } else {
+        this.taskHourError = false;
+      }
+    } //     // console.log(this.taskNameError)
+    //     let notENteredFlag = 0;
+    //     let notENteredName = '';
+    //     let thisElem = this.test;
+    //     let validateArray = Object.entries(thisElem);
+    //     for(let validateNum = 0; validateNum < validateArray.length; validateNum++){
+    //         if(validateArray[validateNum][1] !== ''){
+    //             notENteredFlag++;
+    //         } else {
+    //             notENteredName = validateArray[validateNum][0];
+    //             // data.notENteredName + 'Error' = true;
+    //             notENteredFlag--;
+    //             aaa = notENteredName + 'Error'
+    //             // console.log(notENteredName+ 'Error');
+    //         }
+    //         if(notENteredFlag === validateArray.length){
+    //             alert('入力されている')
+    //         }
+    //     }
+    // },
+    // tttt(){
+    //     this.taskRegistrationCheck();
+    //     // this.aaa = !this.aaa
+    //     console.log(this.aaa);
+    // }
+
   },
   components: {
     Heading2: _heading_Heading2_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -3016,14 +3100,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3039,19 +3115,9 @@ __webpack_require__.r(__webpack_exports__);
       parentTaskName: ''
     };
   },
-  // computed: {
-  //     aaa: {
-  //         get () {
-  //             return console.log(this.parentTaskName);
-  //         }
-  //     }
-  // },
   methods: {
     ToggleModal: function ToggleModal() {
       this.showModal = !this.showModal;
-    },
-    add: function add() {
-      alert('タスクを登録しました。');
     }
   },
   components: {
@@ -39522,54 +39588,71 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "l-task-input-box" }, [
     _c("div", { staticClass: "l-task-input-box-col2" }, [
-      _c("div", [
-        _c(
-          "label",
-          { attrs: { for: _vm.taskStartDateId } },
-          [_vm._t("start")],
-          2
-        ),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: _vm.taskStartDateInputType,
-            id: _vm.taskStartDateId,
-            name: _vm.taskStartDateName,
-            min: _vm.taskStartDateMin,
-            max: _vm.taskStartDateMax,
-            required: _vm.taskStartDateRequired
-          },
-          domProps: { value: _vm.today },
-          on: {
-            input: function($event) {
-              return _vm.$emit("input", $event.target.value)
+      _c(
+        "div",
+        [
+          _c(
+            "label",
+            { attrs: { for: _vm.taskStartDateId } },
+            [_vm._t("start")],
+            2
+          ),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              type: _vm.taskStartDateInputType,
+              id: _vm.taskStartDateId,
+              name: _vm.taskStartDateName,
+              min: _vm.taskStartDateMin,
+              max: _vm.taskStartDateMax,
+              required: _vm.taskStartDateRequired
+            },
+            domProps: { value: _vm.today },
+            on: {
+              input: function($event) {
+                return _vm.$emit("input", $event.target.value)
+              }
             }
-          }
-        })
-      ]),
+          }),
+          _vm._v(" "),
+          _vm._t("task-startdate-error")
+        ],
+        2
+      ),
       _vm._v(" "),
-      _c("div", [
-        _c("label", { attrs: { for: _vm.taskEndDateId } }, [_vm._t("end")], 2),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: _vm.taskEndDateInputType,
-            id: _vm.taskEndDateId,
-            name: _vm.taskEndDateName,
-            min: _vm.taskEndDateMin,
-            max: _vm.taskEndDateMax,
-            required: _vm.taskEndDateRequired
-          },
-          domProps: { value: _vm.tommorow },
-          on: {
-            input: function($event) {
-              return _vm.$emit("input", $event.target.value)
+      _c(
+        "div",
+        [
+          _c(
+            "label",
+            { attrs: { for: _vm.taskEndDateId } },
+            [_vm._t("end")],
+            2
+          ),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              type: _vm.taskEndDateInputType,
+              id: _vm.taskEndDateId,
+              name: _vm.taskEndDateName,
+              min: _vm.taskEndDateMin,
+              max: _vm.taskEndDateMax,
+              required: _vm.taskEndDateRequired
+            },
+            domProps: { value: _vm.tommorow },
+            on: {
+              input: function($event) {
+                return _vm.$emit("input", $event.target.value)
+              }
             }
-          }
-        })
-      ])
+          }),
+          _vm._v(" "),
+          _vm._t("task-enddate-error")
+        ],
+        2
+      )
     ])
   ])
 }
@@ -39595,26 +39678,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "l-task-input-box" }, [
-    _c("label", { attrs: { for: _vm.taskHourId } }, [_vm._t("default")], 2),
-    _vm._v(" "),
-    _c("input", {
-      staticClass: "form-control",
-      attrs: {
-        type: _vm.taskHourInputType,
-        id: _vm.taskHourId,
-        name: _vm.taskHourName,
-        placeholder: _vm.taskHourPlaceHolder,
-        required: _vm.taskHourRequired
-      },
-      domProps: { value: _vm.taskHourValue },
-      on: {
-        input: function($event) {
-          return _vm.$emit("input", $event.target.value)
+  return _c(
+    "div",
+    { staticClass: "l-task-input-box" },
+    [
+      _c("label", { attrs: { for: _vm.taskHourId } }, [_vm._t("default")], 2),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: _vm.taskHourInputType,
+          id: _vm.taskHourId,
+          name: _vm.taskHourName,
+          placeholder: _vm.taskHourPlaceHolder,
+          required: _vm.taskHourRequired
+        },
+        domProps: { value: _vm.taskHourValue },
+        on: {
+          input: function($event) {
+            return _vm.$emit("input", $event.target.value)
+          },
+          blur: _vm.onBlur
         }
-      }
-    })
-  ])
+      }),
+      _vm._v(" "),
+      _vm._t("task-hour-error")
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39638,26 +39729,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "l-task-input-box" }, [
-    _c("label", { attrs: { for: _vm.taskNameId } }, [_vm._t("default")], 2),
-    _vm._v(" "),
-    _c("input", {
-      staticClass: "form-control",
-      attrs: {
-        type: _vm.taskNameInputType,
-        id: _vm.taskNameId,
-        name: _vm.taskName,
-        placeholder: _vm.taskNamePlaceHolder,
-        required: _vm.taskNameRequired
-      },
-      domProps: { value: _vm.taskNameValue },
-      on: {
-        input: function($event) {
-          return _vm.$emit("input", $event.target.value)
+  return _c(
+    "div",
+    { staticClass: "l-task-input-box" },
+    [
+      _c("label", { attrs: { for: _vm.taskNameId } }, [_vm._t("default")], 2),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: _vm.taskNameInputType,
+          id: _vm.taskNameId,
+          name: _vm.taskName,
+          placeholder: _vm.taskNamePlaceHolder,
+          required: _vm.taskNameRequired
+        },
+        domProps: { value: _vm.taskNameValue },
+        on: {
+          input: function($event) {
+            return _vm.$emit("input", $event.target.value)
+          },
+          blur: _vm.onBlur
         }
-      }
-    })
-  ])
+      }),
+      _vm._v(" "),
+      _vm._t("task-name-error")
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39681,23 +39780,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "l-task-input-box" }, [
-    _c("label", { attrs: { for: _vm.taskStatusId } }, [_vm._t("default")], 2),
-    _vm._v(" "),
-    _c(
-      "select",
-      {
-        attrs: { name: _vm.taskStatusName, id: _vm.taskStatusId },
-        on: { change: _vm.updateValue }
-      },
-      _vm._l(_vm.status, function(statusArray, index) {
-        return _c("option", { domProps: { value: index } }, [
-          _vm._v(_vm._s(statusArray))
-        ])
-      }),
-      0
-    )
-  ])
+  return _c(
+    "div",
+    { staticClass: "l-task-input-box" },
+    [
+      _c("label", { attrs: { for: _vm.taskStatusId } }, [_vm._t("default")], 2),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          attrs: { name: _vm.taskStatusName, id: _vm.taskStatusId },
+          on: { change: _vm.updateValue }
+        },
+        _vm._l(_vm.status, function(statusArray, index) {
+          return _c("option", { domProps: { value: index } }, [
+            _vm._v(_vm._s(statusArray))
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm._t("task-status-error")
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39971,6 +40077,26 @@ var render = function() {
                         taskNamePlaceHolder: "親タスクを入力してください",
                         taskName: "taskNameId"
                       },
+                      on: { onBlur: _vm.taskNameCheck },
+                      scopedSlots: _vm._u(
+                        [
+                          _vm.taskNameError
+                            ? {
+                                key: "task-name-error",
+                                fn: function() {
+                                  return [
+                                    _c("p", { staticClass: "text-danger" }, [
+                                      _vm._v("親タスク名が入力されていません。")
+                                    ])
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            : null
+                        ],
+                        null,
+                        true
+                      ),
                       model: {
                         value: _vm.taskName,
                         callback: function($$v) {
@@ -39979,12 +40105,14 @@ var render = function() {
                         expression: "taskName"
                       }
                     },
-                    [_vm._v("親タスク入力" + _vm._s(_vm.taskName))]
+                    [
+                      _vm._v(
+                        "\n                  親タスク入力" +
+                          _vm._s(_vm.taskName) +
+                          "\n                  "
+                      )
+                    ]
                   ),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-danger" }, [
-                    _vm._v("っっっっっっっｋ")
-                  ]),
                   _vm._v(" "),
                   _c(
                     "FormTaskHourBox",
@@ -39995,6 +40123,26 @@ var render = function() {
                         taskHourPlaceHolder: "予定工数を入力してください",
                         taskHourName: "taskHourId"
                       },
+                      on: { onBlur: _vm.taskHourCheck },
+                      scopedSlots: _vm._u(
+                        [
+                          _vm.taskHourError
+                            ? {
+                                key: "task-hour-error",
+                                fn: function() {
+                                  return [
+                                    _c("p", { staticClass: "text-danger" }, [
+                                      _vm._v("工数が入力されていません。")
+                                    ])
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            : null
+                        ],
+                        null,
+                        true
+                      ),
                       model: {
                         value: _vm.taskHour,
                         callback: function($$v) {
@@ -40003,44 +40151,67 @@ var render = function() {
                         expression: "taskHour"
                       }
                     },
-                    [_vm._v("工数入力" + _vm._s(_vm.taskHour))]
-                  ),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-danger" }, [
-                    _vm._v("っっっっっっっｋ")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "FormTaskDateBox",
-                    {
-                      attrs: {
-                        taskStartDateId: "taskStartDateStartId",
-                        taskStartDateInputType: "date",
-                        taskStartDateMin: "2021-01-01",
-                        taskStartDateMax: "2022-01-01",
-                        taskStartDateIdName: "taskStartDateStartId",
-                        taskEndDateId: "taskEndDateStartId",
-                        taskEndDateInputType: "date",
-                        taskEndDateMin: "2021-01-01",
-                        taskEndDateMax: "2022-01-01",
-                        taskEndDateIdName: "taskEndDateStartId"
-                      }
-                    },
                     [
-                      _c("template", { slot: "start" }, [
-                        _vm._v("期間（開始日）")
-                      ]),
-                      _vm._v(" "),
-                      _c("template", { slot: "end" }, [
-                        _vm._v("期間（終了日）")
-                      ])
-                    ],
-                    2
+                      _vm._v(
+                        "\n                  工数入力" +
+                          _vm._s(_vm.taskHour) +
+                          "\n                  "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
-                  _c("p", { staticClass: "text-danger" }, [
-                    _vm._v("っっっっっっっｋ")
-                  ]),
+                  _c("FormTaskDateBox", {
+                    attrs: {
+                      taskStartDateId: "taskStartDateStartId",
+                      taskStartDateInputType: "date",
+                      taskStartDateMin: "2021-01-01",
+                      taskStartDateMax: "2022-01-01",
+                      taskStartDateIdName: "taskStartDateStartId",
+                      taskEndDateId: "taskEndDateStartId",
+                      taskEndDateInputType: "date",
+                      taskEndDateMin: "2021-01-01",
+                      taskEndDateMax: "2022-01-01",
+                      taskEndDateIdName: "taskEndDateStartId"
+                    },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "start",
+                        fn: function() {
+                          return [_vm._v("期間（開始日）")]
+                        },
+                        proxy: true
+                      },
+                      {
+                        key: "end",
+                        fn: function() {
+                          return [_vm._v("期間（終了日）")]
+                        },
+                        proxy: true
+                      },
+                      {
+                        key: "task-startdate-error",
+                        fn: function() {
+                          return [
+                            _c("p", { staticClass: "text-danger" }, [
+                              _vm._v("タスクの開始時期が入力されていません。")
+                            ])
+                          ]
+                        },
+                        proxy: true
+                      },
+                      {
+                        key: "task-enddate-error",
+                        fn: function() {
+                          return [
+                            _c("p", { staticClass: "text-danger" }, [
+                              _vm._v("タスクの終了時期が入力されていません。")
+                            ])
+                          ]
+                        },
+                        proxy: true
+                      }
+                    ])
+                  }),
                   _vm._v(" "),
                   _c(
                     "FormTaskStatus",
@@ -40049,6 +40220,21 @@ var render = function() {
                         taskStatusId: "taskStatusId",
                         taskStatusName: "taskStatusName"
                       },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "task-status-error",
+                          fn: function() {
+                            return [
+                              _c("p", { staticClass: "text-danger" }, [
+                                _vm._v(
+                                  "タスクのステータスが入力されていません。"
+                                )
+                              ])
+                            ]
+                          },
+                          proxy: true
+                        }
+                      ]),
                       model: {
                         value: _vm.taskSelected,
                         callback: function($$v) {
@@ -40057,12 +40243,14 @@ var render = function() {
                         expression: "taskSelected"
                       }
                     },
-                    [_vm._v("ステータス" + _vm._s(_vm.taskSelected))]
+                    [
+                      _vm._v(
+                        "\n                  ステータス" +
+                          _vm._s(_vm.taskSelected) +
+                          "\n                  "
+                      )
+                    ]
                   ),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "text-danger" }, [
-                    _vm._v("っっっっっっっｋ")
-                  ]),
                   _vm._v(" "),
                   _c(
                     "FormTaskTextArea",
@@ -40076,7 +40264,13 @@ var render = function() {
                         expression: "taskMemo"
                       }
                     },
-                    [_vm._v("メモ" + _vm._s(_vm.taskMemo))]
+                    [
+                      _vm._v(
+                        "\n                  メモ" +
+                          _vm._s(_vm.taskMemo) +
+                          "\n              "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -40085,7 +40279,26 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("footer", { staticClass: "l-modal-footer" }, [_vm._t("footer")], 2)
+          _c(
+            "footer",
+            { staticClass: "l-modal-footer" },
+            [
+              _vm._t("footer", [
+                _c(
+                  "BtnSubmit",
+                  {
+                    nativeOn: {
+                      click: function($event) {
+                        return _vm.taskRegistrationCheck($event)
+                      }
+                    }
+                  },
+                  [_vm._v("追加")]
+                )
+              ])
+            ],
+            2
+          )
         ])
       ]
     )
@@ -40124,9 +40337,9 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "a",
+        "button",
         {
-          staticClass: "nav-item nav-link",
+          staticClass: "btn nav-item nav-link",
           attrs: { href: "#" },
           on: {
             click: function($event) {
@@ -40231,41 +40444,17 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "modalRegistration",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showModal,
-              expression: "showModal"
-            }
-          ],
-          on: { close: _vm.ToggleModal }
-        },
-        [
-          _c(
-            "template",
-            { slot: "footer" },
-            [
-              _c(
-                "BtnSubmit",
-                {
-                  nativeOn: {
-                    click: function($event) {
-                      return _vm.add($event)
-                    }
-                  }
-                },
-                [_vm._v("\n            追加\n            ")]
-              )
-            ],
-            1
-          )
+      _c("modalRegistration", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showModal,
+            expression: "showModal"
+          }
         ],
-        2
-      )
+        on: { close: _vm.ToggleModal }
+      })
     ],
     1
   )
@@ -40430,6 +40619,29 @@ var render = function() {
                     registrationIdName: "registrationId"
                   },
                   on: { onBlur: _vm.registrationIdCheck },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "error",
+                      fn: function() {
+                        return [
+                          _vm.IdNotEntered
+                            ? _c("p", { staticClass: "text-danger" }, [
+                                _vm._v("登録するログインIDを入力してください。")
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.IdAlreadyUsed
+                            ? _c("p", { staticClass: "text-danger" }, [
+                                _vm._v(
+                                  "登録するログインIDはすでに使われております。他のログインIDを試してください。"
+                                )
+                              ])
+                            : _vm._e()
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ]),
                   model: {
                     value: _vm.registrationId,
                     callback: function($$v) {
@@ -40438,25 +40650,7 @@ var render = function() {
                     expression: "registrationId"
                   }
                 },
-                [
-                  _vm._v("登録するIDを入力してください。\n            "),
-                  _c("template", { slot: "error" }, [
-                    _vm.IdNotEntered
-                      ? _c("p", { staticClass: "text-danger" }, [
-                          _vm._v("登録するログインIDを入力してください。")
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.IdAlreadyUsed
-                      ? _c("p", { staticClass: "text-danger" }, [
-                          _vm._v(
-                            "登録するログインIDはすでに使われております。他のログインIDを試してください。"
-                          )
-                        ])
-                      : _vm._e()
-                  ])
-                ],
-                2
+                [_vm._v("登録するIDを入力してください。\n            ")]
               ),
               _vm._v(" "),
               _c(
@@ -40499,32 +40693,29 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "modalCreateAccount",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showModal,
-              expression: "showModal"
-            }
-          ]
-        },
-        [
-          _c(
-            "template",
-            { slot: "footer" },
-            [
-              _c("router-link", { attrs: { to: "/home" } }, [
-                _vm._v("タスク一覧ページへ")
-              ])
-            ],
-            1
-          )
+      _c("modalCreateAccount", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showModal,
+            expression: "showModal"
+          }
         ],
-        2
-      )
+        scopedSlots: _vm._u([
+          {
+            key: "footer",
+            fn: function() {
+              return [
+                _c("router-link", { attrs: { to: "/home" } }, [
+                  _vm._v("タスク一覧ページへ")
+                ])
+              ]
+            },
+            proxy: true
+          }
+        ])
+      })
     ],
     1
   )
