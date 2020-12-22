@@ -17,10 +17,10 @@
     &-window {
       $this: &;
       width: 80%;
-      height: 80%;
+      height: 95%;
       background: #fff;
       border-radius: 4px;
-      overflow: hidden;
+      overflow: auto;
       transition: opacity 0.4s, transform 0.4s;
       &-account{
         display: flex;

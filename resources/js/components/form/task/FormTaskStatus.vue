@@ -5,6 +5,7 @@
             <option v-for="(statusArray, index) in status"
                     :value="index">{{ statusArray }}</option>
         </select>
+        <slot name="task-status-error"></slot>
     </div>
 </template>
 

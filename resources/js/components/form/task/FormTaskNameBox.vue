@@ -9,7 +9,9 @@
             :placeholder="taskNamePlaceHolder"
             :value="taskNameValue"
             @input="$emit('input', $event.target.value)"
+            @blur="onBlur"
             :required="taskNameRequired">
+        <slot name="task-name-error"></slot>
     </div>
 </template>
 
@@ -29,6 +31,11 @@ export default {
         taskNameRequired: {
             type: Boolean,
             default: false,
+        }
+    },
+    methods: {
+        onBlur () {
+            this.$emit('onBlur')
         }
     }
 }

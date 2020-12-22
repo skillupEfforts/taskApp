@@ -9,7 +9,9 @@
             :placeholder="taskHourPlaceHolder"
             :value="taskHourValue"
             @input="$emit('input', $event.target.value)"
+            @blur="onBlur"
             :required="taskHourRequired">
+        <slot name="task-hour-error"></slot>
     </div>
 </template>
 
@@ -29,6 +31,11 @@ export default {
         taskHourRequired: {
             type: Boolean,
             default: false,
+        }
+    },
+    methods: {
+        onBlur () {
+            this.$emit('onBlur')
         }
     }
 }

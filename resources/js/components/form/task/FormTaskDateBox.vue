@@ -13,6 +13,7 @@
                     :value=today
                     @input="$emit('input', $event.target.value)"
                     :required="taskStartDateRequired">
+                    <slot name="task-startdate-error"></slot>
             </div>
             <div>
                 <label :for="taskEndDateId"><slot name="end"></slot></label>
@@ -26,6 +27,7 @@
                     :value=tommorow
                     @input="$emit('input', $event.target.value)"
                     :required="taskEndDateRequired">
+                    <slot name="task-enddate-error"></slot>
             </div>
         </div>
     </div>

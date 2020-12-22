@@ -10,15 +10,25 @@
                     taskNameInputType="text"
                     taskNamePlaceHolder="親タスクを入力してください"
                     taskName="taskNameId"
-                    v-model="taskName"
-                >親タスク入力{{ taskName }}</FormTaskNameBox>
+                    @onBlur="taskNameCheck"
+                    v-model="taskName">
+                    親タスク入力{{ taskName }}
+                    <template #task-name-error v-if="taskNameError">
+                        <p class="text-danger">親タスク名が入力されていません。</p>
+                    </template>
+                </FormTaskNameBox>
                 <FormTaskHourBox
                     taskHourId="taskHourId"
                     taskHourInputType="text"
                     taskHourPlaceHolder="予定工数を入力してください"
                     taskHourName="taskHourId"
-                    v-model="taskHour"
-                >工数入力{{ taskHour }}</FormTaskHourBox>
+                    @onBlur="taskHourCheck"
+                    v-model="taskHour">
+                    工数入力{{ taskHour }}
+                    <template #task-hour-error v-if="taskHourError">
+                        <p class="text-danger">工数が入力されていません。</p>
+                    </template>
+                </FormTaskHourBox>
                 <FormTaskDateBox
                     taskStartDateId="taskStartDateStartId"
                     taskStartDateInputType="date"
@@ -29,24 +39,35 @@
                     taskEndDateInputType="date"
                     taskEndDateMin="2021-01-01"
                     taskEndDateMax="2022-01-01"
-                    taskEndDateIdName="taskEndDateStartId"
-                >
-                    <template slot="start">期間（開始日）</template>
-                    <template slot="end">期間（終了日）</template>
+                    taskEndDateIdName="taskEndDateStartId">
+                    <template #start>期間（開始日）</template>
+                    <template #end>期間（終了日）</template>
+                    <template #task-startdate-error>
+                        <p class="text-danger">タスクの開始時期が入力されていません。</p>
+                    </template>
+                    <template #task-enddate-error>
+                        <p class="text-danger">タスクの終了時期が入力されていません。</p>
+                    </template>
                 </FormTaskDateBox>
                 <FormTaskStatus
-                v-model="taskSelected"
-                taskStatusId="taskStatusId"
-                taskStatusName="taskStatusName"
-                >ステータス{{ taskSelected }}</FormTaskStatus>
+                    v-model="taskSelected"
+                    taskStatusId="taskStatusId"
+                    taskStatusName="taskStatusName">
+                    ステータス{{ taskSelected }}
+                    <template #task-status-error>
+                        <p class="text-danger">タスクのステータスが入力されていません。</p>
+                    </template>
+                </FormTaskStatus>
                 <FormTaskTextArea
-                taskTextAreaId="taskTextAreaId"
-                v-model="taskMemo"
-                >メモ{{ taskMemo }}</FormTaskTextArea>
+                    taskTextAreaId="taskTextAreaId"
+                    v-model="taskMemo">
+                    メモ{{ taskMemo }}
+                </FormTaskTextArea>
             </div>
         </div>
         <footer class="l-modal-footer">
           <slot name="footer">
+            <BtnSubmit @click.native="taskRegistrationCheck">追加</BtnSubmit>
             <!--<button @click="$emit('add')"><slot></slot></button>-->
             <!--<button @click="$emit('close')"><slot></slot></button>-->
           </slot>
@@ -70,11 +91,64 @@ export default {
     data() {
         return {
             taskName: '',
+            taskNameError: false,
             taskHour: '',
+            taskHourError: false,
             taskDate: '',
             taskSelected: '',
             taskMemo: '',
         }
+    },
+    computed: {
+    },
+    methods: {
+        taskRegistrationCheck() {
+            let thisElem = this.test;
+            let validateArray = Object.entries(thisElem);
+            let validateLength = validateArray.length
+            console.log(validateLength)
+
+        },
+        taskNameCheck() {
+            if(this.taskName === ''){
+                this.taskNameError = true
+            } else {
+                this.taskNameError = false
+            }
+        },
+        taskHourCheck() {
+            if(this.taskHour === ''){
+                this.taskHourError = true
+            } else {
+                this.taskHourError = false
+            }
+        }
+        //     // console.log(this.taskNameError)
+        //     let notENteredFlag = 0;
+        //     let notENteredName = '';
+        //     let thisElem = this.test;
+        //     let validateArray = Object.entries(thisElem);
+        //     for(let validateNum = 0; validateNum < validateArray.length; validateNum++){
+        //         if(validateArray[validateNum][1] !== ''){
+        //             notENteredFlag++;
+        //         } else {
+        //             notENteredName = validateArray[validateNum][0];
+        //             // data.notENteredName + 'Error' = true;
+        //             notENteredFlag--;
+        //             aaa = notENteredName + 'Error'
+        //             // console.log(notENteredName+ 'Error');
+        //         }
+        //         if(notENteredFlag === validateArray.length){
+        //             alert('入力されている')
+        //         }
+        //     }
+        // },
+        // tttt(){
+        //     this.taskRegistrationCheck();
+        //     // this.aaa = !this.aaa
+        //     console.log(this.aaa);
+
+        // }
     },
     components: {
         Heading2,
