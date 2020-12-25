@@ -6,14 +6,14 @@
             <br><span class="text-danger">登録するIDもしくはパスワードを入力してください。</span>
         </template>
         </PageHeading>
-        <form @submit.prevent="registration">
+        <form @submit.prevent="accountRegistration">
             <div class="form-row">
                 <FormRegistrationIdBox
                     class="col"
-                    registrationId="registrationId"
-                    registrationInputType="text"
-                    registrationPlaceHolder="登録するIDを入力してください"
-                    registrationIdName="registrationId"
+                    registration-id="registrationId"
+                    registration-input-type="text"
+                    registration-placeholder="登録するIDを入力してください"
+                    registration-id-name="registrationId"
                     @onBlur="registrationIdCheck"
                     v-model="registrationId"
                 >登録するIDを入力してください。
@@ -24,24 +24,23 @@
                 </FormRegistrationIdBox>
                 <FormRegistrationPassBox
                     class="col"
-                    registrationPassId="registrationPassId"
-                    registrationPassInputType="password"
-                    registrationPassPlaceHolder="登録するパスワードを入力してください"
-                    registrationPassName="registrationPass"
+                    registration-pass-id="registrationPassId"
+                    registration-pass-input-type="password"
+                    registration-pass-placeHolder="登録するパスワードを入力してください"
+                    registration-pass-name="registrationPass"
                     v-model="registrationPass"
                 >登録するパスワードを入力してください。
                 </FormRegistrationPassBox>
             </div>
             <FormRegistrationSubmitBtn
                 class="mt-3"
-                registrationSubmitId="registrationSubmitId"
-                registrationButtonType="submit"
+                registration-submit-id="registrationSubmitId"
+                registration-button-type="submit"
             >アカウント新規登録
             </FormRegistrationSubmitBtn>
         </form>
         <!-- modal -->
-        <modalCreateAccount
-            v-show="showModal">
+        <modalCreateAccount v-show="showModal">
             <template #footer>
                 <router-link to="/home" class="btn btn-primary w-50">タスク一覧ページへ</router-link>
             </template>
@@ -69,30 +68,40 @@ export default {
             showModal: false
         }
     },
-    computed: {
-    },
     methods: {
         ModalToggle () {
            this.showModal = !this.showModal
         },
-        registration () {
-            if(this.registrationId.trim() !== '' && this.registrationPass.trim() !== ''){
-                // this.$router.push('/home');
-                this.ModalToggle()
-            } else {
-                this.danger = true;
-            }
+        accountRegistration() {
+            axios.get('/api/makeAccount', {
+                params: {
+                    userId: this.registrationId,
+                    userPassword: this.registrationPass
+                }
+            })
+            .then(response => {
+                console.log(response)
+
+                if(response.data === 'duplicate') {
+                    this.$router.push('/error');
+                } else {
+                    this.ModalToggle();
+                    // this.$router.push({
+                    //     name: 'PageIndex',
+                    //     params :{ userId: response.data.userId }
+                    // });
+                }
+            })
+            .catch(error => {console.log(error)
+                this.$router.push('/error');
+            });
         },
         registrationIdCheck () {
+            //ここにブラー時IDの重複をチェック
             if(this.registrationId.trim() === ''){
                 this.IdNotEntered = true
-                this.IdAlreadyUsed = false
-            } else if (this.registrationId.trim() === 'aaaaa') {
-                this.IdAlreadyUsed = true
-                this.IdNotEntered = false
             } else {
                 this.IdNotEntered = false
-                this.IdAlreadyUsed = false
             }
         },
     },
