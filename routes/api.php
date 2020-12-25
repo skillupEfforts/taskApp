@@ -19,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/home', 'App\Http\Controllers\addController@postIndex');
+Route::get('/makeAccount', 'App\Http\Controllers\makeAccount@makeAccount');
+Route::get('/makeTask', 'App\Http\Controllers\task@makeTask');
