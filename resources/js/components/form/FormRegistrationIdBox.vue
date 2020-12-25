@@ -1,7 +1,6 @@
 <template>
     <div>
         <label :for="registrationId"><slot></slot></label>
-        <slot name="error"></slot>
         <input
             :type="registrationInputType"
             class="form-control"
@@ -12,7 +11,7 @@
             @input="$emit('input', $event.target.value)"
             @blur="onBlur"
             :required="registrationIdRequired">
-
+        <slot name="error"></slot>
     </div>
 </template>
 

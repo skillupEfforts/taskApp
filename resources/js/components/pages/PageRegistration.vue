@@ -1,9 +1,10 @@
 <template>
     <div class="l-form">
         <PageHeading
-            :headingTtl="headingTtl"
-            :class="{ 'text-danger':danger }"
-        >
+        >アカウント新規追加
+        <template #heading-sub v-if="danger">
+            <br><span class="text-danger">登録するIDもしくはパスワードを入力してください。</span>
+        </template>
         </PageHeading>
         <form @submit.prevent="registration">
             <div class="form-row">
@@ -42,7 +43,7 @@
         <modalCreateAccount
             v-show="showModal">
             <template #footer>
-                <router-link to="/home">タスク一覧ページへ</router-link>
+                <router-link to="/home" class="btn btn-primary w-50">タスク一覧ページへ</router-link>
             </template>
         </modalCreateAccount>
         <!-- /.modal -->
@@ -62,7 +63,6 @@ export default {
         return {
             registrationId: '',
             registrationPass: '',
-            headingTtl: 'アカウント新規追加',
             danger: false,
             IdNotEntered: false,
             IdAlreadyUsed: false,
@@ -76,19 +76,18 @@ export default {
            this.showModal = !this.showModal
         },
         registration () {
-            if(this.registrationId !== '' && this.registrationPass !== ''){
+            if(this.registrationId.trim() !== '' && this.registrationPass.trim() !== ''){
                 // this.$router.push('/home');
                 this.ModalToggle()
             } else {
-                this.headingTtl = '登録するIDもしくはパスワードを入力してください。';
                 this.danger = true;
             }
         },
         registrationIdCheck () {
-            if(this.registrationId === ''){
+            if(this.registrationId.trim() === ''){
                 this.IdNotEntered = true
                 this.IdAlreadyUsed = false
-            } else if (this.registrationId === 'aaaaa') {
+            } else if (this.registrationId.trim() === 'aaaaa') {
                 this.IdAlreadyUsed = true
                 this.IdNotEntered = false
             } else {

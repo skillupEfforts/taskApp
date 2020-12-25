@@ -2230,7 +2230,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormRegistrationIdBox',
   model: {
@@ -3293,6 +3292,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -3304,7 +3304,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       registrationId: '',
       registrationPass: '',
-      headingTtl: 'アカウント新規追加',
       danger: false,
       IdNotEntered: false,
       IdAlreadyUsed: false,
@@ -3317,19 +3316,18 @@ __webpack_require__.r(__webpack_exports__);
       this.showModal = !this.showModal;
     },
     registration: function registration() {
-      if (this.registrationId !== '' && this.registrationPass !== '') {
+      if (this.registrationId.trim() !== '' && this.registrationPass.trim() !== '') {
         // this.$router.push('/home');
         this.ModalToggle();
       } else {
-        this.headingTtl = '登録するIDもしくはパスワードを入力してください。';
         this.danger = true;
       }
     },
     registrationIdCheck: function registrationIdCheck() {
-      if (this.registrationId === '') {
+      if (this.registrationId.trim() === '') {
         this.IdNotEntered = true;
         this.IdAlreadyUsed = false;
-      } else if (this.registrationId === 'aaaaa') {
+      } else if (this.registrationId.trim() === 'aaaaa') {
         this.IdAlreadyUsed = true;
         this.IdNotEntered = false;
       } else {
@@ -39422,8 +39420,6 @@ var render = function() {
         2
       ),
       _vm._v(" "),
-      _vm._t("error"),
-      _vm._v(" "),
       _c("input", {
         staticClass: "form-control",
         attrs: {
@@ -39440,7 +39436,9 @@ var render = function() {
           },
           blur: _vm.onBlur
         }
-      })
+      }),
+      _vm._v(" "),
+      _vm._t("error")
     ],
     2
   )
@@ -39965,7 +39963,10 @@ var render = function() {
   return _c(
     "h2",
     { staticClass: "text-center mb-3" },
-    [_vm._t("default", [_vm._v(_vm._s(_vm.headingTtl))])],
+    [
+      _vm._t("default", [_vm._v(_vm._s(_vm.headingTtl))]),
+      _vm._t("heading-sub")
+    ],
     2
   )
 }
@@ -40287,6 +40288,7 @@ var render = function() {
                 _c(
                   "BtnSubmit",
                   {
+                    staticClass: "w-50 mx-auto",
                     nativeOn: {
                       click: function($event) {
                         return _vm.taskRegistrationCheck($event)
@@ -40588,10 +40590,34 @@ var render = function() {
     "div",
     { staticClass: "l-form" },
     [
-      _c("PageHeading", {
-        class: { "text-danger": _vm.danger },
-        attrs: { headingTtl: _vm.headingTtl }
-      }),
+      _c(
+        "PageHeading",
+        {
+          scopedSlots: _vm._u(
+            [
+              _vm.danger
+                ? {
+                    key: "heading-sub",
+                    fn: function() {
+                      return [
+                        _c("br"),
+                        _c("span", { staticClass: "text-danger" }, [
+                          _vm._v(
+                            "登録するIDもしくはパスワードを入力してください。"
+                          )
+                        ])
+                      ]
+                    },
+                    proxy: true
+                  }
+                : null
+            ],
+            null,
+            true
+          )
+        },
+        [_vm._v("アカウント新規追加\n    ")]
+      ),
       _vm._v(" "),
       _c(
         "form",
@@ -40707,9 +40733,14 @@ var render = function() {
             key: "footer",
             fn: function() {
               return [
-                _c("router-link", { attrs: { to: "/home" } }, [
-                  _vm._v("タスク一覧ページへ")
-                ])
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-primary w-50",
+                    attrs: { to: "/home" }
+                  },
+                  [_vm._v("タスク一覧ページへ")]
+                )
               ]
             },
             proxy: true

@@ -67,7 +67,7 @@
         </div>
         <footer class="l-modal-footer">
           <slot name="footer">
-            <BtnSubmit @click.native="taskRegistrationCheck">追加</BtnSubmit>
+            <BtnSubmit class="w-50 mx-auto" @click.native="taskRegistrationCheck">追加</BtnSubmit>
             <!--<button @click="$emit('add')"><slot></slot></button>-->
             <!--<button @click="$emit('close')"><slot></slot></button>-->
           </slot>
