@@ -22,12 +22,12 @@
             <FormSubmitBtn class="mt-3"
                 loginSubmitId="loginSubmit"
                 loginButtonType="submit"
-            >ログイン
+            >作成
             </FormSubmitBtn>
             <div style="margin-top:30px;">
                 <router-link class="btn btn-primary w-100"
-                    to="/account/"
-                >アカウント作成
+                    to="/"
+                >ログイン画面へ戻る
                 </router-link>
             </div>
         </form>
@@ -40,7 +40,7 @@ import FormLoginPassBox from '../form/FormLoginPassBox.vue';
 import FormSubmitBtn from '../form/FormSubmitBtn.vue';
 
 export default {
-    name: 'PageLogin',
+    name: 'PageLAccount',
     data() {
         return {
             userId: '',
@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         submit() {
-            axios.get('/api/home', {
+            axios.get('/api/makeAccount', {
                 params: {
                     userId: this.userId,
                     userPassword: this.userPass
@@ -57,14 +57,14 @@ export default {
             })
             .then(response => {
                 console.log(response)
-                if(response.data === 0) {
-                    this.$router.push('/error');
-                } else {
-                    this.$router.push({
-                        name: 'PageIndex',
-                        params :{ userId: response.data.userId }
-                    });
-                }
+                // if(response.data === 0) {
+                //     this.$router.push('/error');
+                // } else {
+                //     this.$router.push({
+                //         name: 'PageIndex',
+                //         params :{ userId: response.data.userId }
+                //     });
+                // }
             })
             .catch(error => {console.log(error)
                 this.$router.push('/error');

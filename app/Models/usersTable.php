@@ -17,4 +17,10 @@ class UsersTable extends Model
         $data = DB::table($this->table)->where('name', $userId)->where('password', $password)->get();
         return $data;
     }
+
+    public function duplicateCheck(string $userId)
+    {
+        $duplicateCount = DB::table($this->table)->where('name', $userId)->count();
+        return $duplicateCount;
+    }
 }
