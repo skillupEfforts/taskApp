@@ -3135,12 +3135,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3390,7 +3384,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -3405,16 +3398,42 @@ __webpack_require__.r(__webpack_exports__);
       danger: false,
       IdNotEntered: false,
       IdAlreadyUsed: false,
-      showModal: false
+      showModal: false,
+      duplicateId: ''
     };
   },
   methods: {
     ModalToggle: function ModalToggle() {
       this.showModal = !this.showModal;
     },
-    accountRegistration: function accountRegistration() {
+    registrationIdCheck: function registrationIdCheck() {
       var _this = this;
 
+      //IDのテキストボックスblurイベント
+      if (this.registrationId.trim() === '') {
+        this.IdNotEntered = true;
+      } else {
+        this.IdNotEntered = false; //blur時にBD登録まで行ってしまう。。
+
+        axios.get('/api/makeAccount', {
+          params: {
+            userId: this.registrationId
+          }
+        }).then(function (response) {
+          if (response.data === 'duplicate') {
+            _this.IdAlreadyUsed = true;
+          } else {
+            _this.IdAlreadyUsed = false;
+          }
+        })["catch"](function (error) {
+          alert('通信に失敗しました。ブラウザを更新してください。');
+        });
+      }
+    },
+    accountRegistration: function accountRegistration() {
+      var _this2 = this;
+
+      //アカウント新規追加イベント
       axios.get('/api/makeAccount', {
         params: {
           userId: this.registrationId,
@@ -3424,27 +3443,25 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response);
 
         if (response.data === 'duplicate') {
-          _this.$router.push('/error');
+          _this2.$router.push('/error');
         } else {
-          _this.ModalToggle(); // this.$router.push({
-          //     name: 'PageIndex',
-          //     params :{ userId: response.data.userId }
-          // });
-
+          _this2.ModalToggle();
         }
       })["catch"](function (error) {
         console.log(error);
 
-        _this.$router.push('/error');
+        _this2.$router.push('/error');
       });
     },
-    registrationIdCheck: function registrationIdCheck() {
-      //ここにブラー時IDの重複をチェック
-      if (this.registrationId.trim() === '') {
-        this.IdNotEntered = true;
-      } else {
-        this.IdNotEntered = false;
-      }
+    registrationApproval: function registrationApproval() {
+      //アカウント新規追加クリック後のモーダル内ボタンイベント
+      console.log(params);
+      this.$router.push({
+        name: 'PageIndex',
+        params: {
+          userId: response.data.userId
+        }
+      });
     }
   },
   components: {
@@ -40607,7 +40624,7 @@ var render = function() {
       _c(
         "router-link",
         { staticClass: "btn btn-primary w-100", attrs: { to: "/" } },
-        [_vm._v("TOPへ戻る\n    ")]
+        [_vm._v("TOPへ戻る")]
       )
     ],
     1
@@ -40925,13 +40942,6 @@ var render = function() {
                     "registration-pass-placeHolder":
                       "登録するパスワードを入力してください",
                     "registration-pass-name": "registrationPass"
-                  },
-                  model: {
-                    value: _vm.registrationPass,
-                    callback: function($$v) {
-                      _vm.registrationPass = $$v
-                    },
-                    expression: "registrationPass"
                   }
                 },
                 [_vm._v("登録するパスワードを入力してください。\n            ")]
@@ -40973,7 +40983,8 @@ var render = function() {
                   "router-link",
                   {
                     staticClass: "btn btn-primary w-50",
-                    attrs: { to: "/home" }
+                    attrs: { to: "/home" },
+                    on: { click: _vm.registrationApproval }
                   },
                   [_vm._v("タスク一覧ページへ")]
                 )

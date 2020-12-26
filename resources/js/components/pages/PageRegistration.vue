@@ -28,7 +28,6 @@
                     registration-pass-input-type="password"
                     registration-pass-placeHolder="登録するパスワードを入力してください"
                     registration-pass-name="registrationPass"
-                    v-model="registrationPass"
                 >登録するパスワードを入力してください。
                 </FormRegistrationPassBox>
             </div>
@@ -42,7 +41,7 @@
         <!-- modal -->
         <modalCreateAccount v-show="showModal">
             <template #footer>
-                <router-link to="/home" class="btn btn-primary w-50">タスク一覧ページへ</router-link>
+                <router-link to="/home" class="btn btn-primary w-50" @click="registrationApproval">タスク一覧ページへ</router-link>
             </template>
         </modalCreateAccount>
         <!-- /.modal -->
@@ -65,14 +64,38 @@ export default {
             danger: false,
             IdNotEntered: false,
             IdAlreadyUsed: false,
-            showModal: false
+            showModal: false,
+            duplicateId: ''
         }
     },
     methods: {
         ModalToggle () {
            this.showModal = !this.showModal
         },
-        accountRegistration() {
+        registrationIdCheck () {//IDのテキストボックスblurイベント
+            if(this.registrationId.trim() === ''){
+                this.IdNotEntered = true
+            } else {
+                this.IdNotEntered = false
+                //blur時にBD登録まで行ってしまう。。
+                axios.get('/api/makeAccount', {
+                    params: {
+                        userId: this.registrationId,
+                    }
+                })
+                .then(response => {
+                    if(response.data === 'duplicate') {
+                        this.IdAlreadyUsed = true
+                    } else {
+                        this.IdAlreadyUsed = false
+                    }
+                })
+                .catch(error => {
+                    alert('通信に失敗しました。ブラウザを更新してください。');
+                });
+            }
+        },
+        accountRegistration() {//アカウント新規追加イベント
             axios.get('/api/makeAccount', {
                 params: {
                     userId: this.registrationId,
@@ -81,29 +104,24 @@ export default {
             })
             .then(response => {
                 console.log(response)
-
                 if(response.data === 'duplicate') {
                     this.$router.push('/error');
                 } else {
                     this.ModalToggle();
-                    // this.$router.push({
-                    //     name: 'PageIndex',
-                    //     params :{ userId: response.data.userId }
-                    // });
                 }
             })
-            .catch(error => {console.log(error)
+            .catch(error => {
+                console.log(error)
                 this.$router.push('/error');
             });
         },
-        registrationIdCheck () {
-            //ここにブラー時IDの重複をチェック
-            if(this.registrationId.trim() === ''){
-                this.IdNotEntered = true
-            } else {
-                this.IdNotEntered = false
-            }
-        },
+        registrationApproval() {//アカウント新規追加クリック後のモーダル内ボタンイベント
+            console.log(params)
+            this.$router.push({
+                name: 'PageIndex',
+                params :{ userId: response.data.userId }
+            });
+        }
     },
     components: {
         FormRegistrationSubmitBtn,
