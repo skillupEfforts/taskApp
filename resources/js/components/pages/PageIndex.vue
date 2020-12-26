@@ -2,21 +2,15 @@
     <div>
         <div class="container">
             <PageHeading>タスク一覧表示画面​</PageHeading>
-            <navigation
-                @open="ToggleModal"
-            ></navigation>
+            <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
         <DataTable></DataTable>
         <div class="l-w50-center mt-5">
-            <BtnSubmit
-                SubmitId="SubmitHours"
-                ButtonType="submit"
-            >実工数保存</BtnSubmit>
+            <BtnSubmit submit-id="SubmitHours" button-type="submit">実工数保存</BtnSubmit>
         </div>
         <!-- modal -->
-        <modalRegistration @close="ToggleModal" v-show="showModal">
-        </modalRegistration>
+        <modalRegistration @close="ToggleModal" v-show="showModal"></modalRegistration>
         <!-- /.modal -->
     </div>
 </template>

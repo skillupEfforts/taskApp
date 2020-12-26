@@ -6,10 +6,10 @@
             <Heading2>タスク新規追加</Heading2>
             <div class="l-task-input">
                 <FormTaskNameBox
-                    taskNameId="taskNameId"
-                    taskNameInputType="text"
-                    taskNamePlaceHolder="親タスクを入力してください"
-                    taskName="taskNameId"
+                    task-name-id="taskNameId"
+                    task-name-input-type="text"
+                    task-name-placeholder="親タスクを入力してください"
+                    task-name="taskNameId"
                     @onBlur="taskNameCheck"
                     v-model="taskName">
                     親タスク入力{{ taskName }}
@@ -18,10 +18,10 @@
                     </template>
                 </FormTaskNameBox>
                 <FormTaskHourBox
-                    taskHourId="taskHourId"
-                    taskHourInputType="text"
-                    taskHourPlaceHolder="予定工数を入力してください"
-                    taskHourName="taskHourId"
+                    task-hour-id="taskHourId"
+                    task-hour-input-type="text"
+                    task-hour-placeholder="予定工数を入力してください"
+                    task-hour-name="taskHourId"
                     @onBlur="taskHourCheck"
                     v-model="taskHour">
                     工数入力{{ taskHour }}
@@ -29,37 +29,48 @@
                         <p class="text-danger">工数が入力されていません。</p>
                     </template>
                 </FormTaskHourBox>
-                <FormTaskDateBox
-                    taskStartDateId="taskStartDateStartId"
-                    taskStartDateInputType="date"
-                    taskStartDateMin="2021-01-01"
-                    taskStartDateMax="2022-01-01"
-                    taskStartDateIdName="taskStartDateStartId"
-                    taskEndDateId="taskEndDateStartId"
-                    taskEndDateInputType="date"
-                    taskEndDateMin="2021-01-01"
-                    taskEndDateMax="2022-01-01"
-                    taskEndDateIdName="taskEndDateStartId">
-                    <template #start>期間（開始日）</template>
-                    <template #end>期間（終了日）</template>
-                    <template #task-startdate-error>
-                        <p class="text-danger">タスクの開始時期が入力されていません。</p>
-                    </template>
-                    <template #task-enddate-error>
-                        <p class="text-danger">タスクの終了時期が入力されていません。</p>
-                    </template>
-                </FormTaskDateBox>
+                <div class="l-task-input-box">
+                    <div class="l-task-input-box-col2">
+                        <FormTaskStartDate
+                            task-start-date-id="taskStartDateStartId"
+                            task-start-date-input-type="date"
+                            task-start-date-min="2021-01-01"
+                            task-start-date-max="2022-01-01"
+                            task-start-date-id-name="taskStartDateStartId"
+                            taskStartDateValue=""
+                            v-model="taskStartDate">
+                            <template #start>期間（開始日）{{ taskStartDate }}</template>
+                            <template #task-startdate-error v-if="taskStartDateError">
+                                <p class="text-danger">タスクの開始時期が入力されていません。</p>
+                            </template>
+                        </FormTaskStartDate>
+                        <FormTaskEndDate
+                            task-end-date-id="taskEndDateStartId"
+                            task-end-date-input-type="date"
+                            task-end-date-min="2021-01-01"
+                            task-end-date-max="2022-01-01"
+                            task-end-date-id-name="taskEndDateStartId"
+                            taskEndDateValues=""
+                            v-model="taskEndDate">
+                            <template #end>期間（開始日）{{ taskEndDate }}</template>
+                            <template #task-enddate-error v-if="taskEndDateError">
+                                <p class="text-danger">タスクの開始時期が入力されていません。</p>
+                            </template>
+                        </FormTaskEndDate>
+                    </div>
+                </div>
                 <FormTaskStatus
-                    v-model="taskSelected"
-                    taskStatusId="taskStatusId"
-                    taskStatusName="taskStatusName">
-                    ステータス{{ taskSelected }}
-                    <template #task-status-error>
-                        <p class="text-danger">タスクのステータスが入力されていません。</p>
+                    task-status-id="taskStatusId"
+                    task-status-name="taskStatusName"
+                    v-model="taskStatus"
+                    @onChange="taskStatusCheck">
+                    ステータス{{ taskStatus }}
+                    <template #task-status-error v-if="taskStatusError">
+                        <p class="text-danger">タスクのステータスが選択されていません。</p>
                     </template>
                 </FormTaskStatus>
                 <FormTaskTextArea
-                    taskTextAreaId="taskTextAreaId"
+                    task-textarea-id="taskTextAreaId"
                     v-model="taskMemo">
                     メモ{{ taskMemo }}
                 </FormTaskTextArea>
@@ -68,8 +79,6 @@
         <footer class="l-modal-footer">
           <slot name="footer">
             <BtnSubmit class="w-50 mx-auto" @click.native="taskRegistrationCheck">追加</BtnSubmit>
-            <!--<button @click="$emit('add')"><slot></slot></button>-->
-            <!--<button @click="$emit('close')"><slot></slot></button>-->
           </slot>
         </footer>
       </div>
@@ -82,7 +91,8 @@ import Heading2 from '../heading/Heading2.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
 import FormTaskNameBox from '../form/task/FormTaskNameBox.vue';
 import FormTaskHourBox from '../form/task/FormTaskHourBox.vue';
-import FormTaskDateBox from '../form/task/FormTaskDateBox.vue';
+import FormTaskStartDate from '../form/task/FormTaskStartDate.vue';
+import FormTaskEndDate from '../form/task/FormTaskEndDate.vue';
 import FormTaskStatus from '../form/task/FormTaskStatus.vue';
 import FormTaskTextArea from '../form/task/FormTaskTextArea.vue';
 
@@ -90,24 +100,64 @@ export default {
     name: 'modalRegistration',
     data() {
         return {
+            //higehogeErrorはエラー文言フラグ
+            //Error以外はv-model
             taskName: '',
             taskNameError: false,
             taskHour: '',
             taskHourError: false,
-            taskDate: '',
-            taskSelected: '',
+            taskStartDate: '',
+            taskStartDateError: false,
+            taskEndDate: '',
+            taskEndDateError: false,
+            taskStatus: 'none',
+            taskStatusError: false,
             taskMemo: '',
         }
     },
-    computed: {
+    mounted() {
+        //期日カレンダーの初期値をを今日、明日にする
+        // console.log(this.$el)
+        var getTimes = new Date();
+        var year = getTimes.getFullYear();
+        var month = getTimes.getMonth() + 1;
+        var day = getTimes.getDate();
+        const today = year + '-' + month + '-' + day;
+        const tommorow = year + '-' + month + '-' + (day + 1);
+        this.taskStartDate = today
+        this.taskEndDate = tommorow
+        // console.log(this.taskStatus)
     },
     methods: {
         taskRegistrationCheck() {
-            let thisElem = this.test;
-            let validateArray = Object.entries(thisElem);
-            let validateLength = validateArray.length
-            console.log(validateLength)
-
+            axios.get('/api/makeTask', {
+                params: {
+                    id: 1,
+                    userId: 'a',
+                    taskname: this.taskName,
+                    kosu: 0,
+                    jitsukosu: 0,
+                    startdate: '2020-10-10',
+                    enddate: '2020-10-11',
+                }
+            })
+            .then(response => {
+                console.log(response)
+                if(response.data === 'duplicate') {
+                    alert('タスク名が重複しています。')
+                    // this.$router.push('/error');
+                } else {
+                    alert('タスク登録しました。')
+                    // this.$router.push({
+                    //     name: 'PageIndex',
+                    //     params :{ taskname: response.data.taskname }
+                    // });
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                alert('エラーです')
+            });
         },
         taskNameCheck() {
             if(this.taskName === ''){
@@ -122,41 +172,23 @@ export default {
             } else {
                 this.taskHourError = false
             }
+        },
+        taskStatusCheck() {
+            if(this.taskStatus === 'none'){
+                this.taskStatusError = true
+            } else {
+                this.taskStatusError = false
+            }
         }
-        //     // console.log(this.taskNameError)
-        //     let notENteredFlag = 0;
-        //     let notENteredName = '';
-        //     let thisElem = this.test;
-        //     let validateArray = Object.entries(thisElem);
-        //     for(let validateNum = 0; validateNum < validateArray.length; validateNum++){
-        //         if(validateArray[validateNum][1] !== ''){
-        //             notENteredFlag++;
-        //         } else {
-        //             notENteredName = validateArray[validateNum][0];
-        //             // data.notENteredName + 'Error' = true;
-        //             notENteredFlag--;
-        //             aaa = notENteredName + 'Error'
-        //             // console.log(notENteredName+ 'Error');
-        //         }
-        //         if(notENteredFlag === validateArray.length){
-        //             alert('入力されている')
-        //         }
-        //     }
-        // },
-        // tttt(){
-        //     this.taskRegistrationCheck();
-        //     // this.aaa = !this.aaa
-        //     console.log(this.aaa);
-
-        // }
     },
     components: {
         Heading2,
         BtnSubmit,
         FormTaskNameBox,
         FormTaskHourBox,
-        FormTaskDateBox,
         FormTaskStatus,
+        FormTaskStartDate,
+        FormTaskEndDate,
         FormTaskTextArea,
     }
 }

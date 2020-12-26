@@ -2364,9 +2364,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=script&lang=js& ***!
   \************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2390,64 +2390,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//日付取得
-var getTimes = new Date();
-var year = getTimes.getFullYear();
-var month = getTimes.getMonth() + 1;
-var day = getTimes.getDate();
-
-var _today = year + '-' + month + '-' + day;
-
-var _tommorow = year + '-' + month + '-' + parseInt(day + 1);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'FormTaskDateBox',
+  name: 'FormTaskEndDate',
   model: {
-    prop: 'taskDateValue',
+    prop: 'taskEndDateValue',
     event: 'input'
   },
-  computed: {
-    today: function today() {
-      return _today;
-    },
-    tommorow: function tommorow() {
-      return _tommorow;
-    }
-  },
   props: {
-    taskStartDateId: String,
-    taskStartDateInputType: String,
-    taskStartDateMin: String,
-    taskStartDateMax: String,
-    taskStartDateIdvalue: String,
-    taskStartDateName: String,
-    taskStartDateRequired: {
-      type: Boolean,
-      "default": false
-    },
     taskEndDateId: String,
     taskEndDateInputType: String,
     taskEndDateMin: String,
     taskEndDateMax: String,
-    taskEndDateIdvalue: String,
+    taskEndDateValue: String,
     taskEndDateName: String,
     taskEndDateRequired: {
       type: Boolean,
@@ -2562,6 +2516,54 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'FormTaskStartDate',
+  model: {
+    prop: 'taskStartDateValue',
+    event: 'input'
+  },
+  props: {
+    taskStartDateId: String,
+    taskStartDateInputType: String,
+    taskStartDateMin: String,
+    taskStartDateMax: String,
+    taskStartDateValue: String,
+    taskStartDateName: String,
+    taskStartDateRequired: {
+      type: Boolean,
+      "default": false
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskStatus.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskStatus.vue?vue&type=script&lang=js& ***!
@@ -2582,28 +2584,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var statusArray = ['着手前', '対応中', 'Dir確認中', 'FB修正中', '完了'];
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormTaskStatus',
-  model: {
-    prop: 'taskSelected',
-    event: 'input'
-  },
-  computed: {
-    status: function status() {
-      // console.log(statusArray)
-      return statusArray;
-    }
-  },
-  methods: {
-    updateValue: function updateValue(e) {
-      this.$emit("input", e.target.value);
-    }
-  },
   props: {
     taskStatusId: String,
     taskStatusName: String,
-    taskSelected: String
+    taskSelected: String,
+    statusObject: Object
+  },
+  model: {
+    prop: 'taskSelected',
+    event: 'onChange'
+  },
+  computed: {
+    status: function status() {
+      var statusObject = [{
+        StatusTxt: 'ステータスを選択してください。',
+        StatusValue: 'none'
+      }, {
+        StatusTxt: '着手前',
+        StatusValue: '1'
+      }, {
+        StatusTxt: '対応中',
+        StatusValue: '2'
+      }, {
+        StatusTxt: 'Dir確認中',
+        StatusValue: '3'
+      }, {
+        StatusTxt: 'FB修正中',
+        StatusValue: '4'
+      }, {
+        StatusTxt: '完了',
+        StatusValue: '5'
+      }];
+      return statusObject;
+    }
+  },
+  methods: {
+    onChange: function onChange(e) {
+      this.$emit("onChange", e.target.value);
+    }
   }
 });
 
@@ -2804,11 +2824,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     Heading2: _heading_Heading2_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  methods: {
-    onClick: function onClick() {
-      this.$emit('onClick');
-    }
   }
 });
 
@@ -2827,9 +2842,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../btn/BtnSubmit.vue */ "./resources/js/components/btn/BtnSubmit.vue");
 /* harmony import */ var _form_task_FormTaskNameBox_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/task/FormTaskNameBox.vue */ "./resources/js/components/form/task/FormTaskNameBox.vue");
 /* harmony import */ var _form_task_FormTaskHourBox_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/task/FormTaskHourBox.vue */ "./resources/js/components/form/task/FormTaskHourBox.vue");
-/* harmony import */ var _form_task_FormTaskDateBox_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/task/FormTaskDateBox.vue */ "./resources/js/components/form/task/FormTaskDateBox.vue");
-/* harmony import */ var _form_task_FormTaskStatus_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/task/FormTaskStatus.vue */ "./resources/js/components/form/task/FormTaskStatus.vue");
-/* harmony import */ var _form_task_FormTaskTextArea_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../form/task/FormTaskTextArea.vue */ "./resources/js/components/form/task/FormTaskTextArea.vue");
+/* harmony import */ var _form_task_FormTaskStartDate_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/task/FormTaskStartDate.vue */ "./resources/js/components/form/task/FormTaskStartDate.vue");
+/* harmony import */ var _form_task_FormTaskEndDate_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/task/FormTaskEndDate.vue */ "./resources/js/components/form/task/FormTaskEndDate.vue");
+/* harmony import */ var _form_task_FormTaskStatus_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../form/task/FormTaskStatus.vue */ "./resources/js/components/form/task/FormTaskStatus.vue");
+/* harmony import */ var _form_task_FormTaskTextArea_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../form/task/FormTaskTextArea.vue */ "./resources/js/components/form/task/FormTaskTextArea.vue");
 //
 //
 //
@@ -2909,6 +2925,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2920,22 +2946,60 @@ __webpack_require__.r(__webpack_exports__);
   name: 'modalRegistration',
   data: function data() {
     return {
+      //higehogeErrorはエラー文言フラグ
+      //Error以外はv-model
       taskName: '',
       taskNameError: false,
       taskHour: '',
       taskHourError: false,
-      taskDate: '',
-      taskSelected: '',
+      taskStartDate: '',
+      taskStartDateError: false,
+      taskEndDate: '',
+      taskEndDateError: false,
+      taskStatus: 'none',
+      taskStatusError: false,
       taskMemo: ''
     };
   },
-  computed: {},
+  mounted: function mounted() {
+    //期日カレンダーの初期値をを今日、明日にする
+    // console.log(this.$el)
+    var getTimes = new Date();
+    var year = getTimes.getFullYear();
+    var month = getTimes.getMonth() + 1;
+    var day = getTimes.getDate();
+    var today = year + '-' + month + '-' + day;
+    var tommorow = year + '-' + month + '-' + (day + 1);
+    this.taskStartDate = today;
+    this.taskEndDate = tommorow; // console.log(this.taskStatus)
+  },
   methods: {
     taskRegistrationCheck: function taskRegistrationCheck() {
-      var thisElem = this.test;
-      var validateArray = Object.entries(thisElem);
-      var validateLength = validateArray.length;
-      console.log(validateLength);
+      axios.get('/api/makeTask', {
+        params: {
+          id: 1,
+          userId: 'a',
+          taskname: this.taskName,
+          kosu: 0,
+          jitsukosu: 0,
+          startdate: '2020-10-10',
+          enddate: '2020-10-11'
+        }
+      }).then(function (response) {
+        console.log(response);
+
+        if (response.data === 'duplicate') {
+          alert('タスク名が重複しています。'); // this.$router.push('/error');
+        } else {
+          alert('タスク登録しました。'); // this.$router.push({
+          //     name: 'PageIndex',
+          //     params :{ taskname: response.data.taskname }
+          // });
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        alert('エラーです');
+      });
     },
     taskNameCheck: function taskNameCheck() {
       if (this.taskName === '') {
@@ -2950,41 +3014,24 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.taskHourError = false;
       }
-    } //     // console.log(this.taskNameError)
-    //     let notENteredFlag = 0;
-    //     let notENteredName = '';
-    //     let thisElem = this.test;
-    //     let validateArray = Object.entries(thisElem);
-    //     for(let validateNum = 0; validateNum < validateArray.length; validateNum++){
-    //         if(validateArray[validateNum][1] !== ''){
-    //             notENteredFlag++;
-    //         } else {
-    //             notENteredName = validateArray[validateNum][0];
-    //             // data.notENteredName + 'Error' = true;
-    //             notENteredFlag--;
-    //             aaa = notENteredName + 'Error'
-    //             // console.log(notENteredName+ 'Error');
-    //         }
-    //         if(notENteredFlag === validateArray.length){
-    //             alert('入力されている')
-    //         }
-    //     }
-    // },
-    // tttt(){
-    //     this.taskRegistrationCheck();
-    //     // this.aaa = !this.aaa
-    //     console.log(this.aaa);
-    // }
-
+    },
+    taskStatusCheck: function taskStatusCheck() {
+      if (this.taskStatus === 'none') {
+        this.taskStatusError = true;
+      } else {
+        this.taskStatusError = false;
+      }
+    }
   },
   components: {
     Heading2: _heading_Heading2_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     BtnSubmit: _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     FormTaskNameBox: _form_task_FormTaskNameBox_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     FormTaskHourBox: _form_task_FormTaskHourBox_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    FormTaskDateBox: _form_task_FormTaskDateBox_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    FormTaskStatus: _form_task_FormTaskStatus_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    FormTaskTextArea: _form_task_FormTaskTextArea_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    FormTaskStatus: _form_task_FormTaskStatus_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    FormTaskStartDate: _form_task_FormTaskStartDate_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    FormTaskEndDate: _form_task_FormTaskEndDate_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    FormTaskTextArea: _form_task_FormTaskTextArea_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   }
 });
 
@@ -3163,12 +3210,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../btn/BtnSubmit.vue */ "./resources/js/components/btn/BtnSubmit.vue");
 /* harmony import */ var _datatable_DataTable_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../datatable/DataTable.vue */ "./resources/js/components/datatable/DataTable.vue");
 /* harmony import */ var _modal_modalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modalRegistration.vue */ "./resources/js/components/modal/modalRegistration.vue");
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -39697,9 +39738,9 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=template&id=3a58501a&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=template&id=03f09bf4&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=template&id=3a58501a& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=template&id=03f09bf4& ***!
   \****************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -39712,75 +39753,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "l-task-input-box" }, [
-    _c("div", { staticClass: "l-task-input-box-col2" }, [
-      _c(
-        "div",
-        [
-          _c(
-            "label",
-            { attrs: { for: _vm.taskStartDateId } },
-            [_vm._t("start")],
-            2
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: _vm.taskStartDateInputType,
-              id: _vm.taskStartDateId,
-              name: _vm.taskStartDateName,
-              min: _vm.taskStartDateMin,
-              max: _vm.taskStartDateMax,
-              required: _vm.taskStartDateRequired
-            },
-            domProps: { value: _vm.today },
-            on: {
-              input: function($event) {
-                return _vm.$emit("input", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm._t("task-startdate-error")
-        ],
-        2
-      ),
+  return _c(
+    "div",
+    [
+      _c("label", { attrs: { for: _vm.taskEndDateId } }, [_vm._t("end")], 2),
       _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c(
-            "label",
-            { attrs: { for: _vm.taskEndDateId } },
-            [_vm._t("end")],
-            2
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: _vm.taskEndDateInputType,
-              id: _vm.taskEndDateId,
-              name: _vm.taskEndDateName,
-              min: _vm.taskEndDateMin,
-              max: _vm.taskEndDateMax,
-              required: _vm.taskEndDateRequired
-            },
-            domProps: { value: _vm.tommorow },
-            on: {
-              input: function($event) {
-                return _vm.$emit("input", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _vm._t("task-enddate-error")
-        ],
-        2
-      )
-    ])
-  ])
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: _vm.taskEndDateInputType,
+          id: _vm.taskEndDateId,
+          name: _vm.taskEndDateName,
+          min: _vm.taskEndDateMin,
+          max: _vm.taskEndDateMax,
+          required: _vm.taskEndDateRequired
+        },
+        domProps: { value: _vm.taskEndDateValue },
+        on: {
+          input: function($event) {
+            return _vm.$emit("input", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _vm._t("task-enddate-error")
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39891,6 +39890,61 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=template&id=2462594d&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=template&id=2462594d& ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "label",
+        { attrs: { for: _vm.taskStartDateId } },
+        [_vm._t("start")],
+        2
+      ),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: _vm.taskStartDateInputType,
+          id: _vm.taskStartDateId,
+          name: _vm.taskStartDateName,
+          min: _vm.taskStartDateMin,
+          max: _vm.taskStartDateMax,
+          required: _vm.taskStartDateRequired
+        },
+        domProps: { value: _vm.taskStartDateValue },
+        on: {
+          input: function($event) {
+            return _vm.$emit("input", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _vm._t("task-startdate-error")
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskStatus.vue?vue&type=template&id=587c5825&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/form/task/FormTaskStatus.vue?vue&type=template&id=587c5825& ***!
@@ -39916,11 +39970,11 @@ var render = function() {
         "select",
         {
           attrs: { name: _vm.taskStatusName, id: _vm.taskStatusId },
-          on: { change: _vm.updateValue }
+          on: { change: _vm.onChange }
         },
-        _vm._l(_vm.status, function(statusArray, index) {
-          return _c("option", { domProps: { value: index } }, [
-            _vm._v(_vm._s(statusArray))
+        _vm._l(_vm.status, function(value, index) {
+          return _c("option", { domProps: { value: value.StatusValue } }, [
+            _vm._v(_vm._s(value.StatusTxt))
           ])
         }),
         0
@@ -40121,32 +40175,18 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("transition", { attrs: { name: "l-modal", appear: "" } }, [
-    _c(
-      "div",
-      {
-        staticClass: "l-modal l-modal-overlay",
-        on: {
-          click: function($event) {
-            if ($event.target !== $event.currentTarget) {
-              return null
-            }
-            return _vm.$emit("close")
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "l-modal-window l-modal-window-account" }, [
-          _c(
-            "div",
-            { staticClass: "l-modal-content" },
-            [_c("Heading2", [_vm._v("アカウント登録しました。")])],
-            1
-          ),
-          _vm._v(" "),
-          _c("footer", { staticClass: "l-modal-footer" }, [_vm._t("footer")], 2)
-        ])
-      ]
-    )
+    _c("div", { staticClass: "l-modal l-modal-overlay" }, [
+      _c("div", { staticClass: "l-modal-window l-modal-window-account" }, [
+        _c(
+          "div",
+          { staticClass: "l-modal-content" },
+          [_c("Heading2", [_vm._v("アカウント登録しました。")])],
+          1
+        ),
+        _vm._v(" "),
+        _c("footer", { staticClass: "l-modal-footer" }, [_vm._t("footer")], 2)
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -40201,10 +40241,10 @@ var render = function() {
                     "FormTaskNameBox",
                     {
                       attrs: {
-                        taskNameId: "taskNameId",
-                        taskNameInputType: "text",
-                        taskNamePlaceHolder: "親タスクを入力してください",
-                        taskName: "taskNameId"
+                        "task-name-id": "taskNameId",
+                        "task-name-input-type": "text",
+                        "task-name-placeholder": "親タスクを入力してください",
+                        "task-name": "taskNameId"
                       },
                       on: { onBlur: _vm.taskNameCheck },
                       scopedSlots: _vm._u(
@@ -40247,10 +40287,10 @@ var render = function() {
                     "FormTaskHourBox",
                     {
                       attrs: {
-                        taskHourId: "taskHourId",
-                        taskHourInputType: "text",
-                        taskHourPlaceHolder: "予定工数を入力してください",
-                        taskHourName: "taskHourId"
+                        "task-hour-id": "taskHourId",
+                        "task-hour-input-type": "text",
+                        "task-hour-placeholder": "予定工数を入力してください",
+                        "task-hour-name": "taskHourId"
                       },
                       on: { onBlur: _vm.taskHourCheck },
                       scopedSlots: _vm._u(
@@ -40289,93 +40329,165 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("FormTaskDateBox", {
-                    attrs: {
-                      taskStartDateId: "taskStartDateStartId",
-                      taskStartDateInputType: "date",
-                      taskStartDateMin: "2021-01-01",
-                      taskStartDateMax: "2022-01-01",
-                      taskStartDateIdName: "taskStartDateStartId",
-                      taskEndDateId: "taskEndDateStartId",
-                      taskEndDateInputType: "date",
-                      taskEndDateMin: "2021-01-01",
-                      taskEndDateMax: "2022-01-01",
-                      taskEndDateIdName: "taskEndDateStartId"
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "start",
-                        fn: function() {
-                          return [_vm._v("期間（開始日）")]
-                        },
-                        proxy: true
-                      },
-                      {
-                        key: "end",
-                        fn: function() {
-                          return [_vm._v("期間（終了日）")]
-                        },
-                        proxy: true
-                      },
-                      {
-                        key: "task-startdate-error",
-                        fn: function() {
-                          return [
-                            _c("p", { staticClass: "text-danger" }, [
-                              _vm._v("タスクの開始時期が入力されていません。")
-                            ])
-                          ]
-                        },
-                        proxy: true
-                      },
-                      {
-                        key: "task-enddate-error",
-                        fn: function() {
-                          return [
-                            _c("p", { staticClass: "text-danger" }, [
-                              _vm._v("タスクの終了時期が入力されていません。")
-                            ])
-                          ]
-                        },
-                        proxy: true
-                      }
-                    ])
-                  }),
+                  _c("div", { staticClass: "l-task-input-box" }, [
+                    _c(
+                      "div",
+                      { staticClass: "l-task-input-box-col2" },
+                      [
+                        _c("FormTaskStartDate", {
+                          attrs: {
+                            "task-start-date-id": "taskStartDateStartId",
+                            "task-start-date-input-type": "date",
+                            "task-start-date-min": "2021-01-01",
+                            "task-start-date-max": "2022-01-01",
+                            "task-start-date-id-name": "taskStartDateStartId",
+                            taskStartDateValue: ""
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "start",
+                                fn: function() {
+                                  return [
+                                    _vm._v(
+                                      "期間（開始日）" +
+                                        _vm._s(_vm.taskStartDate)
+                                    )
+                                  ]
+                                },
+                                proxy: true
+                              },
+                              _vm.taskStartDateError
+                                ? {
+                                    key: "task-startdate-error",
+                                    fn: function() {
+                                      return [
+                                        _c(
+                                          "p",
+                                          { staticClass: "text-danger" },
+                                          [
+                                            _vm._v(
+                                              "タスクの開始時期が入力されていません。"
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  }
+                                : null
+                            ],
+                            null,
+                            true
+                          ),
+                          model: {
+                            value: _vm.taskStartDate,
+                            callback: function($$v) {
+                              _vm.taskStartDate = $$v
+                            },
+                            expression: "taskStartDate"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("FormTaskEndDate", {
+                          attrs: {
+                            "task-end-date-id": "taskEndDateStartId",
+                            "task-end-date-input-type": "date",
+                            "task-end-date-min": "2021-01-01",
+                            "task-end-date-max": "2022-01-01",
+                            "task-end-date-id-name": "taskEndDateStartId",
+                            taskEndDateValues: ""
+                          },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "end",
+                                fn: function() {
+                                  return [
+                                    _vm._v(
+                                      "期間（開始日）" + _vm._s(_vm.taskEndDate)
+                                    )
+                                  ]
+                                },
+                                proxy: true
+                              },
+                              _vm.taskEndDateError
+                                ? {
+                                    key: "task-enddate-error",
+                                    fn: function() {
+                                      return [
+                                        _c(
+                                          "p",
+                                          { staticClass: "text-danger" },
+                                          [
+                                            _vm._v(
+                                              "タスクの開始時期が入力されていません。"
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  }
+                                : null
+                            ],
+                            null,
+                            true
+                          ),
+                          model: {
+                            value: _vm.taskEndDate,
+                            callback: function($$v) {
+                              _vm.taskEndDate = $$v
+                            },
+                            expression: "taskEndDate"
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ]),
                   _vm._v(" "),
                   _c(
                     "FormTaskStatus",
                     {
                       attrs: {
-                        taskStatusId: "taskStatusId",
-                        taskStatusName: "taskStatusName"
+                        "task-status-id": "taskStatusId",
+                        "task-status-name": "taskStatusName"
                       },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "task-status-error",
-                          fn: function() {
-                            return [
-                              _c("p", { staticClass: "text-danger" }, [
-                                _vm._v(
-                                  "タスクのステータスが入力されていません。"
-                                )
-                              ])
-                            ]
-                          },
-                          proxy: true
-                        }
-                      ]),
+                      on: { onChange: _vm.taskStatusCheck },
+                      scopedSlots: _vm._u(
+                        [
+                          _vm.taskStatusError
+                            ? {
+                                key: "task-status-error",
+                                fn: function() {
+                                  return [
+                                    _c("p", { staticClass: "text-danger" }, [
+                                      _vm._v(
+                                        "タスクのステータスが選択されていません。"
+                                      )
+                                    ])
+                                  ]
+                                },
+                                proxy: true
+                              }
+                            : null
+                        ],
+                        null,
+                        true
+                      ),
                       model: {
-                        value: _vm.taskSelected,
+                        value: _vm.taskStatus,
                         callback: function($$v) {
-                          _vm.taskSelected = $$v
+                          _vm.taskStatus = $$v
                         },
-                        expression: "taskSelected"
+                        expression: "taskStatus"
                       }
                     },
                     [
                       _vm._v(
                         "\n                  ステータス" +
-                          _vm._s(_vm.taskSelected) +
+                          _vm._s(_vm.taskStatus) +
                           "\n                  "
                       )
                     ]
@@ -40384,7 +40496,7 @@ var render = function() {
                   _c(
                     "FormTaskTextArea",
                     {
-                      attrs: { taskTextAreaId: "taskTextAreaId" },
+                      attrs: { "task-textarea-id": "taskTextAreaId" },
                       model: {
                         value: _vm.taskMemo,
                         callback: function($$v) {
@@ -40676,7 +40788,7 @@ var render = function() {
         [
           _c(
             "BtnSubmit",
-            { attrs: { SubmitId: "SubmitHours", ButtonType: "submit" } },
+            { attrs: { "submit-id": "SubmitHours", "button-type": "submit" } },
             [_vm._v("実工数保存")]
           )
         ],
@@ -57083,17 +57195,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/form/task/FormTaskDateBox.vue":
+/***/ "./resources/js/components/form/task/FormTaskEndDate.vue":
 /*!***************************************************************!*\
-  !*** ./resources/js/components/form/task/FormTaskDateBox.vue ***!
+  !*** ./resources/js/components/form/task/FormTaskEndDate.vue ***!
   \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _FormTaskDateBox_vue_vue_type_template_id_3a58501a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormTaskDateBox.vue?vue&type=template&id=3a58501a& */ "./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=template&id=3a58501a&");
-/* harmony import */ var _FormTaskDateBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormTaskDateBox.vue?vue&type=script&lang=js& */ "./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=script&lang=js&");
+/* harmony import */ var _FormTaskEndDate_vue_vue_type_template_id_03f09bf4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormTaskEndDate.vue?vue&type=template&id=03f09bf4& */ "./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=template&id=03f09bf4&");
+/* harmony import */ var _FormTaskEndDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormTaskEndDate.vue?vue&type=script&lang=js& */ "./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -57103,9 +57215,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _FormTaskDateBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _FormTaskDateBox_vue_vue_type_template_id_3a58501a___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _FormTaskDateBox_vue_vue_type_template_id_3a58501a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _FormTaskEndDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FormTaskEndDate_vue_vue_type_template_id_03f09bf4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FormTaskEndDate_vue_vue_type_template_id_03f09bf4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -57115,38 +57227,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/form/task/FormTaskDateBox.vue"
+component.options.__file = "resources/js/components/form/task/FormTaskEndDate.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************!*\
-  !*** ./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskDateBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormTaskDateBox.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskDateBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskEndDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormTaskEndDate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskEndDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=template&id=3a58501a&":
+/***/ "./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=template&id=03f09bf4&":
 /*!**********************************************************************************************!*\
-  !*** ./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=template&id=3a58501a& ***!
+  !*** ./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=template&id=03f09bf4& ***!
   \**********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskDateBox_vue_vue_type_template_id_3a58501a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormTaskDateBox.vue?vue&type=template&id=3a58501a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskDateBox.vue?vue&type=template&id=3a58501a&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskDateBox_vue_vue_type_template_id_3a58501a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskEndDate_vue_vue_type_template_id_03f09bf4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormTaskEndDate.vue?vue&type=template&id=03f09bf4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskEndDate.vue?vue&type=template&id=03f09bf4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskEndDate_vue_vue_type_template_id_03f09bf4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskDateBox_vue_vue_type_template_id_3a58501a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskEndDate_vue_vue_type_template_id_03f09bf4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -57285,6 +57397,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskNameBox_vue_vue_type_template_id_052f7ac6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskNameBox_vue_vue_type_template_id_052f7ac6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/form/task/FormTaskStartDate.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/form/task/FormTaskStartDate.vue ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FormTaskStartDate_vue_vue_type_template_id_2462594d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormTaskStartDate.vue?vue&type=template&id=2462594d& */ "./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=template&id=2462594d&");
+/* harmony import */ var _FormTaskStartDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormTaskStartDate.vue?vue&type=script&lang=js& */ "./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FormTaskStartDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FormTaskStartDate_vue_vue_type_template_id_2462594d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FormTaskStartDate_vue_vue_type_template_id_2462594d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/form/task/FormTaskStartDate.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskStartDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormTaskStartDate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskStartDate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=template&id=2462594d&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=template&id=2462594d& ***!
+  \************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskStartDate_vue_vue_type_template_id_2462594d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./FormTaskStartDate.vue?vue&type=template&id=2462594d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/form/task/FormTaskStartDate.vue?vue&type=template&id=2462594d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskStartDate_vue_vue_type_template_id_2462594d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FormTaskStartDate_vue_vue_type_template_id_2462594d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

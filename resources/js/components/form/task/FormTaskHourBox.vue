@@ -37,6 +37,6 @@ export default {
         onBlur () {
             this.$emit('onBlur')
         }
-    }
+    },
 }
 </script>
