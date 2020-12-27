@@ -2,85 +2,87 @@
   <transition name="l-modal" appear>
     <div class="l-modal l-modal-overlay" @click.self="$emit('close')">
       <div class="l-modal-window">
-        <div class="l-modal-content">
-            <Heading2>タスク新規追加</Heading2>
-            <div class="l-task-input">
-                <FormTaskNameBox
-                    task-name-id="taskNameId"
-                    task-name-input-type="text"
-                    task-name-placeholder="親タスクを入力してください"
-                    task-name="taskNameId"
-                    @onBlur="taskNameCheck"
-                    v-model="taskName">
-                    親タスク入力{{ taskName }}
-                    <template #task-name-error v-if="taskNameError">
-                        <p class="text-danger">親タスク名が入力されていません。</p>
-                    </template>
-                </FormTaskNameBox>
-                <FormTaskHourBox
-                    task-hour-id="taskHourId"
-                    task-hour-input-type="text"
-                    task-hour-placeholder="予定工数を入力してください"
-                    task-hour-name="taskHourId"
-                    @onBlur="taskHourCheck"
-                    v-model="taskHour">
-                    工数入力{{ taskHour }}
-                    <template #task-hour-error v-if="taskHourError">
-                        <p class="text-danger">工数が入力されていません。</p>
-                    </template>
-                </FormTaskHourBox>
-                <div class="l-task-input-box">
-                    <div class="l-task-input-box-col2">
-                        <FormTaskStartDate
-                            task-start-date-id="taskStartDateStartId"
-                            task-start-date-input-type="date"
-                            task-start-date-min="2021-01-01"
-                            task-start-date-max="2022-01-01"
-                            task-start-date-id-name="taskStartDateStartId"
-                            taskStartDateValue=""
-                            v-model="taskStartDate">
-                            <template #start>期間（開始日）{{ taskStartDate }}</template>
-                            <template #task-startdate-error v-if="taskStartDateError">
-                                <p class="text-danger">タスクの開始時期が入力されていません。</p>
-                            </template>
-                        </FormTaskStartDate>
-                        <FormTaskEndDate
-                            task-end-date-id="taskEndDateStartId"
-                            task-end-date-input-type="date"
-                            task-end-date-min="2021-01-01"
-                            task-end-date-max="2022-01-01"
-                            task-end-date-id-name="taskEndDateStartId"
-                            taskEndDateValues=""
-                            v-model="taskEndDate">
-                            <template #end>期間（開始日）{{ taskEndDate }}</template>
-                            <template #task-enddate-error v-if="taskEndDateError">
-                                <p class="text-danger">タスクの開始時期が入力されていません。</p>
-                            </template>
-                        </FormTaskEndDate>
+        <form @submit.prevent="taskRegistrationCheck">
+            <div class="l-modal-content">
+                <Heading2>タスク新規追加</Heading2>
+                <div class="l-task-input">
+                    <FormTaskNameBox
+                        task-name-id="taskNameId"
+                        task-name-input-type="text"
+                        task-name-placeholder="親タスクを入力してください"
+                        task-name="taskNameId"
+                        @onBlur="taskNameCheck"
+                        v-model="taskName">
+                        親タスク入力{{ taskName }}
+                        <template #task-name-error v-if="taskNameError">
+                            <p class="text-danger">親タスク名が入力されていません。</p>
+                        </template>
+                    </FormTaskNameBox>
+                    <FormTaskHourBox
+                        task-hour-id="taskHourId"
+                        task-hour-input-type="text"
+                        task-hour-placeholder="予定工数を入力してください"
+                        task-hour-name="taskHourId"
+                        @onBlur="taskHourCheck"
+                        v-model="taskHour">
+                        工数入力{{ taskHour }}
+                        <template #task-hour-error v-if="taskHourError">
+                            <p class="text-danger">工数が入力されていません。</p>
+                        </template>
+                    </FormTaskHourBox>
+                    <div class="l-task-input-box">
+                        <div class="l-task-input-box-col2">
+                            <FormTaskStartDate
+                                task-start-date-id="taskStartDateStartId"
+                                task-start-date-input-type="date"
+                                task-start-date-min="2021-01-01"
+                                task-start-date-max="2022-01-01"
+                                task-start-date-id-name="taskStartDateStartId"
+                                taskStartDateValue=""
+                                v-model="taskStartDate">
+                                <template #start>期間（開始日）{{ taskStartDate }}</template>
+                                <template #task-startdate-error v-if="taskStartDateError">
+                                    <p class="text-danger">タスクの開始時期が入力されていません。</p>
+                                </template>
+                            </FormTaskStartDate>
+                            <FormTaskEndDate
+                                task-end-date-id="taskEndDateStartId"
+                                task-end-date-input-type="date"
+                                task-end-date-min="2021-01-01"
+                                task-end-date-max="2022-01-01"
+                                task-end-date-id-name="taskEndDateStartId"
+                                taskEndDateValues=""
+                                v-model="taskEndDate">
+                                <template #end>期間（開始日）{{ taskEndDate }}</template>
+                                <template #task-enddate-error v-if="taskEndDateError">
+                                    <p class="text-danger">タスクの開始時期が入力されていません。</p>
+                                </template>
+                            </FormTaskEndDate>
+                        </div>
                     </div>
+                    <FormTaskStatus
+                        task-status-id="taskStatusId"
+                        task-status-name="taskStatusName"
+                        v-model="taskStatus"
+                        @onChange="taskStatusCheck">
+                        ステータス{{ taskStatus }}
+                        <template #task-status-error v-if="taskStatusError">
+                            <p class="text-danger">タスクのステータスが選択されていません。</p>
+                        </template>
+                    </FormTaskStatus>
+                    <FormTaskTextArea
+                        task-textarea-id="taskTextAreaId"
+                        v-model="taskMemo">
+                        メモ{{ taskMemo }}
+                    </FormTaskTextArea>
                 </div>
-                <FormTaskStatus
-                    task-status-id="taskStatusId"
-                    task-status-name="taskStatusName"
-                    v-model="taskStatus"
-                    @onChange="taskStatusCheck">
-                    ステータス{{ taskStatus }}
-                    <template #task-status-error v-if="taskStatusError">
-                        <p class="text-danger">タスクのステータスが選択されていません。</p>
-                    </template>
-                </FormTaskStatus>
-                <FormTaskTextArea
-                    task-textarea-id="taskTextAreaId"
-                    v-model="taskMemo">
-                    メモ{{ taskMemo }}
-                </FormTaskTextArea>
             </div>
-        </div>
-        <footer class="l-modal-footer">
-          <slot name="footer">
-            <BtnSubmit class="w-50 mx-auto" @click.native="taskRegistrationCheck">追加</BtnSubmit>
-          </slot>
-        </footer>
+            <footer class="l-modal-footer">
+            <slot name="footer">
+                <BtnSubmit submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit>
+            </slot>
+            </footer>
+        </form>
       </div>
     </div>
   </transition>
@@ -115,6 +117,9 @@ export default {
             taskMemo: '',
         }
     },
+    props : {
+        userId: String,
+    },
     mounted() {
         //期日カレンダーの初期値をを今日、明日にする
         // console.log(this.$el)
@@ -126,19 +131,18 @@ export default {
         const tommorow = year + '-' + month + '-' + (day + 1);
         this.taskStartDate = today
         this.taskEndDate = tommorow
-        // console.log(this.taskStatus)
+        console.log(this.$route.params.userId)
     },
     methods: {
         taskRegistrationCheck() {
             axios.get('/api/makeTask', {
                 params: {
-                    id: 1,
-                    userId: 'a',
+                    userId: this.$route.params.userId,
                     taskname: this.taskName,
-                    kosu: 0,
-                    jitsukosu: 0,
-                    startdate: '2020-10-10',
-                    enddate: '2020-10-11',
+                    kosu: this.taskHour,
+                    jitsukosu: this.taskHour,
+                    startdate: this.taskStartDate,
+                    enddate: this.taskEndDate,
                 }
             })
             .then(response => {
@@ -146,7 +150,7 @@ export default {
                 if(response.data === 'duplicate') {
                     alert('タスク名が重複しています。')
                     // this.$router.push('/error');
-                } else {
+                } else if(response.data === 'make'){
                     alert('タスク登録しました。')
                     // this.$router.push({
                     //     name: 'PageIndex',
@@ -158,6 +162,7 @@ export default {
                 console.log(error)
                 alert('エラーです')
             });
+            console.log(this.$route.params.userId)
         },
         taskNameCheck() {
             if(this.taskName === ''){

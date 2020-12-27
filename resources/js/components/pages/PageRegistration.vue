@@ -39,11 +39,11 @@
             </FormRegistrationSubmitBtn>
         </form>
         <!-- modal -->
-        <modalCreateAccount v-show="showModal">
+        <ModalCreateAccount v-show="showModal">
             <template #footer>
-                <router-link to="/home" class="btn btn-primary w-50" @click="registrationApproval">タスク一覧ページへ</router-link>
+                <router-link :to="{name: 'PageIndex', params: {'userId': registrationId}}" class="btn btn-primary w-50">タスク一覧ページへ</router-link>
             </template>
-        </modalCreateAccount>
+        </ModalCreateAccount>
         <!-- /.modal -->
     </div>
 </template>
@@ -53,7 +53,7 @@ import FormRegistrationIdBox from '../form/FormRegistrationIdBox.vue';
 import FormRegistrationPassBox from '../form/FormRegistrationPassBox.vue';
 import FormRegistrationSubmitBtn from '../form/FormRegistrationSubmitBtn.vue';
 import PageHeading from '../heading/PageHeading.vue';
-import modalCreateAccount from '../modal/modalCreateAccount.vue';
+import ModalCreateAccount from '../modal/ModalCreateAccount.vue';
 
 export default {
     name: 'PageRegistration',
@@ -65,7 +65,7 @@ export default {
             IdNotEntered: false,
             IdAlreadyUsed: false,
             showModal: false,
-            duplicateId: ''
+            duplicateId: '',
         }
     },
     methods: {
@@ -78,21 +78,21 @@ export default {
             } else {
                 this.IdNotEntered = false
                 //blur時にBD登録まで行ってしまう。。
-                axios.get('/api/makeAccount', {
-                    params: {
-                        userId: this.registrationId,
-                    }
-                })
-                .then(response => {
-                    if(response.data === 'duplicate') {
-                        this.IdAlreadyUsed = true
-                    } else {
-                        this.IdAlreadyUsed = false
-                    }
-                })
-                .catch(error => {
-                    alert('通信に失敗しました。ブラウザを更新してください。');
-                });
+                // axios.get('/api/makeAccount', {
+                //     params: {
+                //         userId: this.registrationId,
+                //     }
+                // })
+                // .then(response => {
+                //     if(response.data === 'duplicate') {
+                //         this.IdAlreadyUsed = true
+                //     } else {
+                //         this.IdAlreadyUsed = false
+                //     }
+                // })
+                // .catch(error => {
+                //     alert('通信に失敗しました。ブラウザを更新してください。');
+                // });
             }
         },
         accountRegistration() {//アカウント新規追加イベント
@@ -104,6 +104,7 @@ export default {
             })
             .then(response => {
                 console.log(response)
+                console.log(response.data.userId)
                 if(response.data === 'duplicate') {
                     this.$router.push('/error');
                 } else {
@@ -115,20 +116,20 @@ export default {
                 this.$router.push('/error');
             });
         },
-        registrationApproval() {//アカウント新規追加クリック後のモーダル内ボタンイベント
-            console.log(params)
-            this.$router.push({
-                name: 'PageIndex',
-                params :{ userId: response.data.userId }
-            });
-        }
+        // registrationApproval() {//アカウント新規追加クリック後のモーダル内ボタンイベント
+        //     console.log(params)
+        //     this.$router.push({
+        //         name: 'PageIndex',
+        //         params :{ userId: response.data.userId }
+        //     });
+        // }
     },
     components: {
         FormRegistrationSubmitBtn,
         FormRegistrationIdBox,
         FormRegistrationPassBox,
         PageHeading,
-        modalCreateAccount
+        ModalCreateAccount
     }
 }
 </script>

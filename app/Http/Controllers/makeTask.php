@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use App\Models\taskTable;
 use Illuminate\Support\Facades\Hash;
 
-class task extends Controller
+class makeTask extends Controller
 {
     //タスクの登録
     public function makeTask(Request $request)
@@ -20,11 +20,12 @@ class task extends Controller
                 return 'duplicate';
             }
             $taskTable->taskname = $taskname;
-            $taskTable->userid = $request->$userId;
-            $taskTable->kosu = 0;
-            $taskTable->jitsukosu = 0;
-            $taskTable->startdate = $request->$startdate;
-            $taskTable->enddate = $request->$enddate;
+            $taskTable->userid = $request->userId;
+            // $taskTable->userid = '6';
+            $taskTable->kosu = $request->kosu;
+            $taskTable->jitsukosu = $request->kosu;
+            $taskTable->startdate = $request->startdate;
+            $taskTable->enddate = $request->enddate;
             $taskTable->save();
             return 'make';
         } catch(\Exception $e) {

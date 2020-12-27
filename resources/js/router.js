@@ -22,7 +22,8 @@ export default new Router({
         {
             path: "/home",
             name: "PageIndex",
-            component: PageIndex
+            component: PageIndex,
+            // props: true,
         },
         {
             path: "/account",

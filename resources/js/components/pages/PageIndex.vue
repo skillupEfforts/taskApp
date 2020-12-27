@@ -10,9 +10,10 @@
             <BtnSubmit submit-id="SubmitHours" button-type="submit">実工数保存</BtnSubmit>
         </div>
         <!-- modal -->
-        <modalRegistration @close="ToggleModal" v-show="showModal"></modalRegistration>
+        <ModalRegistration @close="ToggleModal" v-show="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
+    <!--{{ $route.params.userId }}-->
 </template>
 
 <script>
@@ -22,7 +23,7 @@ import navigation from '../nav/navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
 import DataTable from '../datatable/DataTable.vue';
-import modalRegistration from '../modal/modalRegistration.vue';
+import ModalRegistration from '../modal/ModalRegistration.vue';
 
 export default {
     name: 'PageIndex',
@@ -30,7 +31,13 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
+            // userId: this.$route.query.id,
         }
+    },
+    props : {
+        userId: String,
+    },
+    mounted() {
     },
     methods:{
         ToggleModal () {
@@ -44,7 +51,7 @@ export default {
         HeadingDate,
         BtnSubmit,
         DataTable,
-        modalRegistration,
+        ModalRegistration,
     }
 }
 </script>

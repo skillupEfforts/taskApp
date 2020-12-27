@@ -2791,9 +2791,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalCreateAccount.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/ModalCreateAccount.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2829,9 +2829,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalRegistration.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/ModalRegistration.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2846,6 +2846,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_task_FormTaskEndDate_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/task/FormTaskEndDate.vue */ "./resources/js/components/form/task/FormTaskEndDate.vue");
 /* harmony import */ var _form_task_FormTaskStatus_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../form/task/FormTaskStatus.vue */ "./resources/js/components/form/task/FormTaskStatus.vue");
 /* harmony import */ var _form_task_FormTaskTextArea_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../form/task/FormTaskTextArea.vue */ "./resources/js/components/form/task/FormTaskTextArea.vue");
+//
+//
 //
 //
 //
@@ -2961,6 +2963,9 @@ __webpack_require__.r(__webpack_exports__);
       taskMemo: ''
     };
   },
+  props: {
+    userId: String
+  },
   mounted: function mounted() {
     //期日カレンダーの初期値をを今日、明日にする
     // console.log(this.$el)
@@ -2971,26 +2976,26 @@ __webpack_require__.r(__webpack_exports__);
     var today = year + '-' + month + '-' + day;
     var tommorow = year + '-' + month + '-' + (day + 1);
     this.taskStartDate = today;
-    this.taskEndDate = tommorow; // console.log(this.taskStatus)
+    this.taskEndDate = tommorow;
+    console.log(this.$route.params.userId);
   },
   methods: {
     taskRegistrationCheck: function taskRegistrationCheck() {
       axios.get('/api/makeTask', {
         params: {
-          id: 1,
-          userId: 'a',
+          userId: this.$route.params.userId,
           taskname: this.taskName,
-          kosu: 0,
-          jitsukosu: 0,
-          startdate: '2020-10-10',
-          enddate: '2020-10-11'
+          kosu: this.taskHour,
+          jitsukosu: this.taskHour,
+          startdate: this.taskStartDate,
+          enddate: this.taskEndDate
         }
       }).then(function (response) {
         console.log(response);
 
         if (response.data === 'duplicate') {
           alert('タスク名が重複しています。'); // this.$router.push('/error');
-        } else {
+        } else if (response.data === 'make') {
           alert('タスク登録しました。'); // this.$router.push({
           //     name: 'PageIndex',
           //     params :{ taskname: response.data.taskname }
@@ -3000,6 +3005,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
         alert('エラーです');
       });
+      console.log(this.$route.params.userId);
     },
     taskNameCheck: function taskNameCheck() {
       if (this.taskName === '') {
@@ -3209,7 +3215,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _heading_HeadingDate_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../heading/HeadingDate.vue */ "./resources/js/components/heading/HeadingDate.vue");
 /* harmony import */ var _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../btn/BtnSubmit.vue */ "./resources/js/components/btn/BtnSubmit.vue");
 /* harmony import */ var _datatable_DataTable_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../datatable/DataTable.vue */ "./resources/js/components/datatable/DataTable.vue");
-/* harmony import */ var _modal_modalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modalRegistration.vue */ "./resources/js/components/modal/modalRegistration.vue");
+/* harmony import */ var _modal_ModalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/ModalRegistration.vue */ "./resources/js/components/modal/ModalRegistration.vue");
+//
 //
 //
 //
@@ -3239,9 +3246,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       showModal: false,
-      parentTaskName: ''
+      parentTaskName: '' // userId: this.$route.query.id,
+
     };
   },
+  props: {
+    userId: String
+  },
+  mounted: function mounted() {},
   methods: {
     ToggleModal: function ToggleModal() {
       this.showModal = !this.showModal;
@@ -3254,7 +3266,7 @@ __webpack_require__.r(__webpack_exports__);
     HeadingDate: _heading_HeadingDate_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     BtnSubmit: _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     DataTable: _datatable_DataTable_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    modalRegistration: _modal_modalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    ModalRegistration: _modal_ModalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 
@@ -3374,7 +3386,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_FormRegistrationPassBox_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../form/FormRegistrationPassBox.vue */ "./resources/js/components/form/FormRegistrationPassBox.vue");
 /* harmony import */ var _form_FormRegistrationSubmitBtn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../form/FormRegistrationSubmitBtn.vue */ "./resources/js/components/form/FormRegistrationSubmitBtn.vue");
 /* harmony import */ var _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../heading/PageHeading.vue */ "./resources/js/components/heading/PageHeading.vue");
-/* harmony import */ var _modal_modalCreateAccount_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modalCreateAccount.vue */ "./resources/js/components/modal/modalCreateAccount.vue");
+/* harmony import */ var _modal_ModalCreateAccount_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/ModalCreateAccount.vue */ "./resources/js/components/modal/ModalCreateAccount.vue");
 //
 //
 //
@@ -3448,31 +3460,30 @@ __webpack_require__.r(__webpack_exports__);
       this.showModal = !this.showModal;
     },
     registrationIdCheck: function registrationIdCheck() {
-      var _this = this;
-
       //IDのテキストボックスblurイベント
       if (this.registrationId.trim() === '') {
         this.IdNotEntered = true;
       } else {
         this.IdNotEntered = false; //blur時にBD登録まで行ってしまう。。
-
-        axios.get('/api/makeAccount', {
-          params: {
-            userId: this.registrationId
-          }
-        }).then(function (response) {
-          if (response.data === 'duplicate') {
-            _this.IdAlreadyUsed = true;
-          } else {
-            _this.IdAlreadyUsed = false;
-          }
-        })["catch"](function (error) {
-          alert('通信に失敗しました。ブラウザを更新してください。');
-        });
+        // axios.get('/api/makeAccount', {
+        //     params: {
+        //         userId: this.registrationId,
+        //     }
+        // })
+        // .then(response => {
+        //     if(response.data === 'duplicate') {
+        //         this.IdAlreadyUsed = true
+        //     } else {
+        //         this.IdAlreadyUsed = false
+        //     }
+        // })
+        // .catch(error => {
+        //     alert('通信に失敗しました。ブラウザを更新してください。');
+        // });
       }
     },
     accountRegistration: function accountRegistration() {
-      var _this2 = this;
+      var _this = this;
 
       //アカウント新規追加イベント
       axios.get('/api/makeAccount', {
@@ -3482,35 +3493,33 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         console.log(response);
+        console.log(response.data.userId);
 
         if (response.data === 'duplicate') {
-          _this2.$router.push('/error');
+          _this.$router.push('/error');
         } else {
-          _this2.ModalToggle();
+          _this.ModalToggle();
         }
       })["catch"](function (error) {
         console.log(error);
 
-        _this2.$router.push('/error');
+        _this.$router.push('/error');
       });
-    },
-    registrationApproval: function registrationApproval() {
-      //アカウント新規追加クリック後のモーダル内ボタンイベント
-      console.log(params);
-      this.$router.push({
-        name: 'PageIndex',
-        params: {
-          userId: response.data.userId
-        }
-      });
-    }
+    } // registrationApproval() {//アカウント新規追加クリック後のモーダル内ボタンイベント
+    //     console.log(params)
+    //     this.$router.push({
+    //         name: 'PageIndex',
+    //         params :{ userId: response.data.userId }
+    //     });
+    // }
+
   },
   components: {
     FormRegistrationSubmitBtn: _form_FormRegistrationSubmitBtn_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     FormRegistrationIdBox: _form_FormRegistrationIdBox_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     FormRegistrationPassBox: _form_FormRegistrationPassBox_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     PageHeading: _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    modalCreateAccount: _modal_modalCreateAccount_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    ModalCreateAccount: _modal_ModalCreateAccount_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 
@@ -40159,9 +40168,9 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalCreateAccount.vue?vue&type=template&id=306a221e&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/ModalCreateAccount.vue?vue&type=template&id=306a221e& ***!
   \***************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -40196,9 +40205,9 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalRegistration.vue?vue&type=template&id=43bfce89&":
 /*!**************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modal/ModalRegistration.vue?vue&type=template&id=43bfce89& ***!
   \**************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -40228,138 +40237,42 @@ var render = function() {
       [
         _c("div", { staticClass: "l-modal-window" }, [
           _c(
-            "div",
-            { staticClass: "l-modal-content" },
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.taskRegistrationCheck($event)
+                }
+              }
+            },
             [
-              _c("Heading2", [_vm._v("タスク新規追加")]),
-              _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "l-task-input" },
+                { staticClass: "l-modal-content" },
                 [
-                  _c(
-                    "FormTaskNameBox",
-                    {
-                      attrs: {
-                        "task-name-id": "taskNameId",
-                        "task-name-input-type": "text",
-                        "task-name-placeholder": "親タスクを入力してください",
-                        "task-name": "taskNameId"
-                      },
-                      on: { onBlur: _vm.taskNameCheck },
-                      scopedSlots: _vm._u(
-                        [
-                          _vm.taskNameError
-                            ? {
-                                key: "task-name-error",
-                                fn: function() {
-                                  return [
-                                    _c("p", { staticClass: "text-danger" }, [
-                                      _vm._v("親タスク名が入力されていません。")
-                                    ])
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            : null
-                        ],
-                        null,
-                        true
-                      ),
-                      model: {
-                        value: _vm.taskName,
-                        callback: function($$v) {
-                          _vm.taskName = $$v
-                        },
-                        expression: "taskName"
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                  親タスク入力" +
-                          _vm._s(_vm.taskName) +
-                          "\n                  "
-                      )
-                    ]
-                  ),
+                  _c("Heading2", [_vm._v("タスク新規追加")]),
                   _vm._v(" "),
                   _c(
-                    "FormTaskHourBox",
-                    {
-                      attrs: {
-                        "task-hour-id": "taskHourId",
-                        "task-hour-input-type": "text",
-                        "task-hour-placeholder": "予定工数を入力してください",
-                        "task-hour-name": "taskHourId"
-                      },
-                      on: { onBlur: _vm.taskHourCheck },
-                      scopedSlots: _vm._u(
-                        [
-                          _vm.taskHourError
-                            ? {
-                                key: "task-hour-error",
-                                fn: function() {
-                                  return [
-                                    _c("p", { staticClass: "text-danger" }, [
-                                      _vm._v("工数が入力されていません。")
-                                    ])
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            : null
-                        ],
-                        null,
-                        true
-                      ),
-                      model: {
-                        value: _vm.taskHour,
-                        callback: function($$v) {
-                          _vm.taskHour = $$v
-                        },
-                        expression: "taskHour"
-                      }
-                    },
+                    "div",
+                    { staticClass: "l-task-input" },
                     [
-                      _vm._v(
-                        "\n                  工数入力" +
-                          _vm._s(_vm.taskHour) +
-                          "\n                  "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "l-task-input-box" }, [
-                    _c(
-                      "div",
-                      { staticClass: "l-task-input-box-col2" },
-                      [
-                        _c("FormTaskStartDate", {
+                      _c(
+                        "FormTaskNameBox",
+                        {
                           attrs: {
-                            "task-start-date-id": "taskStartDateStartId",
-                            "task-start-date-input-type": "date",
-                            "task-start-date-min": "2021-01-01",
-                            "task-start-date-max": "2022-01-01",
-                            "task-start-date-id-name": "taskStartDateStartId",
-                            taskStartDateValue: ""
+                            "task-name-id": "taskNameId",
+                            "task-name-input-type": "text",
+                            "task-name-placeholder":
+                              "親タスクを入力してください",
+                            "task-name": "taskNameId"
                           },
+                          on: { onBlur: _vm.taskNameCheck },
                           scopedSlots: _vm._u(
                             [
-                              {
-                                key: "start",
-                                fn: function() {
-                                  return [
-                                    _vm._v(
-                                      "期間（開始日）" +
-                                        _vm._s(_vm.taskStartDate)
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              },
-                              _vm.taskStartDateError
+                              _vm.taskNameError
                                 ? {
-                                    key: "task-startdate-error",
+                                    key: "task-name-error",
                                     fn: function() {
                                       return [
                                         _c(
@@ -40367,7 +40280,7 @@ var render = function() {
                                           { staticClass: "text-danger" },
                                           [
                                             _vm._v(
-                                              "タスクの開始時期が入力されていません。"
+                                              "親タスク名が入力されていません。"
                                             )
                                           ]
                                         )
@@ -40381,39 +40294,204 @@ var render = function() {
                             true
                           ),
                           model: {
-                            value: _vm.taskStartDate,
+                            value: _vm.taskName,
                             callback: function($$v) {
-                              _vm.taskStartDate = $$v
+                              _vm.taskName = $$v
                             },
-                            expression: "taskStartDate"
+                            expression: "taskName"
                           }
-                        }),
-                        _vm._v(" "),
-                        _c("FormTaskEndDate", {
+                        },
+                        [
+                          _vm._v(
+                            "\n                      親タスク入力" +
+                              _vm._s(_vm.taskName) +
+                              "\n                      "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "FormTaskHourBox",
+                        {
                           attrs: {
-                            "task-end-date-id": "taskEndDateStartId",
-                            "task-end-date-input-type": "date",
-                            "task-end-date-min": "2021-01-01",
-                            "task-end-date-max": "2022-01-01",
-                            "task-end-date-id-name": "taskEndDateStartId",
-                            taskEndDateValues: ""
+                            "task-hour-id": "taskHourId",
+                            "task-hour-input-type": "text",
+                            "task-hour-placeholder":
+                              "予定工数を入力してください",
+                            "task-hour-name": "taskHourId"
                           },
+                          on: { onBlur: _vm.taskHourCheck },
                           scopedSlots: _vm._u(
                             [
-                              {
-                                key: "end",
-                                fn: function() {
-                                  return [
-                                    _vm._v(
-                                      "期間（開始日）" + _vm._s(_vm.taskEndDate)
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              },
-                              _vm.taskEndDateError
+                              _vm.taskHourError
                                 ? {
-                                    key: "task-enddate-error",
+                                    key: "task-hour-error",
+                                    fn: function() {
+                                      return [
+                                        _c(
+                                          "p",
+                                          { staticClass: "text-danger" },
+                                          [_vm._v("工数が入力されていません。")]
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  }
+                                : null
+                            ],
+                            null,
+                            true
+                          ),
+                          model: {
+                            value: _vm.taskHour,
+                            callback: function($$v) {
+                              _vm.taskHour = $$v
+                            },
+                            expression: "taskHour"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                      工数入力" +
+                              _vm._s(_vm.taskHour) +
+                              "\n                      "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "l-task-input-box" }, [
+                        _c(
+                          "div",
+                          { staticClass: "l-task-input-box-col2" },
+                          [
+                            _c("FormTaskStartDate", {
+                              attrs: {
+                                "task-start-date-id": "taskStartDateStartId",
+                                "task-start-date-input-type": "date",
+                                "task-start-date-min": "2021-01-01",
+                                "task-start-date-max": "2022-01-01",
+                                "task-start-date-id-name":
+                                  "taskStartDateStartId",
+                                taskStartDateValue: ""
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "start",
+                                    fn: function() {
+                                      return [
+                                        _vm._v(
+                                          "期間（開始日）" +
+                                            _vm._s(_vm.taskStartDate)
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  },
+                                  _vm.taskStartDateError
+                                    ? {
+                                        key: "task-startdate-error",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "p",
+                                              { staticClass: "text-danger" },
+                                              [
+                                                _vm._v(
+                                                  "タスクの開始時期が入力されていません。"
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      }
+                                    : null
+                                ],
+                                null,
+                                true
+                              ),
+                              model: {
+                                value: _vm.taskStartDate,
+                                callback: function($$v) {
+                                  _vm.taskStartDate = $$v
+                                },
+                                expression: "taskStartDate"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("FormTaskEndDate", {
+                              attrs: {
+                                "task-end-date-id": "taskEndDateStartId",
+                                "task-end-date-input-type": "date",
+                                "task-end-date-min": "2021-01-01",
+                                "task-end-date-max": "2022-01-01",
+                                "task-end-date-id-name": "taskEndDateStartId",
+                                taskEndDateValues: ""
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "end",
+                                    fn: function() {
+                                      return [
+                                        _vm._v(
+                                          "期間（開始日）" +
+                                            _vm._s(_vm.taskEndDate)
+                                        )
+                                      ]
+                                    },
+                                    proxy: true
+                                  },
+                                  _vm.taskEndDateError
+                                    ? {
+                                        key: "task-enddate-error",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "p",
+                                              { staticClass: "text-danger" },
+                                              [
+                                                _vm._v(
+                                                  "タスクの開始時期が入力されていません。"
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      }
+                                    : null
+                                ],
+                                null,
+                                true
+                              ),
+                              model: {
+                                value: _vm.taskEndDate,
+                                callback: function($$v) {
+                                  _vm.taskEndDate = $$v
+                                },
+                                expression: "taskEndDate"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "FormTaskStatus",
+                        {
+                          attrs: {
+                            "task-status-id": "taskStatusId",
+                            "task-status-name": "taskStatusName"
+                          },
+                          on: { onChange: _vm.taskStatusCheck },
+                          scopedSlots: _vm._u(
+                            [
+                              _vm.taskStatusError
+                                ? {
+                                    key: "task-status-error",
                                     fn: function() {
                                       return [
                                         _c(
@@ -40421,7 +40499,7 @@ var render = function() {
                                           { staticClass: "text-danger" },
                                           [
                                             _vm._v(
-                                              "タスクの開始時期が入力されていません。"
+                                              "タスクのステータスが選択されていません。"
                                             )
                                           ]
                                         )
@@ -40435,111 +40513,70 @@ var render = function() {
                             true
                           ),
                           model: {
-                            value: _vm.taskEndDate,
+                            value: _vm.taskStatus,
                             callback: function($$v) {
-                              _vm.taskEndDate = $$v
+                              _vm.taskStatus = $$v
                             },
-                            expression: "taskEndDate"
+                            expression: "taskStatus"
                           }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "FormTaskStatus",
-                    {
-                      attrs: {
-                        "task-status-id": "taskStatusId",
-                        "task-status-name": "taskStatusName"
-                      },
-                      on: { onChange: _vm.taskStatusCheck },
-                      scopedSlots: _vm._u(
+                        },
                         [
-                          _vm.taskStatusError
-                            ? {
-                                key: "task-status-error",
-                                fn: function() {
-                                  return [
-                                    _c("p", { staticClass: "text-danger" }, [
-                                      _vm._v(
-                                        "タスクのステータスが選択されていません。"
-                                      )
-                                    ])
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            : null
-                        ],
-                        null,
-                        true
+                          _vm._v(
+                            "\n                      ステータス" +
+                              _vm._s(_vm.taskStatus) +
+                              "\n                      "
+                          )
+                        ]
                       ),
-                      model: {
-                        value: _vm.taskStatus,
-                        callback: function($$v) {
-                          _vm.taskStatus = $$v
+                      _vm._v(" "),
+                      _c(
+                        "FormTaskTextArea",
+                        {
+                          attrs: { "task-textarea-id": "taskTextAreaId" },
+                          model: {
+                            value: _vm.taskMemo,
+                            callback: function($$v) {
+                              _vm.taskMemo = $$v
+                            },
+                            expression: "taskMemo"
+                          }
                         },
-                        expression: "taskStatus"
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                  ステータス" +
-                          _vm._s(_vm.taskStatus) +
-                          "\n                  "
+                        [
+                          _vm._v(
+                            "\n                      メモ" +
+                              _vm._s(_vm.taskMemo) +
+                              "\n                  "
+                          )
+                        ]
                       )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "FormTaskTextArea",
-                    {
-                      attrs: { "task-textarea-id": "taskTextAreaId" },
-                      model: {
-                        value: _vm.taskMemo,
-                        callback: function($$v) {
-                          _vm.taskMemo = $$v
-                        },
-                        expression: "taskMemo"
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                  メモ" +
-                          _vm._s(_vm.taskMemo) +
-                          "\n              "
-                      )
-                    ]
+                    ],
+                    1
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "footer",
+                { staticClass: "l-modal-footer" },
+                [
+                  _vm._t("footer", [
+                    _c(
+                      "BtnSubmit",
+                      {
+                        staticClass: "w-50 mx-auto",
+                        attrs: {
+                          "submit-id": "taskRegistration",
+                          "button-type": "submit"
+                        }
+                      },
+                      [_vm._v("タスク登録")]
+                    )
+                  ])
+                ],
+                2
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "footer",
-            { staticClass: "l-modal-footer" },
-            [
-              _vm._t("footer", [
-                _c(
-                  "BtnSubmit",
-                  {
-                    staticClass: "w-50 mx-auto",
-                    nativeOn: {
-                      click: function($event) {
-                        return _vm.taskRegistrationCheck($event)
-                      }
-                    }
-                  },
-                  [_vm._v("追加")]
-                )
-              ])
-            ],
-            2
+            ]
           )
         ])
       ]
@@ -40795,7 +40832,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("modalRegistration", {
+      _c("ModalRegistration", {
         directives: [
           {
             name: "show",
@@ -41077,7 +41114,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("modalCreateAccount", {
+      _c("ModalCreateAccount", {
         directives: [
           {
             name: "show",
@@ -41095,8 +41132,12 @@ var render = function() {
                   "router-link",
                   {
                     staticClass: "btn btn-primary w-50",
-                    attrs: { to: "/home" },
-                    on: { click: _vm.registrationApproval }
+                    attrs: {
+                      to: {
+                        name: "PageIndex",
+                        params: { userId: _vm.registrationId }
+                      }
+                    }
                   },
                   [_vm._v("タスク一覧ページへ")]
                 )
@@ -57885,17 +57926,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/modal/modalCreateAccount.vue":
+/***/ "./resources/js/components/modal/ModalCreateAccount.vue":
 /*!**************************************************************!*\
-  !*** ./resources/js/components/modal/modalCreateAccount.vue ***!
+  !*** ./resources/js/components/modal/ModalCreateAccount.vue ***!
   \**************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modalCreateAccount.vue?vue&type=template&id=8efb7a5e& */ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&");
-/* harmony import */ var _modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modalCreateAccount.vue?vue&type=script&lang=js& */ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ModalCreateAccount_vue_vue_type_template_id_306a221e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalCreateAccount.vue?vue&type=template&id=306a221e& */ "./resources/js/components/modal/ModalCreateAccount.vue?vue&type=template&id=306a221e&");
+/* harmony import */ var _ModalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalCreateAccount.vue?vue&type=script&lang=js& */ "./resources/js/components/modal/ModalCreateAccount.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -57905,9 +57946,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ModalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalCreateAccount_vue_vue_type_template_id_306a221e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalCreateAccount_vue_vue_type_template_id_306a221e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -57917,54 +57958,54 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/modal/modalCreateAccount.vue"
+component.options.__file = "resources/js/components/modal/ModalCreateAccount.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/modal/ModalCreateAccount.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************!*\
-  !*** ./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/modal/ModalCreateAccount.vue?vue&type=script&lang=js& ***!
   \***************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./modalCreateAccount.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ModalCreateAccount.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalCreateAccount.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalCreateAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&":
+/***/ "./resources/js/components/modal/ModalCreateAccount.vue?vue&type=template&id=306a221e&":
 /*!*********************************************************************************************!*\
-  !*** ./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e& ***!
+  !*** ./resources/js/components/modal/ModalCreateAccount.vue?vue&type=template&id=306a221e& ***!
   \*********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./modalCreateAccount.vue?vue&type=template&id=8efb7a5e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalCreateAccount.vue?vue&type=template&id=8efb7a5e&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalCreateAccount_vue_vue_type_template_id_306a221e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ModalCreateAccount.vue?vue&type=template&id=306a221e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalCreateAccount.vue?vue&type=template&id=306a221e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalCreateAccount_vue_vue_type_template_id_306a221e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreateAccount_vue_vue_type_template_id_8efb7a5e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalCreateAccount_vue_vue_type_template_id_306a221e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
 /***/ }),
 
-/***/ "./resources/js/components/modal/modalRegistration.vue":
+/***/ "./resources/js/components/modal/ModalRegistration.vue":
 /*!*************************************************************!*\
-  !*** ./resources/js/components/modal/modalRegistration.vue ***!
+  !*** ./resources/js/components/modal/ModalRegistration.vue ***!
   \*************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modalRegistration_vue_vue_type_template_id_524302ae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modalRegistration.vue?vue&type=template&id=524302ae& */ "./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae&");
-/* harmony import */ var _modalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modalRegistration.vue?vue&type=script&lang=js& */ "./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ModalRegistration_vue_vue_type_template_id_43bfce89___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalRegistration.vue?vue&type=template&id=43bfce89& */ "./resources/js/components/modal/ModalRegistration.vue?vue&type=template&id=43bfce89&");
+/* harmony import */ var _ModalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalRegistration.vue?vue&type=script&lang=js& */ "./resources/js/components/modal/ModalRegistration.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -57974,9 +58015,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _modalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _modalRegistration_vue_vue_type_template_id_524302ae___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _modalRegistration_vue_vue_type_template_id_524302ae___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ModalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalRegistration_vue_vue_type_template_id_43bfce89___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalRegistration_vue_vue_type_template_id_43bfce89___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -57986,38 +58027,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/modal/modalRegistration.vue"
+component.options.__file = "resources/js/components/modal/ModalRegistration.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/modal/ModalRegistration.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************!*\
-  !*** ./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/modal/ModalRegistration.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./modalRegistration.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalRegistration.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ModalRegistration.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalRegistration.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRegistration_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae&":
+/***/ "./resources/js/components/modal/ModalRegistration.vue?vue&type=template&id=43bfce89&":
 /*!********************************************************************************************!*\
-  !*** ./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae& ***!
+  !*** ./resources/js/components/modal/ModalRegistration.vue?vue&type=template&id=43bfce89& ***!
   \********************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalRegistration_vue_vue_type_template_id_524302ae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./modalRegistration.vue?vue&type=template&id=524302ae& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/modalRegistration.vue?vue&type=template&id=524302ae&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalRegistration_vue_vue_type_template_id_524302ae___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRegistration_vue_vue_type_template_id_43bfce89___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ModalRegistration.vue?vue&type=template&id=43bfce89& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modal/ModalRegistration.vue?vue&type=template&id=43bfce89&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRegistration_vue_vue_type_template_id_43bfce89___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_modalRegistration_vue_vue_type_template_id_524302ae___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalRegistration_vue_vue_type_template_id_43bfce89___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -58471,7 +58512,8 @@ __webpack_require__.r(__webpack_exports__);
   }, {
     path: "/home",
     name: "PageIndex",
-    component: _components_pages_PageIndex_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    component: _components_pages_PageIndex_vue__WEBPACK_IMPORTED_MODULE_3__["default"] // props: true,
+
   }, {
     path: "/account",
     name: "PageAccount",
