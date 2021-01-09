@@ -78,25 +78,25 @@ export default {
             } else {
                 this.IdNotEntered = false
                 //blur時にBD登録まで行ってしまう。。
-                // axios.get('/api/makeAccount', {
-                //     params: {
-                //         userId: this.registrationId,
-                //     }
-                // })
-                // .then(response => {
-                //     if(response.data === 'duplicate') {
-                //         this.IdAlreadyUsed = true
-                //     } else {
-                //         this.IdAlreadyUsed = false
-                //     }
-                // })
-                // .catch(error => {
-                //     alert('通信に失敗しました。ブラウザを更新してください。');
-                // });
+                axios.get('/api/duplicateCheck', {
+                    params: {
+                        userId: this.registrationId,
+                    }
+                })
+                .then(response => {
+                    if(response.data === 'duplicate') {
+                        this.IdAlreadyUsed = true
+                    } else {
+                        this.IdAlreadyUsed = false
+                    }
+                })
+                .catch(error => {
+                    alert('通信に失敗しました。ブラウザを更新してください。');
+                });
             }
         },
         accountRegistration() {//アカウント新規追加イベント
-            axios.get('/api/makeAccount', {
+            axios.get('/api/registrationAccount', {
                 params: {
                     userId: this.registrationId,
                     userPassword: this.registrationPass
