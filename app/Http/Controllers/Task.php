@@ -7,10 +7,10 @@ use Illuminate\Database\Schema\Blueprint;
 use App\Models\taskTable;
 use Illuminate\Support\Facades\Hash;
 
-class makeTask extends Controller
+class Task extends Controller
 {
     //タスクの登録
-    public function makeTask(Request $request)
+    public function registrationTask(Request $request)
     {
         try {
             $taskname = $request->taskname;
