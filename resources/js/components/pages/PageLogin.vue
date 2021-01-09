@@ -27,7 +27,7 @@
             </FormSubmitBtn>
             <div style="margin-top:30px;">
                 <router-link class="btn btn-primary w-100"
-                    to="/account/"
+                    to="/registration/"
                 >アカウント作成
                 </router-link>
             </div>

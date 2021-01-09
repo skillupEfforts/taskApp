@@ -40751,7 +40751,7 @@ var render = function() {
                 "router-link",
                 {
                   staticClass: "btn btn-primary w-100",
-                  attrs: { to: "/account/" }
+                  attrs: { to: "/registration/" }
                 },
                 [_vm._v("アカウント作成\n            ")]
               )
@@ -40817,7 +40817,7 @@ var render = function() {
             true
           )
         },
-        [_vm._v("アカウント新規追加\n    ")]
+        [_vm._v("アカウント新規登録\n    ")]
       ),
       _vm._v(" "),
       _c(
@@ -40907,7 +40907,7 @@ var render = function() {
                 "registration-button-type": "submit"
               }
             },
-            [_vm._v("アカウント新規登録\n        ")]
+            [_vm._v("登録\n        ")]
           )
         ],
         1
@@ -58231,17 +58231,16 @@ __webpack_require__.r(__webpack_exports__);
   mode: "history",
   routes: [{
     path: "/",
-    name: "PageRegistration",
-    component: _components_pages_PageRegistration_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-  }, {
-    path: "/login",
     name: "PageLogin",
     component: _components_pages_PageLogin_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
+    path: "/registration",
+    name: "PageRegistration",
+    component: _components_pages_PageRegistration_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }, {
     path: "/home",
     name: "PageIndex",
-    component: _components_pages_PageIndex_vue__WEBPACK_IMPORTED_MODULE_3__["default"] // props: true,
-
+    component: _components_pages_PageIndex_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
     path: "/error",
     name: "PageError",

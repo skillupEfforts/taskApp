@@ -10,19 +10,19 @@ export default new Router({
     routes: [
         {
             path: "/",
-            name: "PageRegistration",
-            component: PageRegistration
-        },
-        {
-            path: "/login",
             name: "PageLogin",
             component: PageLogin
         },
         {
+            path: "/registration",
+            name: "PageRegistration",
+            component: PageRegistration
+        },
+
+        {
             path: "/home",
             name: "PageIndex",
-            component: PageIndex,
-            // props: true,
+            component: PageIndex
         },
         {
             path: "/error",

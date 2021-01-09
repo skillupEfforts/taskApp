@@ -1,7 +1,7 @@
 <template>
     <div class="l-form">
         <PageHeading
-        >アカウント新規追加
+        >アカウント新規登録
         <template #heading-sub v-if="danger">
             <br><span class="text-danger">登録するIDもしくはパスワードを入力してください。</span>
         </template>
@@ -35,7 +35,7 @@
                 class="mt-3"
                 registration-submit-id="registrationSubmitId"
                 registration-button-type="submit"
-            >アカウント新規登録
+            >登録
             </FormRegistrationSubmitBtn>
         </form>
         <!-- modal -->
