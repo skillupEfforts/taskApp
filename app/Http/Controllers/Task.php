@@ -39,7 +39,7 @@ class Task extends Controller
         try {
             $userId = $request->userId;
             $taskTable = new taskTable();
-            $getData = $userstable->getData($userId);
+            $getData = $taskTable->getData($userId);
             if($getData->isEmpty()) {
                 return 0;
             }

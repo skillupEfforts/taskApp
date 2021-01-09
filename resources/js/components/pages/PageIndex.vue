@@ -5,7 +5,11 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable></DataTable>
+        <DataTable
+            :sendDbTaskData="dbTaskData"
+        >
+        </DataTable>
+        <!-- <p>{{ dbTaskData }}</p> -->
         <div class="l-w50-center mt-5">
             <BtnSubmit submit-id="SubmitHours" button-type="submit">実工数保存</BtnSubmit>
         </div>
@@ -23,7 +27,7 @@ import navigation from '../nav/navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
 import DataTable from '../datatable/DataTable.vue';
-import ModalRegistration from '../modal/ModalRegistration.vue';
+import ModalRegistration from '../modal/ModalRegistration';
 
 export default {
     name: 'PageIndex',
@@ -31,18 +35,37 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
-            // userId: this.$route.query.id,
+            actualHour: '',
+            dbTaskData: Array
         }
     },
     props : {
         userId: String,
     },
     mounted() {
+        axios.get('/api/getTask', {
+            params: {
+                userId: this.$route.params.userId,
+            }
+        })
+        .then(response => {
+            // console.log(this.$route.params.userId)
+            this.dbTaskData = response.data
+            console.log(this.dbTaskData)
+
+        })
+        .catch(error => {
+            // console.log(error)
+            alert('エラーです')
+        });
     },
     methods:{
         ToggleModal () {
             this.showModal = !this.showModal;
         },
+        click () {
+
+        }
     },
     components: {
         PageHeading,

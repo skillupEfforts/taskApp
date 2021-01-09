@@ -21,4 +21,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', 'App\Http\Controllers\addController@postIndex');
 Route::get('/registrationAccount', 'App\Http\Controllers\Account@registrationAccount');
 Route::get('/registrationTask', 'App\Http\Controllers\Task@registrationTask');
+Route::get('/getTask', 'App\Http\Controllers\Task@getTask');
 Route::get('/duplicateCheck', 'App\Http\Controllers\Account@duplicateCheck');

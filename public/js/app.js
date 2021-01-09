@@ -1990,6 +1990,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DataTableRow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataTableRow */ "./resources/js/components/datatable/DataTableRow.vue");
 //
 //
 //
@@ -2054,9 +2055,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'DataTable',
+  data: function data() {
+    return {};
+  },
+  model: {
+    prop: 'actualHour',
+    event: 'input'
+  },
+  props: {
+    actualHour: String,
+    sendDbTaskData: Array
+  },
+  mounted: function mounted() {},
+  computed: {},
+  methods: {},
+  components: {
+    DataTableRow: _DataTableRow__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 //
 //
 //
@@ -2080,12 +2111,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'DataTable' // data () {
-  //     return {
-  //         headingTtl: "タスク一覧表示画面​"
-  //     }
-  // },
-
+  name: 'DataTableRow'
 });
 
 /***/ }),
@@ -3122,7 +3148,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _heading_HeadingDate_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../heading/HeadingDate.vue */ "./resources/js/components/heading/HeadingDate.vue");
 /* harmony import */ var _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../btn/BtnSubmit.vue */ "./resources/js/components/btn/BtnSubmit.vue");
 /* harmony import */ var _datatable_DataTable_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../datatable/DataTable.vue */ "./resources/js/components/datatable/DataTable.vue");
-/* harmony import */ var _modal_ModalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/ModalRegistration.vue */ "./resources/js/components/modal/ModalRegistration.vue");
+/* harmony import */ var _modal_ModalRegistration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/ModalRegistration */ "./resources/js/components/modal/ModalRegistration.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -3153,18 +3183,35 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       showModal: false,
-      parentTaskName: '' // userId: this.$route.query.id,
-
+      parentTaskName: '',
+      actualHour: '',
+      dbTaskData: Array
     };
   },
   props: {
     userId: String
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/api/getTask', {
+      params: {
+        userId: this.$route.params.userId
+      }
+    }).then(function (response) {
+      // console.log(this.$route.params.userId)
+      _this.dbTaskData = response.data;
+      console.log(_this.dbTaskData);
+    })["catch"](function (error) {
+      // console.log(error)
+      alert('エラーです');
+    });
+  },
   methods: {
     ToggleModal: function ToggleModal() {
       this.showModal = !this.showModal;
-    }
+    },
+    click: function click() {}
   },
   components: {
     PageHeading: _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -3173,7 +3220,7 @@ __webpack_require__.r(__webpack_exports__);
     HeadingDate: _heading_HeadingDate_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     BtnSubmit: _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     DataTable: _datatable_DataTable_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    ModalRegistration: _modal_ModalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    ModalRegistration: _modal_ModalRegistration__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 
@@ -39126,241 +39173,148 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "table-responsive" }, [
+    _c("table", { staticClass: "table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        [
+          _c("DataTableRow", {
+            scopedSlots: _vm._u([
+              {
+                key: "taskNames",
+                fn: function() {
+                  return [_vm._v(_vm._s(_vm.sendDbTaskData[0].taskname))]
+                },
+                proxy: true
+              },
+              {
+                key: "taskHours",
+                fn: function() {
+                  return [
+                    _vm._v(
+                      _vm._s(_vm.sendDbTaskData[0].kosu) +
+                        "／" +
+                        _vm._s(_vm.sendDbTaskData[0].kosu)
+                    )
+                  ]
+                },
+                proxy: true
+              },
+              {
+                key: "taskDates",
+                fn: function() {
+                  return [
+                    _vm._v(
+                      _vm._s(_vm.sendDbTaskData[0].startdate) +
+                        "〜" +
+                        _vm._s(_vm.sendDbTaskData[0].enddate)
+                    )
+                  ]
+                },
+                proxy: true
+              }
+            ])
+          })
+        ],
+        1
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "table-responsive" }, [
-      _c("table", { staticClass: "table" }, [
-        _c("thead", { staticClass: "thead-dark" }, [
-          _c("tr", [
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("親タスク")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("子タスク")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("孫タスク")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("予定工数")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("残工数")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("スケジュール")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("実工数入力")
-            ])
-          ])
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
+          _vm._v("タスク")
         ]),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _c("th", { attrs: { scope: "row", id: "js-parentTask" } }, [
-              _c("span", { staticClass: "mr-1" }, [_vm._v("JCOM")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "collapse",
-                      "data-target": "#memo01",
-                      "aria-expanded": "false",
-                      "aria-controls": "memo01"
-                    }
-                  },
-                  [_vm._v("+")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-childTask" } }, [_vm._v("運用")]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-grandchildTask" } }, [
-              _vm._v("キャンペーン一覧更新")
-            ]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-plan-workeffortTime" } }, [
-              _vm._v("2h/5h")
-            ]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-remaining-workeffortTime" } }, [
-              _vm._v("5h")
-            ]),
-            _vm._v(" "),
-            _c(
-              "td",
-              { staticClass: "text-danger", attrs: { id: "js-schedule" } },
-              [_vm._v("10/10〜12/10")]
-            ),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  inputmode: "numeric",
-                  placeholder: "実工数を入力してください"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", { attrs: { colspan: "7" } }, [
-              _c("div", { staticClass: "card" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "card-body collapse",
-                    attrs: { id: "memo01" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                            This is some text within a card body.\n                        "
-                    )
-                  ]
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("th", { attrs: { scope: "row" } }, [
-              _c("span", { staticClass: "mr-1" }, [_vm._v("JCOM")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "collapse",
-                      href: "#memo02",
-                      "data-target": "#memo02",
-                      "aria-expanded": "false",
-                      "aria-controls": "memo02"
-                    }
-                  },
-                  [_vm._v("メモを見る")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", [_vm._v("運用")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("キャンペーン一覧更新")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("2h/5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("10/10〜12/10")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                staticClass: "form-control w-50 mx-auto",
-                attrs: {
-                  type: "text",
-                  inputmode: "numeric",
-                  id: "exampleFormControlInput1",
-                  placeholder: "実工数を入力してください"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", { staticClass: "collapse", attrs: { id: "memo02" } }, [
-            _c("td", { attrs: { colspan: "7" } }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _vm._v(
-                    "\n                            This is some text within a card body.\n                        "
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("th", { attrs: { scope: "row" } }, [
-              _c("span", { staticClass: "mr-1" }, [_vm._v("JCOM")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "collapse",
-                      href: "#memo03",
-                      "data-target": "#memo03",
-                      "aria-expanded": "false",
-                      "aria-controls": "memo03"
-                    }
-                  },
-                  [_vm._v("メモを見る")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", [_vm._v("運用")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("キャンペーン一覧更新")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("2h/5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("10/10〜12/10")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  inputmode: "numeric",
-                  id: "exampleFormControlInput1",
-                  placeholder: "実工数を入力してください"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", { staticClass: "collapse", attrs: { id: "memo03" } }, [
-            _c("td", { attrs: { colspan: "7" } }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _vm._v(
-                    "\n                            This is some text within a card body.\n                        "
-                  )
-                ])
-              ])
-            ])
-          ])
-        ])
+        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
+          _vm._v("予定工数")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
+          _vm._v("スケジュール")
+        ]),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "text-center w-auto", attrs: { scope: "col" } },
+          [_vm._v("実工数入力")]
+        )
       ])
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("tr", [
+    _c(
+      "th",
+      {
+        staticClass: "text-center",
+        attrs: { scope: "row", id: "js-parentTask" }
+      },
+      [_vm._t("taskNames", [_vm._v("ダミー")])],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "td",
+      { staticClass: "text-center", attrs: { id: "js-plan-workeffortTime" } },
+      [_vm._t("taskHours", [_vm._v("Hour/Hour")])],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "td",
+      { staticClass: "text-center", attrs: { id: "js-schedule" } },
+      [_vm._t("taskDates", [_vm._v("Start〜End")])],
+      2
+    ),
+    _vm._v(" "),
+    _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          inputmode: "numeric",
+          placeholder: "実工数を入力してください"
+        },
+        on: {
+          input: function($event) {
+            return _vm.$emit("input", $event.target.value)
+          }
+        }
+      })
+    ])
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -40616,7 +40570,7 @@ var render = function() {
       _vm._v(" "),
       _c("HeadingDate"),
       _vm._v(" "),
-      _c("DataTable"),
+      _c("DataTable", { attrs: { sendDbTaskData: _vm.dbTaskData } }),
       _vm._v(" "),
       _c(
         "div",
@@ -56552,6 +56506,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/datatable/DataTableRow.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/datatable/DataTableRow.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataTableRow.vue?vue&type=template&id=7a5a8a6c& */ "./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&");
+/* harmony import */ var _DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DataTableRow.vue?vue&type=script&lang=js& */ "./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/datatable/DataTableRow.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DataTableRow.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DataTableRow.vue?vue&type=template&id=7a5a8a6c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/footer/Thefooter.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/footer/Thefooter.vue ***!
@@ -58268,8 +58291,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/taskApp/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/taskApp/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/tatsuro.hayashi/works/skillupEfforts/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/tatsuro.hayashi/works/skillupEfforts/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -3,97 +3,93 @@
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col" class="text-center">親タスク</th>
-                    <th scope="col" class="text-center">子タスク</th>
-                    <th scope="col" class="text-center">孫タスク</th>
-                    <th scope="col" class="text-center">予定工数</th>
-                    <th scope="col" class="text-center">残工数</th>
-                    <th scope="col" class="text-center">スケジュール</th>
-                    <th scope="col" class="text-center">実工数入力</th>
+                    <th scope="col" class="text-center w-25">タスク</th>
+                    <th scope="col" class="text-center w-25">予定工数</th>
+                    <th scope="col" class="text-center w-25">スケジュール</th>
+                    <th scope="col" class="text-center w-auto">実工数入力</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row" id="js-parentTask">
-                        <span class="mr-1">JCOM</span>
-                        <span class="badge"><button class="btn btn-info" type="button" data-toggle="collapse" data-target="#memo01" aria-expanded="false" aria-controls="memo01">+</button></span>
+                <!-- {{ sendDbTaskData }}
+                {{ sendDbTaskData.length }} -->
+                <DataTableRow>
+                    <template #taskNames>{{ sendDbTaskData[0].taskname }}</template>
+                    <template #taskHours>{{ sendDbTaskData[0].kosu }}／{{ sendDbTaskData[0].kosu }}</template>
+                    <template #taskDates>{{ sendDbTaskData[0].startdate }}〜{{ sendDbTaskData[0].enddate }}</template>
+                </DataTableRow>
+
+
+                <!-- <tr>
+                    <th scope="row" id="js-parentTask" class="text-center">
+                        <slot name="taskNames">ダミー</slot>
                     </th>
-                    <td id="js-childTask">運用</td>
-                    <td id="js-grandchildTask">キャンペーン一覧更新</td>
-                    <td id="js-plan-workeffortTime">2h/5h</td>
-                    <td id="js-remaining-workeffortTime">5h</td>
-                    <td id="js-schedule" class="text-danger">10/10〜12/10</td>
+                    <td id="js-plan-workeffortTime" class="text-center">
+                        <slot name="taskHours">Hour/Hour</slot>
+                    </td>
+                    <td id="js-schedule" class="text-center">
+                        <slot name="taskDates">Start〜End</slot>
+                    </td>
                     <td id="js-actual-workeffortTime">
-                        <input type="text" inputmode="numeric" class="form-control" placeholder="実工数を入力してください">
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            class="form-control"
+                            :value="actualHour"
+                            @input="$emit('input', $event.target.value)"
+                            placeholder="実工数を入力してください">
                     </td>
-                </tr>
-                <tr>
-                    <td colspan="7">
-                        <div class="card">
-                            <div id="memo01" class="card-body collapse">
-                                This is some text within a card body.
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
+                </tr> -->
+
+
+                <!-- <tr v-for="taskDetails in taskDetail" :key="taskDetails.message">
+                    <th scope="row" id="js-parentTask" class="text-center">
                         <span class="mr-1">JCOM</span>
-                        <span class="badge"><button class="btn btn-info" type="button" data-toggle="collapse" href="#memo02" data-target="#memo02" aria-expanded="false" aria-controls="memo02">メモを見る</button></span>
                     </th>
-                    <td>運用</td>
-                    <td>キャンペーン一覧更新</td>
-                    <td>2h/5h</td>
-                    <td>5h</td>
-                    <td>10/10〜12/10</td>
-                    <td>
-                        <input type="text" inputmode="numeric" class="form-control w-50 mx-auto" id="exampleFormControlInput1" placeholder="実工数を入力してください">
+                    <td id="js-plan-workeffortTime" class="text-center">2h/5h</td>
+                    <td id="js-schedule" class="text-center">10/10〜12/10</td>
+                    <td id="js-actual-workeffortTime">
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            class="form-control"
+                            :value="actualHour"
+                            @input="$emit('input', $event.target.value)"
+                            placeholder="実工数を入力してください">
                     </td>
-                </tr>
-                <tr class="collapse" id="memo02">
-                    <td colspan="7">
-                        <div class="card">
-                            <div class="card-body">
-                                This is some text within a card body.
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <span class="mr-1">JCOM</span>
-                        <span class="badge"><button class="btn btn-info" type="button" data-toggle="collapse" href="#memo03" data-target="#memo03" aria-expanded="false" aria-controls="memo03">メモを見る</button></span>
-                    </th>
-                    <td>運用</td>
-                    <td>キャンペーン一覧更新</td>
-                    <td>2h/5h</td>
-                    <td>5h</td>
-                    <td>10/10〜12/10</td>
-                    <td>
-                        <input type="text" inputmode="numeric" class="form-control" id="exampleFormControlInput1" placeholder="実工数を入力してください">
-                    </td>
-                </tr>
-                <tr class="collapse" id="memo03">
-                    <td colspan="7">
-                        <div class="card">
-                            <div class="card-body">
-                                This is some text within a card body.
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
     </div>
 </template>
 
 <script>
+import DataTableRow from './DataTableRow'
+
 export default {
     name: 'DataTable',
-    // data () {
-    //     return {
-    //         headingTtl: "タスク一覧表示画面​"
-    //     }
-    // },
+    data () {
+        return {
+        }
+    },
+    model: {
+        prop: 'actualHour',
+        event: 'input'
+    },
+    props: {
+        actualHour: String,
+        sendDbTaskData: Array
+    },
+    mounted() {
+
+    },
+    computed: {
+
+    },
+    methods: {
+
+    },
+    components: {
+        DataTableRow
+    }
 }
 </script>
