@@ -1,12 +1,10 @@
 <template>
-    <h2 class="text-center mb-3"><slot>{{ headingTtl }}</slot><slot name="heading-sub"></slot></h2>
+    <h3 class="text-center mb-3 text-info"><slot></slot></h3>
 </template>
 
 <script>
-// const defaultClass = 'text-center mb-3';
-
 export default {
-    name: 'PageHeading',
+    name: 'Heading2',
     props: {
         headingTtl: String,
     },

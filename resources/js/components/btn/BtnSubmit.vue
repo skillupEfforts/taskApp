@@ -1,6 +1,6 @@
 <template>
     <div class="text-center">
-        <button :id="loginSubmitId" :type="loginButtonType" class="btn btn-primary w-100"><slot></slot></button>
+        <button :id="SubmitId" :type="ButtonType" class="btn btn-primary w-100"><slot></slot></button>
     </div>
 </template>
 
@@ -8,8 +8,8 @@
 export default {
     name: 'BtnSubmit',
     props: {
-        loginSubmitId: String,
-        loginButtonType: String
+        SubmitId: String,
+        ButtonType: String
     }
 }
 </script>

@@ -1,0 +1,32 @@
+////////////////////////////////////////
+//task
+////////////////////////////////////////
+.l-task{
+    &-input{
+        &-box{
+            &:not(:first-child){
+                margin-top: 25px;
+            }
+            &-col2{
+                display: flex;
+                input{
+                    display: inline-block;
+                    flex: 0 1 150px;
+                }
+                div{
+                    &:not(:first-child){
+                        margin-left: 30px;
+                    }
+                }
+            }
+            &-txt{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                textarea{
+                    height: 200px;
+                }
+            }
+        }
+    }
+}

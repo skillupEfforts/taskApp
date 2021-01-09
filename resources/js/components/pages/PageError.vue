@@ -3,13 +3,7 @@
         <PageHeading class="text-danger"
         >IDまたはパスワードが間違っています。
         </PageHeading>
-
-        <router-link class="btn btn-primary w-100"
-        to="/"
-        >TOPへ戻る
-        </router-link>
-
-
+        <router-link class="btn btn-primary w-100" to="/">TOPへ戻る</router-link>
     </div>
 </template>
 
@@ -24,5 +18,4 @@ export default {
         UtilityBtn,
     },
 }
-
 </script>
