@@ -1,6 +1,6 @@
 <template>
     <div class="text-center">
-        <button :id="SubmitId" :type="ButtonType" class="btn btn-primary w-100"><slot></slot></button>
+        <button :id="SubmitId" :type="ButtonType" class="btn btn-primary w-100" @click="onClick"><slot></slot></button>
     </div>
 </template>
 
@@ -10,6 +10,11 @@ export default {
     props: {
         SubmitId: String,
         ButtonType: String
+    },
+    methods: {
+        onClick () {
+            this.$emit('onClick')
+        }
     }
 }
 </script>

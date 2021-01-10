@@ -5,19 +5,13 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-            <!-- :sendDbTaskData="dbTaskData" -->
-        <DataTable
-        >
-        </DataTable>
+        <DataTable></DataTable>
         <!-- <p>{{ dbTaskData }}</p> -->
-        <div class="l-w50-center mt-5">
-            <BtnSubmit submit-id="SubmitHours" button-type="submit">実工数保存</BtnSubmit>
-        </div>
+
         <!-- modal -->
         <ModalRegistration @close="ToggleModal" v-show="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
-    <!--{{ $route.params.userId }}-->
 </template>
 
 <script>
@@ -35,7 +29,6 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
-            actualHour: '',
             dbTaskData: Array
         }
     },
@@ -63,9 +56,6 @@ export default {
         ToggleModal () {
             this.showModal = !this.showModal;
         },
-        click () {
-
-        }
     },
     components: {
         PageHeading,

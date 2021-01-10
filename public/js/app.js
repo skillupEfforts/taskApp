@@ -1951,6 +1951,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     SubmitId: String,
     ButtonType: String
+  },
+  methods: {
+    onClick: function onClick() {
+      this.$emit('onClick');
+    }
   }
 });
 
@@ -1990,7 +1995,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _DataTableRow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataTableRow */ "./resources/js/components/datatable/DataTableRow.vue");
+/* harmony import */ var _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../btn/BtnSubmit.vue */ "./resources/js/components/btn/BtnSubmit.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2034,7 +2048,9 @@ __webpack_require__.r(__webpack_exports__);
   name: 'DataTable',
   data: function data() {
     return {
-      sendDbTaskData: Array
+      sendDbTaskData: Array,
+      actualHour: '',
+      index: ''
     };
   },
   model: {
@@ -2042,7 +2058,7 @@ __webpack_require__.r(__webpack_exports__);
     event: 'input'
   },
   props: {
-    actualHour: String
+    actualHourValue: String
   },
   mounted: function mounted() {
     var _this = this;
@@ -2053,16 +2069,21 @@ __webpack_require__.r(__webpack_exports__);
 
       }
     }).then(function (response) {
-      _this.sendDbTaskData = response.data; // console.log(this.sendDbTaskData);
-      // console.log(this.sendDbTaskData[0].taskname);
+      _this.sendDbTaskData = response.data;
+      console.log(_this.sendDbTaskData); // console.log(this.sendDbTaskData[0].taskname);
     })["catch"](function (error) {
       alert('エラーです');
     });
   },
   computed: {},
-  methods: {},
+  methods: {
+    saveHours: function saveHours() {
+      // alert('工数保存しました。')
+      console.log(this.sendDbTaskData.task3);
+    }
+  },
   components: {
-    DataTableRow: _DataTableRow__WEBPACK_IMPORTED_MODULE_0__["default"]
+    BtnSubmit: _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -3116,12 +3137,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3135,7 +3150,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       showModal: false,
       parentTaskName: '',
-      actualHour: '',
       dbTaskData: Array
     };
   },
@@ -3160,8 +3174,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     ToggleModal: function ToggleModal() {
       this.showModal = !this.showModal;
-    },
-    click: function click() {}
+    }
   },
   components: {
     PageHeading: _heading_PageHeading_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -39060,7 +39073,8 @@ var render = function() {
       "button",
       {
         staticClass: "btn btn-primary w-100",
-        attrs: { id: _vm.SubmitId, type: _vm.ButtonType }
+        attrs: { id: _vm.SubmitId, type: _vm.ButtonType },
+        on: { click: _vm.onClick }
       },
       [_vm._t("default")],
       2
@@ -39123,71 +39137,117 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "table-responsive" }, [
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.sendDbTaskData, function(dbData, key, index) {
-          return _c("tr", { key: index }, [
-            _c(
-              "th",
-              {
-                staticClass: "text-center",
-                attrs: { scope: "row", id: "js-parentTask" }
-              },
-              [_vm._t("taskNames", [_vm._v(_vm._s(dbData.taskname))])],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "td",
-              {
-                staticClass: "text-center",
-                attrs: { id: "js-plan-workeffortTime" }
-              },
-              [
-                _vm._t("taskHours", [
-                  _vm._v(_vm._s(dbData.kosu) + "／" + _vm._s(dbData.kosu))
-                ])
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c(
-              "td",
-              { staticClass: "text-center", attrs: { id: "js-schedule" } },
-              [
-                _vm._t("taskDates", [
-                  _vm._v(
-                    _vm._s(dbData.startdate) + "〜" + _vm._s(dbData.enddate)
-                  )
-                ])
-              ],
-              2
-            ),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  inputmode: "numeric",
-                  placeholder: "実工数を入力してください"
+  return _c("div", [
+    _c("div", { staticClass: "table-responsive" }, [
+      _c("table", { staticClass: "table" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.sendDbTaskData, function(dbData, key, index) {
+            return _c("tr", { key: index }, [
+              _c(
+                "th",
+                {
+                  staticClass: "text-center",
+                  attrs: { scope: "row", id: "js-parentTask" }
                 },
-                on: {
-                  input: function($event) {
-                    return _vm.$emit("input", $event.target.value)
+                [_vm._t("taskNames", [_vm._v(_vm._s(dbData.taskname))])],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "text-center",
+                  attrs: { id: "js-plan-workeffortTime" }
+                },
+                [
+                  _vm._t("taskHours", [
+                    _vm._v(_vm._s(dbData.kosu) + "／" + _vm._s(dbData.kosu))
+                  ])
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                { staticClass: "text-center", attrs: { id: "js-schedule" } },
+                [
+                  _vm._t("taskDates", [
+                    _vm._v(
+                      _vm._s(dbData.startdate) + "〜" + _vm._s(dbData.enddate)
+                    )
+                  ])
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sendDbTaskData[dbData.taskname],
+                      expression: "sendDbTaskData[dbData.taskname]"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    inputmode: "numeric",
+                    name: "actualHour" + dbData.taskname,
+                    id: "actualHour" + dbData.taskname,
+                    placeholder: "実工数を入力してください。"
+                  },
+                  domProps: { value: _vm.sendDbTaskData[dbData.taskname] },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.sendDbTaskData,
+                          dbData.taskname,
+                          $event.target.value
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("input", $event.target.value)
+                      }
+                    ]
                   }
-                }
-              })
+                }),
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(_vm.sendDbTaskData[dbData.taskname]) +
+                    "\n                    "
+                )
+              ])
             ])
-          ])
-        }),
-        0
-      )
-    ])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "l-w50-center mt-5" },
+      [
+        _c(
+          "BtnSubmit",
+          {
+            attrs: { "submit-id": "SubmitHours", "button-type": "submit" },
+            on: { onClick: _vm.saveHours }
+          },
+          [_vm._v("実工数保存")]
+        )
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -40474,19 +40534,6 @@ var render = function() {
       _c("HeadingDate"),
       _vm._v(" "),
       _c("DataTable"),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "l-w50-center mt-5" },
-        [
-          _c(
-            "BtnSubmit",
-            { attrs: { "submit-id": "SubmitHours", "button-type": "submit" } },
-            [_vm._v("実工数保存")]
-          )
-        ],
-        1
-      ),
       _vm._v(" "),
       _c("ModalRegistration", {
         directives: [
@@ -56406,17 +56453,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTable_vue_vue_type_template_id_0bc9d484___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
-
-/***/ }),
-
-/***/ "./resources/js/components/datatable/DataTableRow.vue":
-/*!************************************************************!*\
-  !*** ./resources/js/components/datatable/DataTableRow.vue ***!
-  \************************************************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/vue-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/tatsuro.hayashi/works/skillupEfforts/resources/js/components/datatable/DataTableRow.vue'");
 
 /***/ }),
 
