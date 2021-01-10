@@ -131,7 +131,7 @@ export default {
         const tommorow = year + '-' + month + '-' + (day + 1);
         this.taskStartDate = today
         this.taskEndDate = tommorow
-        console.log(this.$route.params.userId)
+        // console.log(this.$route.params.userId)
     },
     methods: {
         taskRegistrationCheck() {

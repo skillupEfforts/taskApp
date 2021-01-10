@@ -10,53 +10,27 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- {{ sendDbTaskData }}
-                {{ sendDbTaskData.length }} -->
-                <DataTableRow>
-                    <template #taskNames>{{ sendDbTaskData[0].taskname }}</template>
-                    <template #taskHours>{{ sendDbTaskData[0].kosu }}／{{ sendDbTaskData[0].kosu }}</template>
-                    <template #taskDates>{{ sendDbTaskData[0].startdate }}〜{{ sendDbTaskData[0].enddate }}</template>
-                </DataTableRow>
-
-
-                <!-- <tr>
+                <!-- {{ sendDbTaskData.length }}
+                {{ sendDbTaskData[0] }} -->
+                <tr v-for="(dbData, key, index) in sendDbTaskData" :key="index">
                     <th scope="row" id="js-parentTask" class="text-center">
-                        <slot name="taskNames">ダミー</slot>
+                        <slot name="taskNames">{{ dbData.taskname }}</slot>
                     </th>
                     <td id="js-plan-workeffortTime" class="text-center">
-                        <slot name="taskHours">Hour/Hour</slot>
+                        <slot name="taskHours">{{ dbData.kosu }}／{{ dbData.kosu }}</slot>
                     </td>
                     <td id="js-schedule" class="text-center">
-                        <slot name="taskDates">Start〜End</slot>
+                        <slot name="taskDates">{{ dbData.startdate }}〜{{ dbData.enddate }}</slot>
                     </td>
                     <td id="js-actual-workeffortTime">
                         <input
                             type="text"
                             inputmode="numeric"
                             class="form-control"
-                            :value="actualHour"
                             @input="$emit('input', $event.target.value)"
                             placeholder="実工数を入力してください">
                     </td>
-                </tr> -->
-
-
-                <!-- <tr v-for="taskDetails in taskDetail" :key="taskDetails.message">
-                    <th scope="row" id="js-parentTask" class="text-center">
-                        <span class="mr-1">JCOM</span>
-                    </th>
-                    <td id="js-plan-workeffortTime" class="text-center">2h/5h</td>
-                    <td id="js-schedule" class="text-center">10/10〜12/10</td>
-                    <td id="js-actual-workeffortTime">
-                        <input
-                            type="text"
-                            inputmode="numeric"
-                            class="form-control"
-                            :value="actualHour"
-                            @input="$emit('input', $event.target.value)"
-                            placeholder="実工数を入力してください">
-                    </td>
-                </tr> -->
+                </tr>
             </tbody>
         </table>
     </div>
@@ -69,6 +43,7 @@ export default {
     name: 'DataTable',
     data () {
         return {
+            sendDbTaskData: Array
         }
     },
     model: {
@@ -77,10 +52,22 @@ export default {
     },
     props: {
         actualHour: String,
-        sendDbTaskData: Array
     },
     mounted() {
-
+        axios.get('/api/getTask', {
+            params: {
+                userId: this.$route.params.userId,
+                // userId: 'test',
+            }
+        })
+        .then(response => {
+            this.sendDbTaskData = response.data
+            // console.log(this.sendDbTaskData);
+            // console.log(this.sendDbTaskData[0].taskname);
+        })
+        .catch(error => {
+            alert('エラーです')
+        });
     },
     computed: {
 

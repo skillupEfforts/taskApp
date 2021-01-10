@@ -5,8 +5,8 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
+            <!-- :sendDbTaskData="dbTaskData" -->
         <DataTable
-            :sendDbTaskData="dbTaskData"
         >
         </DataTable>
         <!-- <p>{{ dbTaskData }}</p> -->
@@ -46,12 +46,12 @@ export default {
         axios.get('/api/getTask', {
             params: {
                 userId: this.$route.params.userId,
+                // userId: 'test',
             }
         })
         .then(response => {
-            // console.log(this.$route.params.userId)
             this.dbTaskData = response.data
-            console.log(this.dbTaskData)
+            // console.log(this.dbTaskData)
 
         })
         .catch(error => {

@@ -2029,89 +2029,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'DataTable',
   data: function data() {
-    return {};
+    return {
+      sendDbTaskData: Array
+    };
   },
   model: {
     prop: 'actualHour',
     event: 'input'
   },
   props: {
-    actualHour: String,
-    sendDbTaskData: Array
+    actualHour: String
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/api/getTask', {
+      params: {
+        userId: this.$route.params.userId // userId: 'test',
+
+      }
+    }).then(function (response) {
+      _this.sendDbTaskData = response.data; // console.log(this.sendDbTaskData);
+      // console.log(this.sendDbTaskData[0].taskname);
+    })["catch"](function (error) {
+      alert('エラーです');
+    });
+  },
   computed: {},
   methods: {},
   components: {
     DataTableRow: _DataTableRow__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'DataTableRow'
 });
 
 /***/ }),
@@ -3002,8 +2954,7 @@ __webpack_require__.r(__webpack_exports__);
     var today = year + '-' + month + '-' + day;
     var tommorow = year + '-' + month + '-' + (day + 1);
     this.taskStartDate = today;
-    this.taskEndDate = tommorow;
-    console.log(this.$route.params.userId);
+    this.taskEndDate = tommorow; // console.log(this.$route.params.userId)
   },
   methods: {
     taskRegistrationCheck: function taskRegistrationCheck() {
@@ -3196,12 +3147,11 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get('/api/getTask', {
       params: {
-        userId: this.$route.params.userId
+        userId: this.$route.params.userId // userId: 'test',
+
       }
     }).then(function (response) {
-      // console.log(this.$route.params.userId)
-      _this.dbTaskData = response.data;
-      console.log(_this.dbTaskData);
+      _this.dbTaskData = response.data; // console.log(this.dbTaskData)
     })["catch"](function (error) {
       // console.log(error)
       alert('エラーです');
@@ -39179,46 +39129,63 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        [
-          _c("DataTableRow", {
-            scopedSlots: _vm._u([
+        _vm._l(_vm.sendDbTaskData, function(dbData, key, index) {
+          return _c("tr", { key: index }, [
+            _c(
+              "th",
               {
-                key: "taskNames",
-                fn: function() {
-                  return [_vm._v(_vm._s(_vm.sendDbTaskData[0].taskname))]
-                },
-                proxy: true
+                staticClass: "text-center",
+                attrs: { scope: "row", id: "js-parentTask" }
               },
+              [_vm._t("taskNames", [_vm._v(_vm._s(dbData.taskname))])],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
               {
-                key: "taskHours",
-                fn: function() {
-                  return [
-                    _vm._v(
-                      _vm._s(_vm.sendDbTaskData[0].kosu) +
-                        "／" +
-                        _vm._s(_vm.sendDbTaskData[0].kosu)
-                    )
-                  ]
-                },
-                proxy: true
+                staticClass: "text-center",
+                attrs: { id: "js-plan-workeffortTime" }
               },
-              {
-                key: "taskDates",
-                fn: function() {
-                  return [
-                    _vm._v(
-                      _vm._s(_vm.sendDbTaskData[0].startdate) +
-                        "〜" +
-                        _vm._s(_vm.sendDbTaskData[0].enddate)
-                    )
-                  ]
+              [
+                _vm._t("taskHours", [
+                  _vm._v(_vm._s(dbData.kosu) + "／" + _vm._s(dbData.kosu))
+                ])
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              { staticClass: "text-center", attrs: { id: "js-schedule" } },
+              [
+                _vm._t("taskDates", [
+                  _vm._v(
+                    _vm._s(dbData.startdate) + "〜" + _vm._s(dbData.enddate)
+                  )
+                ])
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
+              _c("input", {
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  inputmode: "numeric",
+                  placeholder: "実工数を入力してください"
                 },
-                proxy: true
-              }
+                on: {
+                  input: function($event) {
+                    return _vm.$emit("input", $event.target.value)
+                  }
+                }
+              })
             ])
-          })
-        ],
-        1
+          ])
+        }),
+        0
       )
     ])
   ])
@@ -39251,70 +39218,6 @@ var staticRenderFns = [
     ])
   }
 ]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c& ***!
-  \*************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("tr", [
-    _c(
-      "th",
-      {
-        staticClass: "text-center",
-        attrs: { scope: "row", id: "js-parentTask" }
-      },
-      [_vm._t("taskNames", [_vm._v("ダミー")])],
-      2
-    ),
-    _vm._v(" "),
-    _c(
-      "td",
-      { staticClass: "text-center", attrs: { id: "js-plan-workeffortTime" } },
-      [_vm._t("taskHours", [_vm._v("Hour/Hour")])],
-      2
-    ),
-    _vm._v(" "),
-    _c(
-      "td",
-      { staticClass: "text-center", attrs: { id: "js-schedule" } },
-      [_vm._t("taskDates", [_vm._v("Start〜End")])],
-      2
-    ),
-    _vm._v(" "),
-    _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          inputmode: "numeric",
-          placeholder: "実工数を入力してください"
-        },
-        on: {
-          input: function($event) {
-            return _vm.$emit("input", $event.target.value)
-          }
-        }
-      })
-    ])
-  ])
-}
-var staticRenderFns = []
 render._withStripped = true
 
 
@@ -40570,7 +40473,7 @@ var render = function() {
       _vm._v(" "),
       _c("HeadingDate"),
       _vm._v(" "),
-      _c("DataTable", { attrs: { sendDbTaskData: _vm.dbTaskData } }),
+      _c("DataTable"),
       _vm._v(" "),
       _c(
         "div",
@@ -56511,67 +56414,9 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./resources/js/components/datatable/DataTableRow.vue ***!
   \************************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataTableRow.vue?vue&type=template&id=7a5a8a6c& */ "./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&");
-/* harmony import */ var _DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DataTableRow.vue?vue&type=script&lang=js& */ "./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/datatable/DataTableRow.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DataTableRow.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c& ***!
-  \*******************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DataTableRow.vue?vue&type=template&id=7a5a8a6c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/datatable/DataTableRow.vue?vue&type=template&id=7a5a8a6c&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DataTableRow_vue_vue_type_template_id_7a5a8a6c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
+throw new Error("Module build failed (from ./node_modules/vue-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/tatsuro.hayashi/works/skillupEfforts/resources/js/components/datatable/DataTableRow.vue'");
 
 /***/ }),
 
