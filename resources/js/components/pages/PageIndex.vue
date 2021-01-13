@@ -6,14 +6,12 @@
         </div>
         <HeadingDate></HeadingDate>
         <DataTable></DataTable>
-        <div class="l-w50-center mt-5">
-            <BtnSubmit submit-id="SubmitHours" button-type="submit">実工数保存</BtnSubmit>
-        </div>
+        <!-- <p>{{ dbTaskData }}</p> -->
+
         <!-- modal -->
         <ModalRegistration @close="ToggleModal" v-show="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
-    <!--{{ $route.params.userId }}-->
 </template>
 
 <script>
@@ -23,7 +21,7 @@ import navigation from '../nav/navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
 import DataTable from '../datatable/DataTable.vue';
-import ModalRegistration from '../modal/ModalRegistration.vue';
+import ModalRegistration from '../modal/ModalRegistration';
 
 export default {
     name: 'PageIndex',
@@ -31,13 +29,28 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
-            // userId: this.$route.query.id,
+            dbTaskData: Array
         }
     },
     props : {
         userId: String,
     },
     mounted() {
+        axios.get('/api/getTask', {
+            params: {
+                userId: this.$route.params.userId,
+                // userId: 'test',
+            }
+        })
+        .then(response => {
+            this.dbTaskData = response.data
+            // console.log(this.dbTaskData)
+
+        })
+        .catch(error => {
+            // console.log(error)
+            alert('エラーです')
+        });
     },
     methods:{
         ToggleModal () {

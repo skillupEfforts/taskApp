@@ -23,6 +23,7 @@ class taskTableSeeder extends Seeder
                 'jitsukosu' => 2,
                 'startdate' => '2020/1/1',
                 'enddate' => '2020/12/31',
+                'state' => 'aaa'
             ],
             [
                 'userid' => 'test',
@@ -31,6 +32,7 @@ class taskTableSeeder extends Seeder
                 'jitsukosu' => 2,
                 'startdate' => '2020/1/15',
                 'enddate' => '2020/2/3',
+                'state' => 'aaa'
             ],
             [
                 'userid' => 'test2',
@@ -39,6 +41,7 @@ class taskTableSeeder extends Seeder
                 'jitsukosu' => 2,
                 'startdate' => '2020/3/21',
                 'enddate' => '2020/7/1',
+                'state' => 'aaa'
             ],
             [
                 'userid' => 'test',
@@ -47,6 +50,7 @@ class taskTableSeeder extends Seeder
                 'jitsukosu' => 2,
                 'startdate' => '2020/8/21',
                 'enddate' => '2020/10/31',
+                'state' => 'aaa'
             ],
             [
                 'userid' => 'test2',
@@ -55,6 +59,7 @@ class taskTableSeeder extends Seeder
                 'jitsukosu' => 2,
                 'startdate' => '2020/10/1',
                 'enddate' => '2020/12/1',
+                'state' => 'aaa'
             ],
             [
                 'userid' => 'test3',
@@ -63,6 +68,7 @@ class taskTableSeeder extends Seeder
                 'jitsukosu' => 2,
                 'startdate' => '2020/11/12',
                 'enddate' => '2020/12/31',
+                'state' => 'aaa'
             ]
         ];
         //タスクダミーデータ登録

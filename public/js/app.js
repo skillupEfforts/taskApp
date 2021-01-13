@@ -1951,6 +1951,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     SubmitId: String,
     ButtonType: String
+  },
+  methods: {
+    onClick: function onClick() {
+      this.$emit('onClick');
+    }
   }
 });
 
@@ -1990,6 +1995,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../btn/BtnSubmit.vue */ "./resources/js/components/btn/BtnSubmit.vue");
 //
 //
 //
@@ -2037,55 +2043,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'DataTable' // data () {
-  //     return {
-  //         headingTtl: "タスク一覧表示画面​"
-  //     }
-  // },
 
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'DataTable',
+  data: function data() {
+    return {
+      sendDbTaskData: Array,
+      actualHour: '',
+      index: ''
+    };
+  },
+  model: {
+    prop: 'actualHour',
+    event: 'input'
+  },
+  props: {
+    actualHourValue: String
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/api/getTask', {
+      params: {
+        userId: this.$route.params.userId // userId: 'test',
+
+      }
+    }).then(function (response) {
+      _this.sendDbTaskData = response.data;
+      console.log(_this.sendDbTaskData); // console.log(this.sendDbTaskData[0].taskname);
+    })["catch"](function (error) {
+      alert('エラーです');
+    });
+  },
+  computed: {},
+  methods: {
+    saveHours: function saveHours() {
+      // alert('工数保存しました。')
+      console.log(this.sendDbTaskData.task3);
+    }
+  },
+  components: {
+    BtnSubmit: _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  }
 });
 
 /***/ }),
@@ -2978,8 +2977,7 @@ __webpack_require__.r(__webpack_exports__);
     var today = year + '-' + month + '-' + day;
     var tommorow = year + '-' + month + '-' + (day + 1);
     this.taskStartDate = today;
-    this.taskEndDate = tommorow;
-    console.log(this.$route.params.userId);
+    this.taskEndDate = tommorow; // console.log(this.$route.params.userId)
   },
   methods: {
     taskRegistrationCheck: function taskRegistrationCheck() {
@@ -3147,9 +3145,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _heading_HeadingDate_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../heading/HeadingDate.vue */ "./resources/js/components/heading/HeadingDate.vue");
 /* harmony import */ var _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../btn/BtnSubmit.vue */ "./resources/js/components/btn/BtnSubmit.vue");
 /* harmony import */ var _datatable_DataTable_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../datatable/DataTable.vue */ "./resources/js/components/datatable/DataTable.vue");
-/* harmony import */ var _modal_ModalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/ModalRegistration.vue */ "./resources/js/components/modal/ModalRegistration.vue");
-//
-//
+/* harmony import */ var _modal_ModalRegistration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/ModalRegistration */ "./resources/js/components/modal/ModalRegistration.vue");
 //
 //
 //
@@ -3178,14 +3174,28 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       showModal: false,
-      parentTaskName: '' // userId: this.$route.query.id,
-
+      parentTaskName: '',
+      dbTaskData: Array
     };
   },
   props: {
     userId: String
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('/api/getTask', {
+      params: {
+        userId: this.$route.params.userId // userId: 'test',
+
+      }
+    }).then(function (response) {
+      _this.dbTaskData = response.data; // console.log(this.dbTaskData)
+    })["catch"](function (error) {
+      // console.log(error)
+      alert('エラーです');
+    });
+  },
   methods: {
     ToggleModal: function ToggleModal() {
       this.showModal = !this.showModal;
@@ -3198,7 +3208,7 @@ __webpack_require__.r(__webpack_exports__);
     HeadingDate: _heading_HeadingDate_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     BtnSubmit: _btn_BtnSubmit_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     DataTable: _datatable_DataTable_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    ModalRegistration: _modal_ModalRegistration_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    ModalRegistration: _modal_ModalRegistration__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 
@@ -39088,7 +39098,8 @@ var render = function() {
       "button",
       {
         staticClass: "btn btn-primary w-100",
-        attrs: { id: _vm.SubmitId, type: _vm.ButtonType }
+        attrs: { id: _vm.SubmitId, type: _vm.ButtonType },
+        on: { click: _vm.onClick }
       },
       [_vm._t("default")],
       2
@@ -39151,237 +39162,143 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("div", { staticClass: "table-responsive" }, [
+      _c("table", { staticClass: "table" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.sendDbTaskData, function(dbData, key, index) {
+            return _c("tr", { key: index }, [
+              _c(
+                "th",
+                {
+                  staticClass: "text-center",
+                  attrs: { scope: "row", id: "js-parentTask" }
+                },
+                [_vm._t("taskNames", [_vm._v(_vm._s(dbData.taskname))])],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                {
+                  staticClass: "text-center",
+                  attrs: { id: "js-plan-workeffortTime" }
+                },
+                [
+                  _vm._t("taskHours", [
+                    _vm._v(_vm._s(dbData.kosu) + "／" + _vm._s(dbData.kosu))
+                  ])
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                { staticClass: "text-center", attrs: { id: "js-schedule" } },
+                [
+                  _vm._t("taskDates", [
+                    _vm._v(
+                      _vm._s(dbData.startdate) + "〜" + _vm._s(dbData.enddate)
+                    )
+                  ])
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sendDbTaskData[dbData.taskname],
+                      expression: "sendDbTaskData[dbData.taskname]"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    inputmode: "numeric",
+                    name: "actualHour" + dbData.taskname,
+                    id: "actualHour" + dbData.taskname,
+                    placeholder: "実工数を入力してください。"
+                  },
+                  domProps: { value: _vm.sendDbTaskData[dbData.taskname] },
+                  on: {
+                    input: [
+                      function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.sendDbTaskData,
+                          dbData.taskname,
+                          $event.target.value
+                        )
+                      },
+                      function($event) {
+                        return _vm.$emit("input", $event.target.value)
+                      }
+                    ]
+                  }
+                }),
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(_vm.sendDbTaskData[dbData.taskname]) +
+                    "\n                    "
+                )
+              ])
+            ])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "l-w50-center mt-5" },
+      [
+        _c(
+          "BtnSubmit",
+          {
+            attrs: { "submit-id": "SubmitHours", "button-type": "submit" },
+            on: { onClick: _vm.saveHours }
+          },
+          [_vm._v("実工数保存")]
+        )
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "table-responsive" }, [
-      _c("table", { staticClass: "table" }, [
-        _c("thead", { staticClass: "thead-dark" }, [
-          _c("tr", [
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("親タスク")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("子タスク")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("孫タスク")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("予定工数")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("残工数")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("スケジュール")
-            ]),
-            _vm._v(" "),
-            _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-              _vm._v("実工数入力")
-            ])
-          ])
+    return _c("thead", { staticClass: "thead-dark" }, [
+      _c("tr", [
+        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
+          _vm._v("タスク")
         ]),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", [
-            _c("th", { attrs: { scope: "row", id: "js-parentTask" } }, [
-              _c("span", { staticClass: "mr-1" }, [_vm._v("JCOM")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "collapse",
-                      "data-target": "#memo01",
-                      "aria-expanded": "false",
-                      "aria-controls": "memo01"
-                    }
-                  },
-                  [_vm._v("+")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-childTask" } }, [_vm._v("運用")]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-grandchildTask" } }, [
-              _vm._v("キャンペーン一覧更新")
-            ]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-plan-workeffortTime" } }, [
-              _vm._v("2h/5h")
-            ]),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-remaining-workeffortTime" } }, [
-              _vm._v("5h")
-            ]),
-            _vm._v(" "),
-            _c(
-              "td",
-              { staticClass: "text-danger", attrs: { id: "js-schedule" } },
-              [_vm._v("10/10〜12/10")]
-            ),
-            _vm._v(" "),
-            _c("td", { attrs: { id: "js-actual-workeffortTime" } }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  inputmode: "numeric",
-                  placeholder: "実工数を入力してください"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", { attrs: { colspan: "7" } }, [
-              _c("div", { staticClass: "card" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "card-body collapse",
-                    attrs: { id: "memo01" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                            This is some text within a card body.\n                        "
-                    )
-                  ]
-                )
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("th", { attrs: { scope: "row" } }, [
-              _c("span", { staticClass: "mr-1" }, [_vm._v("JCOM")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "collapse",
-                      href: "#memo02",
-                      "data-target": "#memo02",
-                      "aria-expanded": "false",
-                      "aria-controls": "memo02"
-                    }
-                  },
-                  [_vm._v("メモを見る")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", [_vm._v("運用")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("キャンペーン一覧更新")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("2h/5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("10/10〜12/10")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                staticClass: "form-control w-50 mx-auto",
-                attrs: {
-                  type: "text",
-                  inputmode: "numeric",
-                  id: "exampleFormControlInput1",
-                  placeholder: "実工数を入力してください"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", { staticClass: "collapse", attrs: { id: "memo02" } }, [
-            _c("td", { attrs: { colspan: "7" } }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _vm._v(
-                    "\n                            This is some text within a card body.\n                        "
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("th", { attrs: { scope: "row" } }, [
-              _c("span", { staticClass: "mr-1" }, [_vm._v("JCOM")]),
-              _vm._v(" "),
-              _c("span", { staticClass: "badge" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-info",
-                    attrs: {
-                      type: "button",
-                      "data-toggle": "collapse",
-                      href: "#memo03",
-                      "data-target": "#memo03",
-                      "aria-expanded": "false",
-                      "aria-controls": "memo03"
-                    }
-                  },
-                  [_vm._v("メモを見る")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("td", [_vm._v("運用")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("キャンペーン一覧更新")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("2h/5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("5h")]),
-            _vm._v(" "),
-            _c("td", [_vm._v("10/10〜12/10")]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  inputmode: "numeric",
-                  id: "exampleFormControlInput1",
-                  placeholder: "実工数を入力してください"
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", { staticClass: "collapse", attrs: { id: "memo03" } }, [
-            _c("td", { attrs: { colspan: "7" } }, [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _vm._v(
-                    "\n                            This is some text within a card body.\n                        "
-                  )
-                ])
-              ])
-            ])
-          ])
-        ])
+        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
+          _vm._v("予定工数")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
+          _vm._v("スケジュール")
+        ]),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "text-center w-auto", attrs: { scope: "col" } },
+          [_vm._v("実工数入力")]
+        )
       ])
     ])
   }
@@ -40640,19 +40557,6 @@ var render = function() {
       _c("HeadingDate"),
       _vm._v(" "),
       _c("DataTable"),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "l-w50-center mt-5" },
-        [
-          _c(
-            "BtnSubmit",
-            { attrs: { "submit-id": "SubmitHours", "button-type": "submit" } },
-            [_vm._v("実工数保存")]
-          )
-        ],
-        1
-      ),
       _vm._v(" "),
       _c("ModalRegistration", {
         directives: [
@@ -58293,8 +58197,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/taskApp/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/taskApp/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/tatsuro.hayashi/works/skillupEfforts/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/tatsuro.hayashi/works/skillupEfforts/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
