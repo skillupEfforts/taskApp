@@ -5,7 +5,7 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable></DataTable>
+        <DataTable :sendDbTaskData="dbTaskData"></DataTable>
         <!-- <p>{{ dbTaskData }}</p> -->
 
         <!-- modal -->

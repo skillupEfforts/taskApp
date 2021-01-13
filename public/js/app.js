@@ -2043,14 +2043,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'DataTable',
   data: function data() {
-    return {
-      sendDbTaskData: Array,
-      actualHour: '',
-      index: ''
+    return {// sendDbTaskData: Array,
     };
   },
   model: {
@@ -2058,28 +2059,29 @@ __webpack_require__.r(__webpack_exports__);
     event: 'input'
   },
   props: {
+    sendDbTaskData: Array,
     actualHourValue: String
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/api/getTask', {
-      params: {
-        userId: this.$route.params.userId // userId: 'test',
-
-      }
-    }).then(function (response) {
-      _this.sendDbTaskData = response.data;
-      console.log(_this.sendDbTaskData); // console.log(this.sendDbTaskData[0].taskname);
-    })["catch"](function (error) {
-      alert('エラーです');
-    });
+  mounted: function mounted() {// console.log(sendDbTaskData);
+    // axios.get('/api/getTask', {
+    //     params: {
+    //         userId: this.$route.params.userId,
+    //         // userId: 'test',
+    //     }
+    // })
+    // .then(response => {
+    //     this.sendDbTaskData = response.data
+    //     console.log(this.sendDbTaskData);
+    //     // console.log(this.sendDbTaskData[0].taskname);
+    // })
+    // .catch(error => {
+    //     alert('エラーです')
+    // });
   },
   computed: {},
   methods: {
-    saveHours: function saveHours() {
-      // alert('工数保存しました。')
-      console.log(this.sendDbTaskData.task3);
+    saveHours: function saveHours() {// alert('工数保存しました。')
+      // console.log(this.sendDbTaskData.task3);
     }
   },
   components: {
@@ -39169,8 +39171,8 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.sendDbTaskData, function(dbData, key, index) {
-            return _c("tr", { key: index }, [
+          _vm._l(_vm.sendDbTaskData, function(dbData, key) {
+            return _c("tr", { key: key }, [
               _c(
                 "th",
                 {
@@ -39192,6 +39194,13 @@ var render = function() {
                     _vm._v(_vm._s(dbData.kosu) + "／" + _vm._s(dbData.kosu))
                   ])
                 ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                { staticClass: "text-center", attrs: { id: "js-status" } },
+                [_vm._t("taskStatus", [_vm._v(_vm._s(dbData.state))])],
                 2
               ),
               _vm._v(" "),
@@ -39288,6 +39297,10 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
           _vm._v("予定工数")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
+          _vm._v("ステータス")
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
@@ -40556,7 +40569,7 @@ var render = function() {
       _vm._v(" "),
       _c("HeadingDate"),
       _vm._v(" "),
-      _c("DataTable"),
+      _c("DataTable", { attrs: { sendDbTaskData: _vm.dbTaskData } }),
       _vm._v(" "),
       _c("ModalRegistration", {
         directives: [
