@@ -21,7 +21,7 @@ class Account extends Controller
             }
             $password = $request->userPassword;
             $userstable->name = $userId;
-            $userstable->password = Hash::make($password);
+            $userstable->password = password_hash($password, PASSWORD_BCRYPT);
             $userstable->save();
             $getUserId = $userId;
             $userInfo = array(

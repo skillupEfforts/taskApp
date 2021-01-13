@@ -2603,19 +2603,19 @@ __webpack_require__.r(__webpack_exports__);
         StatusValue: 'none'
       }, {
         StatusTxt: '着手前',
-        StatusValue: '1'
+        StatusValue: '着手前'
       }, {
         StatusTxt: '対応中',
-        StatusValue: '2'
+        StatusValue: '対応中'
       }, {
         StatusTxt: 'Dir確認中',
-        StatusValue: '3'
+        StatusValue: 'Dir確認中'
       }, {
         StatusTxt: 'FB修正中',
-        StatusValue: '4'
+        StatusValue: 'FB修正中'
       }, {
         StatusTxt: '完了',
-        StatusValue: '5'
+        StatusValue: '完了'
       }];
       return statusObject;
     }
@@ -2936,6 +2936,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2960,7 +2961,8 @@ __webpack_require__.r(__webpack_exports__);
       taskEndDateError: false,
       taskStatus: 'none',
       taskStatusError: false,
-      taskMemo: ''
+      taskMemo: '',
+      taskNameDuplicateError: false
     };
   },
   props: {
@@ -2981,21 +2983,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     taskRegistrationCheck: function taskRegistrationCheck() {
-      axios.get('/api/makeTask', {
+      axios.get('/api/registrationTask', {
         params: {
           userId: this.$route.params.userId,
           taskname: this.taskName,
           kosu: this.taskHour,
           jitsukosu: this.taskHour,
           startdate: this.taskStartDate,
-          enddate: this.taskEndDate
+          enddate: this.taskEndDate,
+          state: this.taskStatus
         }
       }).then(function (response) {
         console.log(response);
 
         if (response.data === 'duplicate') {
           alert('タスク名が重複しています。'); // this.$router.push('/error');
-        } else if (response.data === 'make') {
+        } else if (response.data === 'registration') {
           alert('タスク登録しました。'); // this.$router.push({
           //     name: 'PageIndex',
           //     params :{ taskname: response.data.taskname }
@@ -3008,11 +3011,33 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.$route.params.userId);
     },
     taskNameCheck: function taskNameCheck() {
-      if (this.taskName === '') {
-        this.taskNameError = true;
-      } else {
-        this.taskNameError = false;
-      }
+      var _this = this;
+
+      axios.get('/api/duplicateCheckTask', {
+        params: {
+          userId: this.$route.params.userId,
+          taskname: this.taskName,
+          kosu: this.taskHour,
+          jitsukosu: this.taskHour,
+          startdate: this.taskStartDate,
+          enddate: this.taskEndDate
+        }
+      }).then(function (response) {
+        if (_this.taskName.trim() === '') {
+          _this.taskNameError = true;
+        } else {
+          _this.taskNameError = false;
+
+          if (response.data === 'duplicate') {
+            _this.taskNameDuplicateError = true;
+          } else {
+            _this.taskNameDuplicateError = false;
+          }
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        alert('エラーです');
+      });
     },
     taskHourCheck: function taskHourCheck() {
       if (this.taskHour === '') {
@@ -40176,31 +40201,29 @@ var render = function() {
                             "task-name": "taskNameId"
                           },
                           on: { onBlur: _vm.taskNameCheck },
-                          scopedSlots: _vm._u(
-                            [
-                              _vm.taskNameError
-                                ? {
-                                    key: "task-name-error",
-                                    fn: function() {
-                                      return [
-                                        _c(
-                                          "p",
-                                          { staticClass: "text-danger" },
-                                          [
-                                            _vm._v(
-                                              "親タスク名が入力されていません。"
-                                            )
-                                          ]
+                          scopedSlots: _vm._u([
+                            {
+                              key: "task-name-error",
+                              fn: function() {
+                                return [
+                                  _vm.taskNameError
+                                    ? _c("p", { staticClass: "text-danger" }, [
+                                        _vm._v("タスク名が入力されていません。")
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.taskNameDuplicateError
+                                    ? _c("p", { staticClass: "text-danger" }, [
+                                        _vm._v(
+                                          "既に登録済みのタスクと重複しています。"
                                         )
-                                      ]
-                                    },
-                                    proxy: true
-                                  }
-                                : null
-                            ],
-                            null,
-                            true
-                          ),
+                                      ])
+                                    : _vm._e()
+                                ]
+                              },
+                              proxy: true
+                            }
+                          ]),
                           model: {
                             value: _vm.taskName,
                             callback: function($$v) {
@@ -58217,7 +58240,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_pages_PageRegistration_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/pages/PageRegistration.vue */ "./resources/js/components/pages/PageRegistration.vue");
 /* harmony import */ var _components_pages_PageLogin_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/pages/PageLogin.vue */ "./resources/js/components/pages/PageLogin.vue");
 /* harmony import */ var _components_pages_PageIndex_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/pages/PageIndex.vue */ "./resources/js/components/pages/PageIndex.vue");
@@ -58229,6 +58252,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   mode: "history",
+  base: process.env.BASE_URL,
   routes: [{
     path: "/",
     name: "PageLogin",
@@ -58247,6 +58271,7 @@ __webpack_require__.r(__webpack_exports__);
     component: _components_pages_PageError_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }]
 }));
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 

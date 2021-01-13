@@ -14,8 +14,9 @@
                         @onBlur="taskNameCheck"
                         v-model="taskName">
                         親タスク入力{{ taskName }}
-                        <template #task-name-error v-if="taskNameError">
-                            <p class="text-danger">親タスク名が入力されていません。</p>
+                        <template #task-name-error>
+                            <p class="text-danger" v-if="taskNameError">タスク名が入力されていません。</p>
+                            <p class="text-danger" v-if="taskNameDuplicateError">既に登録済みのタスクと重複しています。</p>
                         </template>
                     </FormTaskNameBox>
                     <FormTaskHourBox
@@ -115,6 +116,7 @@ export default {
             taskStatus: 'none',
             taskStatusError: false,
             taskMemo: '',
+            taskNameDuplicateError: false
         }
     },
     props : {
@@ -135,7 +137,7 @@ export default {
     },
     methods: {
         taskRegistrationCheck() {
-            axios.get('/api/makeTask', {
+            axios.get('/api/registrationTask', {
                 params: {
                     userId: this.$route.params.userId,
                     taskname: this.taskName,
@@ -143,6 +145,7 @@ export default {
                     jitsukosu: this.taskHour,
                     startdate: this.taskStartDate,
                     enddate: this.taskEndDate,
+                    state: this.taskStatus
                 }
             })
             .then(response => {
@@ -150,7 +153,7 @@ export default {
                 if(response.data === 'duplicate') {
                     alert('タスク名が重複しています。')
                     // this.$router.push('/error');
-                } else if(response.data === 'make'){
+                } else if(response.data === 'registration'){
                     alert('タスク登録しました。')
                     // this.$router.push({
                     //     name: 'PageIndex',
@@ -165,11 +168,33 @@ export default {
             console.log(this.$route.params.userId)
         },
         taskNameCheck() {
-            if(this.taskName === ''){
-                this.taskNameError = true
-            } else {
-                this.taskNameError = false
-            }
+            axios.get('/api/duplicateCheckTask', {
+                params: {
+                    userId: this.$route.params.userId,
+                    taskname: this.taskName,
+                    kosu: this.taskHour,
+                    jitsukosu: this.taskHour,
+                    startdate: this.taskStartDate,
+                    enddate: this.taskEndDate,
+                }
+            })
+            .then(response => {
+                if(this.taskName.trim() === '') {
+                    this.taskNameError = true;
+                } else {
+                    this.taskNameError = false;
+                    if(response.data === 'duplicate') {
+                        this.taskNameDuplicateError = true;
+                    } else {
+                        this.taskNameDuplicateError = false;
+                    }
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                alert('エラーです')
+            });
+
         },
         taskHourCheck() {
             if(this.taskHour === ''){

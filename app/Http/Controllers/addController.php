@@ -95,12 +95,8 @@ class addController extends Controller
         $userId = $request->userId;
         $password = $request->userPassword;
         $userstable = new usersTable();
-        // $userstable->name = $name;
-        // $userstable->password = Hash::make($password);
-        // $userstable->save();
-        // var_dump($userstable);
         try {
-            $getData = $userstable->getData($userId, $password);
+            $getData = $userstable->getData($userId);
             if($getData->isEmpty()) {
                 return 0;
             }
@@ -109,6 +105,17 @@ class addController extends Controller
                 'userId' => $getUserId
             );
             return $userInfo;
+            //ハッシュ問題一旦コメント
+            // $getPass = $getData[0]->password;
+            // if(Hash::check($password, $getPass)) {
+            //     $getUserId = $getData[0]->name;
+            //     $userInfo = array(
+            //         'userId' => $getUserId
+            //     );
+            //     return $userInfo;
+            // } else {
+            //     return 1;
+            // }
         } catch(\Exception $e) {
             return $e;
         }
