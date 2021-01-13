@@ -2045,8 +2045,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'DataTable',
@@ -2062,22 +2060,7 @@ __webpack_require__.r(__webpack_exports__);
     sendDbTaskData: Array,
     actualHourValue: String
   },
-  mounted: function mounted() {// console.log(sendDbTaskData);
-    // axios.get('/api/getTask', {
-    //     params: {
-    //         userId: this.$route.params.userId,
-    //         // userId: 'test',
-    //     }
-    // })
-    // .then(response => {
-    //     this.sendDbTaskData = response.data
-    //     console.log(this.sendDbTaskData);
-    //     // console.log(this.sendDbTaskData[0].taskname);
-    // })
-    // .catch(error => {
-    //     alert('エラーです')
-    // });
-  },
+  mounted: function mounted() {},
   computed: {},
   methods: {
     saveHours: function saveHours() {// alert('工数保存しました。')
@@ -39291,21 +39274,29 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
-        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
-          _vm._v("タスク")
-        ]),
+        _c(
+          "th",
+          { staticClass: "text-center m-table-w20", attrs: { scope: "col" } },
+          [_vm._v("タスク")]
+        ),
         _vm._v(" "),
-        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
-          _vm._v("予定工数")
-        ]),
+        _c(
+          "th",
+          { staticClass: "text-center m-table-w20", attrs: { scope: "col" } },
+          [_vm._v("予定工数")]
+        ),
         _vm._v(" "),
-        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
-          _vm._v("ステータス")
-        ]),
+        _c(
+          "th",
+          { staticClass: "text-center m-table-w20", attrs: { scope: "col" } },
+          [_vm._v("ステータス")]
+        ),
         _vm._v(" "),
-        _c("th", { staticClass: "text-center w-25", attrs: { scope: "col" } }, [
-          _vm._v("スケジュール")
-        ]),
+        _c(
+          "th",
+          { staticClass: "text-center m-table-w20", attrs: { scope: "col" } },
+          [_vm._v("スケジュール")]
+        ),
         _vm._v(" "),
         _c(
           "th",

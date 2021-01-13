@@ -4,16 +4,14 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" class="text-center w-25">タスク</th>
-                        <th scope="col" class="text-center w-25">予定工数</th>
-                        <th scope="col" class="text-center w-25">ステータス</th>
-                        <th scope="col" class="text-center w-25">スケジュール</th>
+                        <th scope="col" class="text-center m-table-w20">タスク</th>
+                        <th scope="col" class="text-center m-table-w20">予定工数</th>
+                        <th scope="col" class="text-center m-table-w20">ステータス</th>
+                        <th scope="col" class="text-center m-table-w20">スケジュール</th>
                         <th scope="col" class="text-center w-auto">実工数入力</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- {{ sendDbTaskData.length }}
-                    {{ sendDbTaskData[0] }} -->
                     <tr v-for="(dbData, key) in sendDbTaskData" :key="key">
                         <th scope="row" id="js-parentTask" class="text-center">
                             <slot name="taskNames">{{ dbData.taskname }}</slot>
@@ -68,21 +66,6 @@ export default {
         actualHourValue: String,
     },
     mounted() {
-        // console.log(sendDbTaskData);
-        // axios.get('/api/getTask', {
-        //     params: {
-        //         userId: this.$route.params.userId,
-        //         // userId: 'test',
-        //     }
-        // })
-        // .then(response => {
-        //     this.sendDbTaskData = response.data
-        //     console.log(this.sendDbTaskData);
-        //     // console.log(this.sendDbTaskData[0].taskname);
-        // })
-        // .catch(error => {
-        //     alert('エラーです')
-        // });
     },
     computed: {
 
