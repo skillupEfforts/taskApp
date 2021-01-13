@@ -32,23 +32,23 @@ export default {
                 },
                 {
                     StatusTxt: '着手前',
-                    StatusValue: '1',
+                    StatusValue: '着手前',
                 },
                 {
                     StatusTxt: '対応中',
-                    StatusValue: '2',
+                    StatusValue: '対応中',
                 },
                 {
                     StatusTxt: 'Dir確認中',
-                    StatusValue: '3',
+                    StatusValue: 'Dir確認中',
                 },
                 {
                     StatusTxt: 'FB修正中',
-                    StatusValue: '4',
+                    StatusValue: 'FB修正中',
                 },
                 {
                     StatusTxt: '完了',
-                    StatusValue: '5',
+                    StatusValue: '完了',
                 },
             ]
             return statusObject

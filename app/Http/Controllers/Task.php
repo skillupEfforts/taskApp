@@ -21,13 +21,13 @@ class Task extends Controller
             }
             $taskTable->taskname = $taskname;
             $taskTable->userid = $request->userId;
-            // $taskTable->userid = '6';
             $taskTable->kosu = $request->kosu;
             $taskTable->jitsukosu = $request->kosu;
             $taskTable->startdate = $request->startdate;
             $taskTable->enddate = $request->enddate;
+            $taskTable->state = $request->state;
             $taskTable->save();
-            return 'make';
+            return 'registration';
         } catch(\Exception $e) {
             return $e;
         }
@@ -44,6 +44,23 @@ class Task extends Controller
                 return 0;
             }
             return json_encode($getData);
+        } catch(\Exception $e) {
+            return $e;
+        }
+    }
+
+    //タスク重複チェック
+    public function duplicateCheck(Request $request)
+    {
+        try {
+            $taskname = $request->taskname;
+            $taskTable = new taskTable();
+            $duplicateCount = $taskTable->duplicateCheck($taskname);
+            if($duplicateCount > 0) {
+                return 'duplicate';
+            } else {
+                return 'noDuplicate';
+            }
         } catch(\Exception $e) {
             return $e;
         }

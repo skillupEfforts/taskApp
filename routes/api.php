@@ -22,3 +22,4 @@ Route::get('/home', 'App\Http\Controllers\addController@postIndex');
 Route::get('/registrationAccount', 'App\Http\Controllers\Account@registrationAccount');
 Route::get('/registrationTask', 'App\Http\Controllers\Task@registrationTask');
 Route::get('/duplicateCheck', 'App\Http\Controllers\Account@duplicateCheck');
+Route::get('/duplicateCheckTask', 'App\Http\Controllers\Task@duplicateCheck');
