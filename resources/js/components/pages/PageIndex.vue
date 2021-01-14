@@ -8,7 +8,7 @@
         <DataTable :sendDbTaskData="dbTaskData"></DataTable>
 
         <!-- modal -->
-        <ModalRegistration @taskRefresh="test" @close="ToggleModal" v-show="showModal"></ModalRegistration>
+        <ModalRegistration @taskRefresh="test" @close="ToggleModal" v-if="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
 </template>
@@ -80,10 +80,11 @@ export default {
                 // } else if(response.data === 'registration'){
                     alert('タスク登録しました。')
                     console.log(this.dbTaskData)
-                    this.dbTaskData = []
+                    this.dbTaskData = [];
                     console.log(this.dbTaskData)
-                    this.dbTaskData.push(response.data)
+                    this.dbTaskData.push(...response.data)
                     console.log(this.dbTaskData)
+                    this.ToggleModal();
                     // this.$router.push({
                     //     name: 'PageIndex',
                     //     params :{ taskname: response.data.taskname }

@@ -12,7 +12,7 @@
                         task-name-placeholder="親タスクを入力してください"
                         task-name="taskNameId"
                         @onBlur="taskNameCheck"
-                        v-model="taskName">
+                        v-model="aaa.taskName">
                         親タスク入力{{ taskName }}
                         <template #task-name-error>
                             <p class="text-danger" v-if="taskNameError">タスク名が入力されていません。</p>
@@ -25,7 +25,7 @@
                         task-hour-placeholder="予定工数を入力してください"
                         task-hour-name="taskHourId"
                         @onBlur="taskHourCheck"
-                        v-model="taskHour">
+                        v-model="aaa.taskHour">
                         工数入力{{ taskHour }}
                         <template #task-hour-error v-if="taskHourError">
                             <p class="text-danger">工数が入力されていません。</p>
@@ -40,7 +40,7 @@
                                 task-start-date-max="2022-01-01"
                                 task-start-date-id-name="taskStartDateStartId"
                                 taskStartDateValue=""
-                                v-model="taskStartDate">
+                                v-model="aaa.taskStartDate">
                                 <template #start>期間（開始日）{{ taskStartDate }}</template>
                                 <template #task-startdate-error v-if="taskStartDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
@@ -53,7 +53,7 @@
                                 task-end-date-max="2022-01-01"
                                 task-end-date-id-name="taskEndDateStartId"
                                 taskEndDateValues=""
-                                v-model="taskEndDate">
+                                v-model="aaa.taskEndDate">
                                 <template #end>期間（開始日）{{ taskEndDate }}</template>
                                 <template #task-enddate-error v-if="taskEndDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
@@ -64,7 +64,7 @@
                     <FormTaskStatus
                         task-status-id="taskStatusId"
                         task-status-name="taskStatusName"
-                        v-model="taskStatus"
+                        v-model="aaa.taskStatus"
                         @onChange="taskStatusCheck">
                         ステータス{{ taskStatus }}
                         <template #task-status-error v-if="taskStatusError">
@@ -119,16 +119,14 @@ export default {
             taskMemo: '',
             taskNameDuplicateError: false,
             dbRefreshData: Array,
-            aaa: [
-                {
-                    taskName: '',
-                    taskHour: '',
-                    taskStartDate: '',
-                    taskEndDate: '',
-                    taskStatus: 'none',
-                    taskMemo: '',
-                }
-            ]
+            aaa: {
+                taskName: '',
+                taskHour: '',
+                taskStartDate: '',
+                taskEndDate: '',
+                taskStatus: 'none',
+                taskMemo: '',
+            }
         }
     },
     props : {
@@ -154,16 +152,11 @@ export default {
         taskNameCheck() {
             axios.get('/api/duplicateCheckTask', {
                 params: {
-                    userId: this.$route.params.userId,
-                    taskname: this.taskName,
-                    kosu: this.taskHour,
-                    jitsukosu: this.taskHour,
-                    startdate: this.taskStartDate,
-                    enddate: this.taskEndDate,
+                    taskname: this.aaa.taskName
                 }
             })
             .then(response => {
-                if(this.taskName.trim() === '') {
+                if(this.aaa.taskName.trim() === '') {
                     this.taskNameError = true;
                 } else {
                     this.taskNameError = false;
@@ -181,14 +174,14 @@ export default {
 
         },
         taskHourCheck() {
-            if(this.taskHour === ''){
+            if(this.aaa.taskHour === ''){
                 this.taskHourError = true
             } else {
                 this.taskHourError = false
             }
         },
         taskStatusCheck() {
-            if(this.taskStatus === 'none'){
+            if(this.aaa.taskStatus === 'none'){
                 this.taskStatusError = true
             } else {
                 this.taskStatusError = false
@@ -197,6 +190,14 @@ export default {
         taskRefresh() {
             console.log('aaaaaaaaaaa')
             this.$emit('taskRefresh', this.aaa)
+            // this.aaa = {
+            //     taskName: '',
+            //     taskHour: '',
+            //     taskStartDate: '',
+            //     taskEndDate: '',
+            //     taskStatus: 'none',
+            //     taskMemo: '',
+            // };
             // this.$emit('taskRefresh', this.dbRefreshData)
         }
     },
