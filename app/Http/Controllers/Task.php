@@ -27,7 +27,8 @@ class Task extends Controller
             $taskTable->enddate = $request->enddate;
             $taskTable->state = $request->state;
             $taskTable->save();
-            return 'registration';
+            $getData = $taskTable->getData($userId);
+            return  $getData;
         } catch(\Exception $e) {
             return $e;
         }

@@ -6,10 +6,9 @@
         </div>
         <HeadingDate></HeadingDate>
         <DataTable :sendDbTaskData="dbTaskData"></DataTable>
-        <!-- <p>{{ dbTaskData }}</p> -->
 
         <!-- modal -->
-        <ModalRegistration @close="ToggleModal" v-show="showModal"></ModalRegistration>
+        <ModalRegistration @taskRefresh="test" @close="ToggleModal" v-show="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
 </template>
@@ -29,7 +28,8 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
-            dbTaskData: Array
+            dbTaskData: Array,
+            dbRefreshData: Array,
         }
     },
     props : {
@@ -54,8 +54,47 @@ export default {
     },
     methods:{
         ToggleModal () {
-            this.showModal = !this.showModal;
+            this.showModal = !this.showModal
+            // console.log(this.dbRefreshData)
         },
+        test (aaa) {
+            console.log('ああああああああああああ')
+            console.log(aaa);
+            axios.get('/api/registrationTask', {
+                params: {
+                    userId: this.$route.params.userId,
+                    taskname: aaa.taskName,
+                    kosu: aaa.taskHour,
+                    jitsukosu: aaa.taskHour,
+                    startdate: aaa.taskStartDate,
+                    enddate: aaa.taskEndDate,
+                    state: aaa.taskStatus
+                }
+            })
+            .then(response => {
+                console.log(response)
+                if(response.data === 'duplicate') {
+                    alert('タスク名が重複しています。')
+                    // this.$router.push('/error');
+                } else {
+                // } else if(response.data === 'registration'){
+                    alert('タスク登録しました。')
+                    console.log(this.dbTaskData)
+                    this.dbTaskData = []
+                    console.log(this.dbTaskData)
+                    this.dbTaskData.push(response.data)
+                    console.log(this.dbTaskData)
+                    // this.$router.push({
+                    //     name: 'PageIndex',
+                    //     params :{ taskname: response.data.taskname }
+                    // });
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                alert('エラーです')
+            });
+        }
     },
     components: {
         PageHeading,

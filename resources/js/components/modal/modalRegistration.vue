@@ -2,7 +2,7 @@
   <transition name="l-modal" appear>
     <div class="l-modal l-modal-overlay" @click.self="$emit('close')">
       <div class="l-modal-window">
-        <form @submit.prevent="taskRegistrationCheck">
+        <form>
             <div class="l-modal-content">
                 <Heading2>タスク新規追加</Heading2>
                 <div class="l-task-input">
@@ -80,7 +80,8 @@
             </div>
             <footer class="l-modal-footer">
             <slot name="footer">
-                <BtnSubmit submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit>
+                <!-- <BtnSubmit :onClick="taskRefresh" submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit> -->
+                <button @click.prevent="taskRefresh" submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</button>
             </slot>
             </footer>
         </form>
@@ -116,7 +117,18 @@ export default {
             taskStatus: 'none',
             taskStatusError: false,
             taskMemo: '',
-            taskNameDuplicateError: false
+            taskNameDuplicateError: false,
+            dbRefreshData: Array,
+            aaa: [
+                {
+                    taskName: '',
+                    taskHour: '',
+                    taskStartDate: '',
+                    taskEndDate: '',
+                    taskStatus: 'none',
+                    taskMemo: '',
+                }
+            ]
         }
     },
     props : {
@@ -136,37 +148,9 @@ export default {
         // console.log(this.$route.params.userId)
     },
     methods: {
-        taskRegistrationCheck() {
-            axios.get('/api/registrationTask', {
-                params: {
-                    userId: this.$route.params.userId,
-                    taskname: this.taskName,
-                    kosu: this.taskHour,
-                    jitsukosu: this.taskHour,
-                    startdate: this.taskStartDate,
-                    enddate: this.taskEndDate,
-                    state: this.taskStatus
-                }
-            })
-            .then(response => {
-                console.log(response)
-                if(response.data === 'duplicate') {
-                    alert('タスク名が重複しています。')
-                    // this.$router.push('/error');
-                } else if(response.data === 'registration'){
-                    alert('タスク登録しました。')
-                    // this.$router.push({
-                    //     name: 'PageIndex',
-                    //     params :{ taskname: response.data.taskname }
-                    // });
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                alert('エラーです')
-            });
-            console.log(this.$route.params.userId)
-        },
+        // taskRegistrationCheck() {
+
+        // },
         taskNameCheck() {
             axios.get('/api/duplicateCheckTask', {
                 params: {
@@ -209,6 +193,11 @@ export default {
             } else {
                 this.taskStatusError = false
             }
+        },
+        taskRefresh() {
+            console.log('aaaaaaaaaaa')
+            this.$emit('taskRefresh', this.aaa)
+            // this.$emit('taskRefresh', this.dbRefreshData)
         }
     },
     components: {
