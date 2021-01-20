@@ -81,7 +81,7 @@
             <footer class="l-modal-footer">
             <slot name="footer">
                 <!-- <BtnSubmit :onClick="taskRefresh" submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit> -->
-                <button @click.prevent="taskRefresh" submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</button>
+                <button @click.prevent="taskRefresh" submit-id="taskRegistration" button-type="submit" class="btn btn-primary w-100 w-50 mx-auto">タスク登録</button>
             </slot>
             </footer>
         </form>
