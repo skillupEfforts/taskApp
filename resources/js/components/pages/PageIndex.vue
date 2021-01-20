@@ -8,7 +8,7 @@
         <DataTable :send-db-task-data="dbTaskData"></DataTable>
 
         <!-- modal -->
-        <ModalRegistration @taskRefresh="test" @close="ToggleModal" v-if="showModal"></ModalRegistration>
+        <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
 </template>
@@ -53,7 +53,7 @@ export default {
         ToggleModal () {
             this.showModal = !this.showModal
         },
-        test (taskValueObject) {
+        refreshData (taskValueObject) {
             console.log('ああああああああああああ')
             console.log(taskValueObject);
             axios.get('/api/registrationTask', {
