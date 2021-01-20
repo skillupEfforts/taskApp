@@ -42,7 +42,7 @@
             </table>
         </div>
         <div class="l-w50-center mt-5">
-            <BtnSubmit submit-id="SubmitHours" button-type="submit" @onClick="saveHours(), hour()">実工数保存</BtnSubmit>
+            <BtnSubmit submit-id="SubmitHours" button-type="submit" @onClick="saveHours()">実工数保存</BtnSubmit>
         </div>
     </div>
 </template>
@@ -71,39 +71,56 @@ export default {
         // cloneDbData: Object,
         // tasksHourValue: String,
     },
-    updated() {//親からのDBデータをコピーする
-        // console.log(this.cloneDbData)
-    },
-    mounted() {
-        // console.log(typeof this.tasksHourValue)
-    },
     computed: {
-        // getHour() {
-        //     // var self = this
-        //     return console.log(this.tasksHourValue)
-        // }
-    },
-    methods: {
-        saveHours () {//DBデータのコピーを使用して、実工数配列にオブジェクトとして入れる
-            // console.log(this.cloneDbData)
+        getHour() {//DBデータのコピーを使用して、実工数配列にオブジェクトとして入れる
             this.cloneDbData = [...this.sendDbTaskData]
+            this.tasksHourValue.splice(0, this.tasksHourValue.length)//実工数配列を初期化
 
             this.cloneDbData.forEach((element, index) => {
-                this.tasksHourValue.splice(index, 0, {[element.taskname]: this.tasksHourValue[element.taskname]})
-                this.cloneDbData[index].jitsukosu = this.tasksHourValue[index][element.taskname] + this.cloneDbData[index].kosu
-                // this.tasksHourValue.push({[element.taskname]: this.tasksHourValue[element.taskname]})
-                // console.log(this.tasksHourValue[index])
-                // this.tasksHourValu[element.taskname] = this.tasksHourValu[element.taskname]
-                // this.$set(this.cloneDbData, this.tasksHourValue[element.taskname], this.tasksHourValue[index][element.taskname])
+                this.tasksHourValue.splice(index, 0, {[element.taskname]: this.tasksHourValue[element.taskname]})//実工数配列に{タスク名: 工数}で入れる
+                if(typeof this.tasksHourValue[index][element.taskname] !== 'undefined') {//実工数が入っていれば、DBデータのコピーのjitsukosuと足し算する
+                    this.cloneDbData[index].jitsukosu = parseInt(this.tasksHourValue[index][element.taskname]) + parseInt(this.cloneDbData[index].kosu)
+                }
             })
+            return [
+                this.tasksHourValue,
+                this.cloneDbData
+            ]
+        }
+    },
+    methods: {
+        saveHours () {
+            this.getHour
             console.log(this.tasksHourValue)
             console.log(this.cloneDbData)
-            // console.log(this.cloneDbData)
+            let keys = []
+            this.tasksHourValue.forEach((element, index) => {//実工数配列のキー名だけを取得
+                keys.push(Object.keys(element))
+                // console.log(keys)
+            })
+            keys.forEach((elem, i) => {//キー名だけの配列を回し、APIを叩く
+                axios.get('/api/registrationTask', {
+                    params: {
+                        userId: this.$route.params.userId,
+                        taskname: elem[0],
+                        jitsukosu: this.cloneDbData[i].jitsukosu,
+                    }
+                })
+                .then(response => {
+                    console.log(elem[0])
+                    console.log(this.cloneDbData[i].jitsukosu)
+                    console.log(response)
+                    // if(response.data === 'duplicate') {
+                    // }
+                })
+                .catch(error => {
+                    console.log(error)
+                    alert('エラーです')
+                });
+            })
+
 
         },
-        hour() {
-            // console.log(this.tasksHourValue)
-        }
     },
     components: {
         BtnSubmit
