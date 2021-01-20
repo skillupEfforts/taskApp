@@ -185,7 +185,7 @@ export default {
             }
         },
         taskRefresh() {
-            console.log('aaaaaaaaaaa')
+            console.log('modalRegistration.vueのtaskRefreshのイベント確認')
             this.$emit('taskRefresh', this.taskValueObject)
         }
     },

@@ -54,7 +54,7 @@ export default {
             this.showModal = !this.showModal
         },
         refreshData (taskValueObject) {
-            console.log('ああああああああああああ')
+            console.log('PageIndex.vueのrefreshDataのイベント確認。\n下はmodalRegistration.vueからemitで渡している引数taskValueObjectの値')
             console.log(taskValueObject);
             axios.get('/api/registrationTask', {
                 params: {
