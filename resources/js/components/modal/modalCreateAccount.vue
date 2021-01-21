@@ -3,7 +3,7 @@
     <div class="l-modal l-modal-overlay">
       <div class="l-modal-window l-modal-window-account">
         <div class="l-modal-content">
-            <Heading2>アカウント登録しました。</Heading2>
+            <Heading2 class="text-body">アカウント登録しました。</Heading2>
         </div>
         <footer class="l-modal-footer">
           <slot name="footer"></slot>
