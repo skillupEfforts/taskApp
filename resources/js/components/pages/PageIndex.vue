@@ -5,7 +5,7 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable :send-db-task-data="dbTaskData"></DataTable>
+        <DataTable :receive-db-task-data="dbTaskData"></DataTable>
 
         <!-- modal -->
         <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>

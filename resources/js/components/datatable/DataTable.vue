@@ -12,15 +12,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(dbData, key) in sendDbTaskData" :key="key">
+                    <tr v-for="(dbData, key) in receiveDbTaskData" :key="key">
                         <th scope="row" id="js-parentTask" class="text-center">
                             <slot name="taskNames">{{ dbData.taskname }}</slot>
                         </th>
                         <td id="js-plan-workeffortTime" class="text-center">
-                            <slot name="taskHours">{{ dbData.kosu }}／{{ dbData.kosu }}</slot>
+                            <slot name="taskHours">{{ dbData.kosu }}h／{{ dbData.kosu }}h</slot>
                         </td>
                         <td id="js-status" class="text-center">
-                            <slot name="taskStatus">{{ dbData.state }}</slot>
+                            <select :name="`taskStatusUpdateId` + dbData.taskname" :id="`taskStatusUpdateId` + dbData.taskname" v-model="dbData.state">
+                            <option v-for="(value, key) in statuses"
+                                    :value="value.statusValue"
+                                    :key="key"
+                                    >{{ value.statusTxt }}</option>
+                            </select>
                         </td>
                         <td id="js-schedule" class="text-center">
                             <slot name="taskDates">{{ dbData.startdate }}〜{{ dbData.enddate }}</slot>
@@ -32,7 +37,7 @@
                                 :name="'actualHour' + dbData.taskname"
                                 :id="'actualHour' + dbData.taskname"
                                 class="form-control"
-                                v-model="tasksHourValue[dbData.taskname]"
+                                v-model.trim="sendUpdateData[dbData.taskname]"
                                 @input="$emit('input', $event.target.value)"
                                 placeholder="実工数を入力してください。">
                             <!-- {{ 'tasksHourValue' + dbData.taskname }} -->
@@ -42,14 +47,14 @@
             </table>
         </div>
         <div class="l-w50-center mt-5">
-            <BtnSubmit submit-id="SubmitHours" button-type="button" @onClick="saveHours">実工数保存</BtnSubmit>
+            <BtnSubmit submit-id="SubmitHours" button-type="button" @onClick="update">タスク更新</BtnSubmit>
         </div>
     </div>
 </template>
 
 <script>
 import BtnSubmit from '../btn/BtnSubmit.vue';
-// :value="`tasksHourValue` + dbData.taskname"
+import FormTaskUpdateStatus from '../form/task/FormTaskUpdateStatus';
 
 export default {
     name: 'DataTable',
@@ -59,71 +64,87 @@ export default {
                 type: Object,
                 required: false
             },
-            tasksHourValue: []//実工数の配列（中身はオブジェクト）
+            sendUpdateData: [],//更新データの配列
+
         }
     },
     // model: {
-    //     prop: 'tasksHourValue',
+    //     prop: 'sendUpdateData',
     //     event: 'input'
     // },
     props: {
-        sendDbTaskData: Array,
+        receiveDbTaskData: Array,
         // cloneDbData: Object,
-        // tasksHourValue: String,
+        // sendUpdateData: String,
     },
     computed: {
-        getHour() {//DBデータのコピーを使用して、実工数配列にオブジェクトとして入れる
-            this.cloneDbData = [...this.sendDbTaskData]
-            this.tasksHourValue.splice(0, this.tasksHourValue.length)//実工数配列を初期化
+        statuses () {
+            const status = [
+                {
+                    statusTxt: 'ステータスを選択してください。',
+                    statusValue: 'none',
+                },
+                {
+                    statusTxt: '着手前',
+                    statusValue: '着手前',
+                },
+                {
+                    statusTxt: '対応中',
+                    statusValue: '対応中',
+                },
+                {
+                    statusTxt: 'Dir確認中',
+                    statusValue: 'Dir確認中',
+                },
+                {
+                    statusTxt: 'FB修正中',
+                    statusValue: 'FB修正中',
+                },
+                {
+                    statusTxt: '完了',
+                    statusValue: '完了',
+                },
+            ]
+            return status
+        },
+        getUpdateData() {//DBデータのコピーを使用して、実工数配列にオブジェクトとして入れる
+            this.cloneDbData = [...this.receiveDbTaskData]
+            this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
 
             this.cloneDbData.forEach((element, index) => {
-                this.tasksHourValue.splice(index, 0, {[element.taskname]: this.tasksHourValue[element.taskname]})//実工数配列に{タスク名: 工数}で入れる
-                if(typeof this.tasksHourValue[index][element.taskname] !== 'undefined') {//実工数が入っていれば、DBデータのコピーのjitsukosuと足し算する
-                    this.cloneDbData[index].jitsukosu = parseInt(this.tasksHourValue[index][element.taskname]) + parseInt(this.cloneDbData[index].kosu)
+                //更新データの配列に{taskname: タスク名, jitsukosu: 実工数, state: ステータス}の形式で入れる
+                this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': this.sendUpdateData[element.taskname], 'state': this.cloneDbData[index].state})
+                if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ
+                    this.sendUpdateData[index].jitsukosu = 0
                 }
+                //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
+                // this.cloneDbData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
             })
             return [
-                this.tasksHourValue,
-                this.cloneDbData
+                this.sendUpdateData,
+                // this.cloneDbData
             ]
         }
     },
     methods: {
-        saveHours () {
-            let params = new FormData();
-            // const tasks = [['タスク',5], ['タスクタスクタスク',3,'着手前'], ['タスク１',2,'対応中']]
-            const tasks = [
-                {
-                    taskname: 'タスク',
-                    jitsukosu: 5,
-                    state: ''
-                },
-                {
-                    taskname: 'タスクタスクタスク',
-                    jitsukosu: 3,
-                    state: '着手前'
-                },
-                {
-                    taskname: 'タスク１',
-                    jitsukosu: 2,
-                    state: '対応中'
-                }
-            ];
+        update () {
+            this.getUpdateData
+            console.log(this.sendUpdateData)
 
-            axios.post('/api/updateTask', tasks)
+            axios.post('/api/updateTask', this.sendUpdateData)
             .then(response => {
-                // this.dbTaskData = response.data
                 console.log(response.data)
+                 alert('タスクを更新しました。')
 
             })
             .catch(error => {
-                // console.log(error)
                 alert('エラーです')
             });
-        }
+        },
     },
     components: {
-        BtnSubmit
+        BtnSubmit,
+        FormTaskUpdateStatus
     }
 }
 </script>
