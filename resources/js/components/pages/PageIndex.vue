@@ -5,10 +5,10 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable :sendDbTaskData="dbTaskData"></DataTable>
+        <DataTable :send-db-task-data="dbTaskData"></DataTable>
 
         <!-- modal -->
-        <ModalRegistration @taskRefresh="test" @close="ToggleModal" v-if="showModal"></ModalRegistration>
+        <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
 </template>
@@ -39,43 +39,38 @@ export default {
         axios.get('/api/getTask', {
             params: {
                 userId: this.$route.params.userId,
-                // userId: 'test',
             }
         })
         .then(response => {
             this.dbTaskData = response.data
-            // console.log(this.dbTaskData)
 
         })
         .catch(error => {
-            // console.log(error)
             alert('エラーです')
         });
     },
     methods:{
         ToggleModal () {
             this.showModal = !this.showModal
-            // console.log(this.dbRefreshData)
         },
-        test (aaa) {
-            console.log('ああああああああああああ')
-            console.log(aaa);
+        refreshData (taskValueObject) {
+            console.log('PageIndex.vueのrefreshDataのイベント確認。\n下はmodalRegistration.vueからemitで渡している引数taskValueObjectの値')
+            console.log(taskValueObject);
             axios.get('/api/registrationTask', {
                 params: {
                     userId: this.$route.params.userId,
-                    taskname: aaa.taskName,
-                    kosu: aaa.taskHour,
-                    jitsukosu: aaa.taskHour,
-                    startdate: aaa.taskStartDate,
-                    enddate: aaa.taskEndDate,
-                    state: aaa.taskStatus
+                    taskname: taskValueObject.taskName,
+                    kosu: taskValueObject.taskHour,
+                    jitsukosu: taskValueObject.taskHour,
+                    startdate: taskValueObject.taskStartDate,
+                    enddate: taskValueObject.taskEndDate,
+                    state: taskValueObject.taskStatus
                 }
             })
             .then(response => {
                 console.log(response)
                 if(response.data === 'duplicate') {
                     alert('タスク名が重複しています。')
-                    // this.$router.push('/error');
                 } else {
                 // } else if(response.data === 'registration'){
                     alert('タスク登録しました。')

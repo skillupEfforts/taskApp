@@ -32,46 +32,69 @@
                                 :name="'actualHour' + dbData.taskname"
                                 :id="'actualHour' + dbData.taskname"
                                 class="form-control"
-                                v-model="sendDbTaskData[dbData.taskname]"
+                                v-model="tasksHourValue[dbData.taskname]"
                                 @input="$emit('input', $event.target.value)"
                                 placeholder="実工数を入力してください。">
-                            {{ sendDbTaskData[dbData.taskname] }}
+                            <!-- {{ 'tasksHourValue' + dbData.taskname }} -->
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="l-w50-center mt-5">
+<<<<<<< HEAD
             <BtnSubmit submit-id="SubmitHours" button-type="button" @onClick="saveHours">実工数保存</BtnSubmit>
+=======
+            <BtnSubmit submit-id="SubmitHours" button-type="submit" @onClick="saveHours()">実工数保存</BtnSubmit>
+>>>>>>> 7c51ed2db330ad7afead660a733738322286a668
         </div>
     </div>
 </template>
 
 <script>
 import BtnSubmit from '../btn/BtnSubmit.vue';
+// :value="`tasksHourValue` + dbData.taskname"
 
 export default {
     name: 'DataTable',
     data () {
         return {
-            // sendDbTaskData: Array,
+            cloneDbData: {//DBデータのコピー
+                type: Object,
+                required: false
+            },
+            tasksHourValue: []//実工数の配列（中身はオブジェクト）
         }
     },
-    model: {
-        prop: 'actualHour',
-        event: 'input'
-    },
+    // model: {
+    //     prop: 'tasksHourValue',
+    //     event: 'input'
+    // },
     props: {
         sendDbTaskData: Array,
-        actualHourValue: String,
-    },
-    mounted() {
+        // cloneDbData: Object,
+        // tasksHourValue: String,
     },
     computed: {
+        getHour() {//DBデータのコピーを使用して、実工数配列にオブジェクトとして入れる
+            this.cloneDbData = [...this.sendDbTaskData]
+            this.tasksHourValue.splice(0, this.tasksHourValue.length)//実工数配列を初期化
 
+            this.cloneDbData.forEach((element, index) => {
+                this.tasksHourValue.splice(index, 0, {[element.taskname]: this.tasksHourValue[element.taskname]})//実工数配列に{タスク名: 工数}で入れる
+                if(typeof this.tasksHourValue[index][element.taskname] !== 'undefined') {//実工数が入っていれば、DBデータのコピーのjitsukosuと足し算する
+                    this.cloneDbData[index].jitsukosu = parseInt(this.tasksHourValue[index][element.taskname]) + parseInt(this.cloneDbData[index].kosu)
+                }
+            })
+            return [
+                this.tasksHourValue,
+                this.cloneDbData
+            ]
+        }
     },
     methods: {
         saveHours () {
+<<<<<<< HEAD
             let params = new FormData();
             // const tasks = [['タスク',5], ['タスクタスクタスク',3,'着手前'], ['タスク１',2,'対応中']]
             const tasks = [
@@ -103,6 +126,39 @@ export default {
                 alert('エラーです')
             });
         }
+=======
+            this.getHour
+            console.log(this.tasksHourValue)
+            console.log(this.cloneDbData)
+            let keys = []
+            this.tasksHourValue.forEach((element, index) => {//実工数配列のキー名だけを取得
+                keys.push(Object.keys(element))
+                // console.log(keys)
+            })
+            keys.forEach((elem, i) => {//キー名だけの配列を回し、APIを叩く
+                axios.get('/api/registrationTask', {
+                    params: {
+                        userId: this.$route.params.userId,
+                        taskname: elem[0],
+                        jitsukosu: this.cloneDbData[i].jitsukosu,
+                    }
+                })
+                .then(response => {
+                    console.log(elem[0])
+                    console.log(this.cloneDbData[i].jitsukosu)
+                    console.log(response)
+                    // if(response.data === 'duplicate') {
+                    // }
+                })
+                .catch(error => {
+                    console.log(error)
+                    alert('エラーです')
+                });
+            })
+
+
+        },
+>>>>>>> 7c51ed2db330ad7afead660a733738322286a668
     },
     components: {
         BtnSubmit
