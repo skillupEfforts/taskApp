@@ -42,7 +42,7 @@
             </table>
         </div>
         <div class="l-w50-center mt-5">
-            <BtnSubmit submit-id="SubmitHours" button-type="submit" @onClick="saveHours">実工数保存</BtnSubmit>
+            <BtnSubmit submit-id="SubmitHours" button-type="button" @onClick="saveHours">実工数保存</BtnSubmit>
         </div>
     </div>
 </template>
@@ -72,8 +72,36 @@ export default {
     },
     methods: {
         saveHours () {
-            // alert('工数保存しました。')
-            // console.log(this.sendDbTaskData.task3);
+            let params = new FormData();
+            // const tasks = [['タスク',5], ['タスクタスクタスク',3,'着手前'], ['タスク１',2,'対応中']]
+            const tasks = [
+                {
+                    taskname: 'タスク',
+                    jitsukosu: 5,
+                    state: ''
+                },
+                {
+                    taskname: 'タスクタスクタスク',
+                    jitsukosu: 3,
+                    state: '着手前'
+                },
+                {
+                    taskname: 'タスク１',
+                    jitsukosu: 2,
+                    state: '対応中'
+                }
+            ];
+
+            axios.post('/api/updateTask', tasks)
+            .then(response => {
+                // this.dbTaskData = response.data
+                console.log(response.data)
+
+            })
+            .catch(error => {
+                // console.log(error)
+                alert('エラーです')
+            });
         }
     },
     components: {

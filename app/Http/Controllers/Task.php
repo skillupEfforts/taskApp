@@ -66,4 +66,20 @@ class Task extends Controller
             return $e;
         }
     }
+
+    //タスク更新
+    public function updateTask(Request $request)
+    {
+        try {
+            $tasks = $request;
+            $taskTable = new taskTable();
+            foreach($tasks as $key => $task) {
+                return $request;
+                $taskTable->updateData($tasks[$key]);
+            }
+            return 'update';
+        } catch(\Exception $e) {
+            return $e;
+        }
+    }
 }
