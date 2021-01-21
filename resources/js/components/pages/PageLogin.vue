@@ -9,7 +9,7 @@
                     loginPlaceHolder="ログインID"
                     loginIdName="loginId"
                     v-model="userId"
-                >ログインID
+                ><strong>ログインID</strong>
                 </FormLoginIdBox>
                 <FormLoginPassBox class="col"
                     loginPassId="loginPassId"
@@ -17,7 +17,7 @@
                     loginPassPlaceHolder="ログインパスワード"
                     loginPassName="loginPass"
                     v-model="userPass"
-                >ログインパス
+                ><strong>ログインパス</strong>
                 </FormLoginPassBox>
             </div>
             <FormSubmitBtn class="mt-3"
@@ -25,10 +25,10 @@
                 loginButtonType="submit"
             >ログイン
             </FormSubmitBtn>
-            <div style="margin-top:30px;">
-                <router-link class="btn btn-primary w-100"
+            <div class="mt-5 text-center">
+                <router-link class="btn btn-secondary w-50"
                     to="/registration/"
-                >アカウント作成
+                >アカウント新規作成
                 </router-link>
             </div>
         </form>
