@@ -42,11 +42,7 @@
             </table>
         </div>
         <div class="l-w50-center mt-5">
-<<<<<<< HEAD
             <BtnSubmit submit-id="SubmitHours" button-type="button" @onClick="saveHours">実工数保存</BtnSubmit>
-=======
-            <BtnSubmit submit-id="SubmitHours" button-type="submit" @onClick="saveHours()">実工数保存</BtnSubmit>
->>>>>>> 7c51ed2db330ad7afead660a733738322286a668
         </div>
     </div>
 </template>
@@ -94,7 +90,6 @@ export default {
     },
     methods: {
         saveHours () {
-<<<<<<< HEAD
             let params = new FormData();
             // const tasks = [['タスク',5], ['タスクタスクタスク',3,'着手前'], ['タスク１',2,'対応中']]
             const tasks = [
@@ -126,39 +121,6 @@ export default {
                 alert('エラーです')
             });
         }
-=======
-            this.getHour
-            console.log(this.tasksHourValue)
-            console.log(this.cloneDbData)
-            let keys = []
-            this.tasksHourValue.forEach((element, index) => {//実工数配列のキー名だけを取得
-                keys.push(Object.keys(element))
-                // console.log(keys)
-            })
-            keys.forEach((elem, i) => {//キー名だけの配列を回し、APIを叩く
-                axios.get('/api/registrationTask', {
-                    params: {
-                        userId: this.$route.params.userId,
-                        taskname: elem[0],
-                        jitsukosu: this.cloneDbData[i].jitsukosu,
-                    }
-                })
-                .then(response => {
-                    console.log(elem[0])
-                    console.log(this.cloneDbData[i].jitsukosu)
-                    console.log(response)
-                    // if(response.data === 'duplicate') {
-                    // }
-                })
-                .catch(error => {
-                    console.log(error)
-                    alert('エラーです')
-                });
-            })
-
-
-        },
->>>>>>> 7c51ed2db330ad7afead660a733738322286a668
     },
     components: {
         BtnSubmit
