@@ -13,7 +13,7 @@
                         task-name="taskNameId"
                         @onBlur="taskNameCheck"
                         v-model="taskValueObject.taskName">
-                        親タスク入力
+                        <strong>親タスク入力</strong>
                         <template #task-name-error>
                             <p class="text-danger" v-if="taskNameError">タスク名が入力されていません。</p>
                             <p class="text-danger" v-if="taskNameDuplicateError">既に登録済みのタスクと重複しています。</p>
@@ -26,7 +26,7 @@
                         task-hour-name="taskHourId"
                         @onBlur="taskHourCheck"
                         v-model="taskValueObject.taskHour">
-                        工数入力
+                        <strong>工数入力</strong>
                         <template #task-hour-error v-if="taskHourError">
                             <p class="text-danger">工数が入力されていません。</p>
                         </template>
@@ -41,7 +41,7 @@
                                 task-start-date-id-name="taskStartDateStartId"
                                 taskStartDateValue=""
                                 v-model="taskValueObject.taskStartDate">
-                                <template #start>期間（開始日）</template>
+                                <template #start><strong>期間（開始日）</strong></template>
                                 <template #task-startdate-error v-if="taskStartDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
                                 </template>
@@ -54,7 +54,7 @@
                                 task-end-date-id-name="taskEndDateStartId"
                                 taskEndDateValues=""
                                 v-model="taskValueObject.taskEndDate">
-                                <template #end>期間（開始日）</template>
+                                <template #end><strong>期間（開始日）</strong></template>
                                 <template #task-enddate-error v-if="taskEndDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
                                 </template>
@@ -66,7 +66,7 @@
                         task-status-name="taskStatusName"
                         v-model="taskValueObject.taskStatus"
                         @onChange="taskStatusCheck">
-                        ステータス
+                        <strong>ステータス</strong>
                         <template #task-status-error v-if="taskStatusError">
                             <p class="text-danger">タスクのステータスが選択されていません。</p>
                         </template>
@@ -74,14 +74,14 @@
                     <FormTaskTextArea
                         task-textarea-id="taskTextAreaId"
                         v-model="taskMemo">
-                        メモ
+                        <strong>メモ</strong>
                     </FormTaskTextArea>
                 </div>
             </div>
             <footer class="l-modal-footer">
             <slot name="footer">
                 <!-- <BtnSubmit :onClick="taskRefresh" submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit> -->
-                <button @click.prevent="taskRefresh" submit-id="taskRegistration" button-type="submit" class="btn btn-primary w-100 w-50 mx-auto">タスク登録</button>
+                <button @click.prevent="taskRefresh" submit-id="taskRegistration" button-type="submit" class="btn btn-success w-100 w-50 mx-auto">タスク登録</button>
             </slot>
             </footer>
         </form>
@@ -147,28 +147,28 @@ export default {
     },
     methods: {
         taskNameCheck() {
-            axios.get('/api/duplicateCheckTask', {
-                params: {
-                    taskname: this.taskValueObject.taskName
-                }
-            })
-            .then(response => {
-                if(this.taskValueObject.taskName.trim() === '') {
-                    this.taskNameError = true;
-                } else {
-                    this.taskNameError = false;
+            if(this.taskValueObject.taskName.trim() === '') {
+                this.taskNameError = true;
+            } else {
+                this.taskNameError = false;
+
+                axios.get('/api/duplicateCheckTask', {
+                    params: {
+                        taskname: this.taskValueObject.taskName
+                    }
+                })
+                .then(response => {
                     if(response.data === 'duplicate') {
                         this.taskNameDuplicateError = true;
                     } else {
                         this.taskNameDuplicateError = false;
                     }
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                alert('エラーです')
-            });
-
+                })
+                .catch(error => {
+                // console.log(error)
+                    alert('エラーです')
+                });
+            }
         },
         taskHourCheck() {
             if(this.taskValueObject.taskHour === ''){
