@@ -54,7 +54,6 @@
 
 <script>
 import BtnSubmit from '../btn/BtnSubmit.vue';
-import FormTaskUpdateStatus from '../form/task/FormTaskUpdateStatus';
 
 export default {
     name: 'DataTable',
@@ -144,7 +143,6 @@ export default {
     },
     components: {
         BtnSubmit,
-        FormTaskUpdateStatus
     }
 }
 </script>

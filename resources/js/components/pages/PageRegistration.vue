@@ -75,6 +75,9 @@ export default {
         registrationIdCheck () {//IDのテキストボックスblurイベント
             if(this.registrationId.trim() === ''){
                 this.IdNotEntered = true
+                if(this.IdAlreadyUsed){
+                    this.IdAlreadyUsed = false
+                }
             } else {
                 this.IdNotEntered = false
                 //blur時にBD登録まで行ってしまう。。
