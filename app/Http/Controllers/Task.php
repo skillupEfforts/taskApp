@@ -71,11 +71,12 @@ class Task extends Controller
     public function updateTask(Request $request)
     {
         try {
-            $tasks = $request;
+            $tasks = $request->toArray();
             $taskTable = new taskTable();
-            foreach($tasks as $key => $task) {
-                return $request;
-                $taskTable->updateData($tasks[$key]);
+            foreach($tasks as $task) {
+                // $tempTask = (array) $task;
+                // return $task;
+                $taskTable->updateData($task);
             }
             return 'update';
         } catch(\Exception $e) {

@@ -17,7 +17,7 @@
                             <slot name="taskNames">{{ dbData.taskname }}</slot>
                         </th>
                         <td id="js-plan-workeffortTime" class="text-center">
-                            <slot name="taskHours">{{ dbData.kosu }}／{{ dbData.kosu }}</slot>
+                            <slot name="taskHours">{{ dbData.jitsukosu }}／{{ dbData.kosu }}</slot>
                         </td>
                         <td id="js-status" class="text-center">
                             <slot name="taskStatus">{{ dbData.state }}</slot>
@@ -96,7 +96,7 @@ export default {
                 {
                     taskname: 'タスク',
                     jitsukosu: 5,
-                    state: ''
+                    state: 'Dir確認中'
                 },
                 {
                     taskname: 'タスクタスクタスク',
