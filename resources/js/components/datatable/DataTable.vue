@@ -40,7 +40,6 @@
                                 v-model.trim="sendUpdateData[dbData.taskname]"
                                 @input="$emit('input', $event.target.value)"
                                 placeholder="実工数を入力してください。">
-                            <!-- {{ 'tasksHourValue' + dbData.taskname }} -->
                         </td>
                     </tr>
                 </tbody>
@@ -117,7 +116,7 @@ export default {
                     this.sendUpdateData[index].jitsukosu = 0
                 }
                 //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
-                // this.cloneDbData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
+                this.sendUpdateData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
             })
             return [
                 this.sendUpdateData,
