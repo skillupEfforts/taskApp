@@ -5,7 +5,7 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable :receive-db-task-data="dbTaskData"></DataTable>
+        <DataTable :receive-db-task-data="dbTaskData" @update="afterUpdateGetTask"></DataTable>
 
         <!-- modal -->
         <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>
@@ -53,6 +53,13 @@ export default {
         ToggleModal () {
             this.showModal = !this.showModal
         },
+        refreshDbData (db) {
+            // console.log(this.dbTaskData)
+            this.dbTaskData = [];
+            // console.log(this.dbTaskData)
+            this.dbTaskData.push(...db.data)
+            // console.log(this.dbTaskData)
+        },
         refreshData (taskValueObject) {
             console.log('PageIndex.vueのrefreshDataのイベント確認。\n下はmodalRegistration.vueからemitで渡している引数taskValueObjectの値')
             console.log(taskValueObject);
@@ -74,11 +81,7 @@ export default {
                 } else {
                 // } else if(response.data === 'registration'){
                     alert('タスク登録しました。')
-                    console.log(this.dbTaskData)
-                    this.dbTaskData = [];
-                    console.log(this.dbTaskData)
-                    this.dbTaskData.push(...response.data)
-                    console.log(this.dbTaskData)
+                    this.refreshDbData(response);
                     this.ToggleModal();
                     // this.$router.push({
                     //     name: 'PageIndex',
@@ -90,6 +93,23 @@ export default {
                 console.log(error)
                 alert('エラーです')
             });
+        },
+        afterUpdateGetTask() {
+            console.log(this.$route.params.userId);
+
+            axios.get('/api/getTask', {
+                params: {
+                    userId: this.$route.params.userId,
+                }
+            })
+            .then(response => {
+                // console.log(response.date);
+                this.refreshDbData(response);
+            })
+            .catch(error => {
+                console.log(error)
+                alert('エラーです')
+            })
         }
     },
     components: {

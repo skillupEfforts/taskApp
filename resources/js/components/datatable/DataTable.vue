@@ -163,13 +163,13 @@ export default {
 
             axios.post('/api/updateTask', this.sendUpdateData)
             .then(response => {
-                console.log(response.data)
                  alert('タスクを更新しました。')
 
             })
             .catch(error => {
                 alert('エラーです')
             });
+            this.$emit('update')
         },
     },
     components: {
