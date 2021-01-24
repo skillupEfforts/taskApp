@@ -20,8 +20,9 @@
                             <slot name="taskHours">{{ dbData.jitsukosu }}／{{ dbData.kosu }}</slot>
                         </td>
                         <td id="js-status" class="text-center">
-                            <select :name="`taskStatusUpdateId` + dbData.taskname" :id="`taskStatusUpdateId` + dbData.taskname" v-model="dbData.state">
+                            <select ref="statusSelect" :name="`taskStatusUpdateId` + dbData.taskname" :id="dbData.taskname">
                             <option v-for="(value, key) in statuses"
+                                    :selected="value.statusValue === dbData.state"
                                     :value="value.statusValue"
                                     :key="key"
                                     >{{ value.statusTxt }}</option>
@@ -37,8 +38,7 @@
                                 :name="'actualHour' + dbData.taskname"
                                 :id="'actualHour' + dbData.taskname"
                                 class="form-control"
-                                v-model.trim="sendUpdateData[dbData.taskname]"
-                                @input="$emit('input', $event.target.value)"
+                                v-model.trim="updateHours[dbData.taskname]"
                                 placeholder="実工数を入力してください。">
                         </td>
                     </tr>
@@ -53,6 +53,8 @@
 
 <script>
 import BtnSubmit from '../btn/BtnSubmit.vue';
+// let updateHours = {}
+let updateStatuses = {}
 
 export default {
     name: 'DataTable',
@@ -63,6 +65,7 @@ export default {
                 required: false
             },
             sendUpdateData: [],//更新データの配列
+            updateHours: [],//実工数を入れるオブジェクト
 
         }
     },
@@ -105,24 +108,6 @@ export default {
             ]
             return status
         },
-        getUpdateData() {//DBデータのコピーを使用して、実工数配列にオブジェクトとして入れる
-            this.cloneDbData = [...this.receiveDbTaskData]
-            this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
-
-            this.cloneDbData.forEach((element, index) => {
-                //更新データの配列に{taskname: タスク名, jitsukosu: 実工数, state: ステータス}の形式で入れる
-                this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': this.sendUpdateData[element.taskname], 'state': this.cloneDbData[index].state})
-                if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ
-                    this.sendUpdateData[index].jitsukosu = 0
-                }
-                //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
-                this.sendUpdateData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
-            })
-            return [
-                this.sendUpdateData,
-                // this.cloneDbData
-            ]
-        }
     },
     methods: {
         saveHours () {
@@ -146,8 +131,34 @@ export default {
                 }
             ];
         },
+        getUpdateData () {
+            this.cloneDbData = [...this.receiveDbTaskData]
+            this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
+
+            //ステータスを{タスク名: スタータス}の形式でオブジェクトに格納
+            updateStatuses = {}
+            let statusLen = this.$refs.statusSelect.length
+            for(let i = 0; i < statusLen; i++){
+                let statusTaskName = this.$refs.statusSelect[i].getAttribute('id')
+                updateStatuses[statusTaskName] = this.$refs.statusSelect[i].value
+            }
+
+            this.cloneDbData.forEach((element, index) => {
+                //更新データの配列に{taskname: タスク名, jitsukosu: 実工数, state: ステータス}の形式で入れる
+                this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': this.updateHours[element.taskname], 'state': updateStatuses[element.taskname]})
+                if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
+                    this.sendUpdateData[index].jitsukosu = 0
+                }
+                //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
+                this.sendUpdateData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
+            })
+
+            return [
+                this.sendUpdateData,
+            ]
+        },
         update () {
-            this.getUpdateData
+            this.getUpdateData()
             console.log(this.sendUpdateData)
 
             axios.post('/api/updateTask', this.sendUpdateData)
