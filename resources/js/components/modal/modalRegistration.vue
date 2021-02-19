@@ -2,7 +2,7 @@
   <transition name="l-modal" appear>
     <div class="l-modal l-modal-overlay" @click.self="$emit('close')">
       <div class="l-modal-window">
-        <form @submit.prevent="taskRegistrationCheck">
+        <form>
             <div class="l-modal-content">
                 <Heading2>タスク新規追加</Heading2>
                 <div class="l-task-input">
@@ -12,8 +12,8 @@
                         task-name-placeholder="親タスクを入力してください"
                         task-name="taskNameId"
                         @onBlur="taskNameCheck"
-                        v-model="taskName">
-                        親タスク入力{{ taskName }}
+                        v-model="taskValueObject.taskName">
+                        <strong>親タスク入力</strong>
                         <template #task-name-error>
                             <p class="text-danger" v-if="taskNameError">タスク名が入力されていません。</p>
                             <p class="text-danger" v-if="taskNameDuplicateError">既に登録済みのタスクと重複しています。</p>
@@ -25,8 +25,8 @@
                         task-hour-placeholder="予定工数を入力してください"
                         task-hour-name="taskHourId"
                         @onBlur="taskHourCheck"
-                        v-model="taskHour">
-                        工数入力{{ taskHour }}
+                        v-model="taskValueObject.taskHour">
+                        <strong>工数入力</strong>
                         <template #task-hour-error v-if="taskHourError">
                             <p class="text-danger">工数が入力されていません。</p>
                         </template>
@@ -40,8 +40,8 @@
                                 task-start-date-max="2022-01-01"
                                 task-start-date-id-name="taskStartDateStartId"
                                 taskStartDateValue=""
-                                v-model="taskStartDate">
-                                <template #start>期間（開始日）{{ taskStartDate }}</template>
+                                v-model="taskValueObject.taskStartDate">
+                                <template #start><strong>期間（開始日）</strong></template>
                                 <template #task-startdate-error v-if="taskStartDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
                                 </template>
@@ -53,8 +53,8 @@
                                 task-end-date-max="2022-01-01"
                                 task-end-date-id-name="taskEndDateStartId"
                                 taskEndDateValues=""
-                                v-model="taskEndDate">
-                                <template #end>期間（開始日）{{ taskEndDate }}</template>
+                                v-model="taskValueObject.taskEndDate">
+                                <template #end><strong>期間（開始日）</strong></template>
                                 <template #task-enddate-error v-if="taskEndDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
                                 </template>
@@ -64,9 +64,9 @@
                     <FormTaskStatus
                         task-status-id="taskStatusId"
                         task-status-name="taskStatusName"
-                        v-model="taskStatus"
+                        v-model="taskValueObject.taskStatus"
                         @onChange="taskStatusCheck">
-                        ステータス{{ taskStatus }}
+                        <strong>ステータス</strong>
                         <template #task-status-error v-if="taskStatusError">
                             <p class="text-danger">タスクのステータスが選択されていません。</p>
                         </template>
@@ -74,13 +74,14 @@
                     <FormTaskTextArea
                         task-textarea-id="taskTextAreaId"
                         v-model="taskMemo">
-                        メモ{{ taskMemo }}
+                        <strong>メモ</strong>
                     </FormTaskTextArea>
                 </div>
             </div>
             <footer class="l-modal-footer">
             <slot name="footer">
-                <BtnSubmit submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit>
+                <!-- <BtnSubmit :onClick="taskRefresh" submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit> -->
+                <button @click.prevent="taskRefresh" submit-id="taskRegistration" button-type="submit" class="btn btn-success w-100 w-50 mx-auto">タスク登録</button>
             </slot>
             </footer>
         </form>
@@ -116,7 +117,16 @@ export default {
             taskStatus: 'none',
             taskStatusError: false,
             taskMemo: '',
-            taskNameDuplicateError: false
+            taskNameDuplicateError: false,
+            dbRefreshData: Array,
+            taskValueObject: {
+                taskName: '',
+                taskHour: '',
+                taskStartDate: '',
+                taskEndDate: '',
+                taskStatus: 'none',
+                taskMemo: '',
+            }
         }
     },
     props : {
@@ -136,79 +146,47 @@ export default {
         // console.log(this.$route.params.userId)
     },
     methods: {
-        taskRegistrationCheck() {
-            axios.get('/api/registrationTask', {
-                params: {
-                    userId: this.$route.params.userId,
-                    taskname: this.taskName,
-                    kosu: this.taskHour,
-                    jitsukosu: this.taskHour,
-                    startdate: this.taskStartDate,
-                    enddate: this.taskEndDate,
-                    state: this.taskStatus
-                }
-            })
-            .then(response => {
-                console.log(response)
-                if(response.data === 'duplicate') {
-                    alert('タスク名が重複しています。')
-                    // this.$router.push('/error');
-                } else if(response.data === 'registration'){
-                    alert('タスク登録しました。')
-                    // this.$router.push({
-                    //     name: 'PageIndex',
-                    //     params :{ taskname: response.data.taskname }
-                    // });
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                alert('エラーです')
-            });
-            console.log(this.$route.params.userId)
-        },
         taskNameCheck() {
-            axios.get('/api/duplicateCheckTask', {
-                params: {
-                    userId: this.$route.params.userId,
-                    taskname: this.taskName,
-                    kosu: this.taskHour,
-                    jitsukosu: this.taskHour,
-                    startdate: this.taskStartDate,
-                    enddate: this.taskEndDate,
-                }
-            })
-            .then(response => {
-                if(this.taskName.trim() === '') {
-                    this.taskNameError = true;
-                } else {
-                    this.taskNameError = false;
+            if(this.taskValueObject.taskName.trim() === '') {
+                this.taskNameError = true;
+            } else {
+                this.taskNameError = false;
+
+                axios.get('/api/duplicateCheckTask', {
+                    params: {
+                        taskname: this.taskValueObject.taskName
+                    }
+                })
+                .then(response => {
                     if(response.data === 'duplicate') {
                         this.taskNameDuplicateError = true;
                     } else {
                         this.taskNameDuplicateError = false;
                     }
-                }
-            })
-            .catch(error => {
-                console.log(error)
-                alert('エラーです')
-            });
-
+                })
+                .catch(error => {
+                // console.log(error)
+                    alert('エラーです')
+                });
+            }
         },
         taskHourCheck() {
-            if(this.taskHour === ''){
+            if(this.taskValueObject.taskHour === ''){
                 this.taskHourError = true
             } else {
                 this.taskHourError = false
             }
         },
         taskStatusCheck() {
-            if(this.taskStatus === 'none'){
+            if(this.taskValueObject.taskStatus === 'none'){
                 this.taskStatusError = true
             } else {
                 this.taskStatusError = false
             }
+        },
+        taskRefresh() {
+            console.log('modalRegistration.vueのtaskRefreshのイベント確認')
+            this.$emit('taskRefresh', this.taskValueObject)
         }
     },
     components: {

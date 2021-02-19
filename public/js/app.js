@@ -2921,6 +2921,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2946,7 +2947,16 @@ __webpack_require__.r(__webpack_exports__);
       taskStatus: 'none',
       taskStatusError: false,
       taskMemo: '',
-      taskNameDuplicateError: false
+      taskNameDuplicateError: false,
+      dbRefreshData: Array,
+      aaa: [{
+        taskName: '',
+        taskHour: '',
+        taskStartDate: '',
+        taskEndDate: '',
+        taskStatus: 'none',
+        taskMemo: ''
+      }]
     };
   },
   props: {
@@ -2965,34 +2975,8 @@ __webpack_require__.r(__webpack_exports__);
     this.taskEndDate = tommorow; // console.log(this.$route.params.userId)
   },
   methods: {
-    taskRegistrationCheck: function taskRegistrationCheck() {
-      axios.get('/api/registrationTask', {
-        params: {
-          userId: this.$route.params.userId,
-          taskname: this.taskName,
-          kosu: this.taskHour,
-          jitsukosu: this.taskHour,
-          startdate: this.taskStartDate,
-          enddate: this.taskEndDate,
-          state: this.taskStatus
-        }
-      }).then(function (response) {
-        console.log(response);
-
-        if (response.data === 'duplicate') {
-          alert('タスク名が重複しています。'); // this.$router.push('/error');
-        } else if (response.data === 'registration') {
-          alert('タスク登録しました。'); // this.$router.push({
-          //     name: 'PageIndex',
-          //     params :{ taskname: response.data.taskname }
-          // });
-        }
-      })["catch"](function (error) {
-        console.log(error);
-        alert('エラーです');
-      });
-      console.log(this.$route.params.userId);
-    },
+    // taskRegistrationCheck() {
+    // },
     taskNameCheck: function taskNameCheck() {
       var _this = this;
 
@@ -3035,6 +3019,10 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.taskStatusError = false;
       }
+    },
+    taskRefresh: function taskRefresh() {
+      console.log('aaaaaaaaaaa');
+      this.$emit('taskRefresh', this.aaa); // this.$emit('taskRefresh', this.dbRefreshData)
     }
   },
   components: {
@@ -3146,7 +3134,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -3160,7 +3147,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       showModal: false,
       parentTaskName: '',
-      dbTaskData: Array
+      dbTaskData: Array,
+      dbRefreshData: Array
     };
   },
   props: {
@@ -3183,7 +3171,46 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     ToggleModal: function ToggleModal() {
-      this.showModal = !this.showModal;
+      this.showModal = !this.showModal; // console.log(this.dbRefreshData)
+    },
+    test: function test(aaa) {
+      var _this2 = this;
+
+      console.log('ああああああああああああ');
+      console.log(aaa);
+      axios.get('/api/registrationTask', {
+        params: {
+          userId: this.$route.params.userId,
+          taskname: aaa.taskName,
+          kosu: aaa.taskHour,
+          jitsukosu: aaa.taskHour,
+          startdate: aaa.taskStartDate,
+          enddate: aaa.taskEndDate,
+          state: aaa.taskStatus
+        }
+      }).then(function (response) {
+        console.log(response);
+
+        if (response.data === 'duplicate') {
+          alert('タスク名が重複しています。'); // this.$router.push('/error');
+        } else {
+          // } else if(response.data === 'registration'){
+          alert('タスク登録しました。');
+          console.log(_this2.dbTaskData);
+          _this2.dbTaskData = [];
+          console.log(_this2.dbTaskData);
+
+          _this2.dbTaskData.push(response.data);
+
+          console.log(_this2.dbTaskData); // this.$router.push({
+          //     name: 'PageIndex',
+          //     params :{ taskname: response.data.taskname }
+          // });
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        alert('エラーです');
+      });
     }
   },
   components: {
@@ -39084,7 +39111,12 @@ var render = function() {
       {
         staticClass: "btn btn-primary w-100",
         attrs: { id: _vm.SubmitId, type: _vm.ButtonType },
-        on: { click: _vm.onClick }
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.onClick($event)
+          }
+        }
       },
       [_vm._t("default")],
       2
@@ -40090,346 +40122,332 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "l-modal-window" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.taskRegistrationCheck($event)
-                }
-              }
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "l-modal-content" },
-                [
-                  _c("Heading2", [_vm._v("タスク新規追加")]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "l-task-input" },
-                    [
-                      _c(
-                        "FormTaskNameBox",
-                        {
-                          attrs: {
-                            "task-name-id": "taskNameId",
-                            "task-name-input-type": "text",
-                            "task-name-placeholder":
-                              "親タスクを入力してください",
-                            "task-name": "taskNameId"
-                          },
-                          on: { onBlur: _vm.taskNameCheck },
-                          scopedSlots: _vm._u([
-                            {
-                              key: "task-name-error",
-                              fn: function() {
-                                return [
-                                  _vm.taskNameError
-                                    ? _c("p", { staticClass: "text-danger" }, [
-                                        _vm._v("タスク名が入力されていません。")
-                                      ])
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.taskNameDuplicateError
-                                    ? _c("p", { staticClass: "text-danger" }, [
-                                        _vm._v(
-                                          "既に登録済みのタスクと重複しています。"
-                                        )
-                                      ])
-                                    : _vm._e()
-                                ]
-                              },
-                              proxy: true
-                            }
-                          ]),
-                          model: {
-                            value: _vm.taskName,
-                            callback: function($$v) {
-                              _vm.taskName = $$v
-                            },
-                            expression: "taskName"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                      親タスク入力" +
-                              _vm._s(_vm.taskName) +
-                              "\n                      "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "FormTaskHourBox",
-                        {
-                          attrs: {
-                            "task-hour-id": "taskHourId",
-                            "task-hour-input-type": "text",
-                            "task-hour-placeholder":
-                              "予定工数を入力してください",
-                            "task-hour-name": "taskHourId"
-                          },
-                          on: { onBlur: _vm.taskHourCheck },
-                          scopedSlots: _vm._u(
-                            [
-                              _vm.taskHourError
-                                ? {
-                                    key: "task-hour-error",
-                                    fn: function() {
-                                      return [
-                                        _c(
-                                          "p",
-                                          { staticClass: "text-danger" },
-                                          [_vm._v("工数が入力されていません。")]
-                                        )
-                                      ]
-                                    },
-                                    proxy: true
-                                  }
-                                : null
-                            ],
-                            null,
-                            true
-                          ),
-                          model: {
-                            value: _vm.taskHour,
-                            callback: function($$v) {
-                              _vm.taskHour = $$v
-                            },
-                            expression: "taskHour"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                      工数入力" +
-                              _vm._s(_vm.taskHour) +
-                              "\n                      "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "l-task-input-box" }, [
-                        _c(
-                          "div",
-                          { staticClass: "l-task-input-box-col2" },
-                          [
-                            _c("FormTaskStartDate", {
-                              attrs: {
-                                "task-start-date-id": "taskStartDateStartId",
-                                "task-start-date-input-type": "date",
-                                "task-start-date-min": "2021-01-01",
-                                "task-start-date-max": "2022-01-01",
-                                "task-start-date-id-name":
-                                  "taskStartDateStartId",
-                                taskStartDateValue: ""
-                              },
-                              scopedSlots: _vm._u(
-                                [
-                                  {
-                                    key: "start",
-                                    fn: function() {
-                                      return [
-                                        _vm._v(
-                                          "期間（開始日）" +
-                                            _vm._s(_vm.taskStartDate)
-                                        )
-                                      ]
-                                    },
-                                    proxy: true
-                                  },
-                                  _vm.taskStartDateError
-                                    ? {
-                                        key: "task-startdate-error",
-                                        fn: function() {
-                                          return [
-                                            _c(
-                                              "p",
-                                              { staticClass: "text-danger" },
-                                              [
-                                                _vm._v(
-                                                  "タスクの開始時期が入力されていません。"
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        },
-                                        proxy: true
-                                      }
-                                    : null
-                                ],
-                                null,
-                                true
-                              ),
-                              model: {
-                                value: _vm.taskStartDate,
-                                callback: function($$v) {
-                                  _vm.taskStartDate = $$v
-                                },
-                                expression: "taskStartDate"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("FormTaskEndDate", {
-                              attrs: {
-                                "task-end-date-id": "taskEndDateStartId",
-                                "task-end-date-input-type": "date",
-                                "task-end-date-min": "2021-01-01",
-                                "task-end-date-max": "2022-01-01",
-                                "task-end-date-id-name": "taskEndDateStartId",
-                                taskEndDateValues: ""
-                              },
-                              scopedSlots: _vm._u(
-                                [
-                                  {
-                                    key: "end",
-                                    fn: function() {
-                                      return [
-                                        _vm._v(
-                                          "期間（開始日）" +
-                                            _vm._s(_vm.taskEndDate)
-                                        )
-                                      ]
-                                    },
-                                    proxy: true
-                                  },
-                                  _vm.taskEndDateError
-                                    ? {
-                                        key: "task-enddate-error",
-                                        fn: function() {
-                                          return [
-                                            _c(
-                                              "p",
-                                              { staticClass: "text-danger" },
-                                              [
-                                                _vm._v(
-                                                  "タスクの開始時期が入力されていません。"
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        },
-                                        proxy: true
-                                      }
-                                    : null
-                                ],
-                                null,
-                                true
-                              ),
-                              model: {
-                                value: _vm.taskEndDate,
-                                callback: function($$v) {
-                                  _vm.taskEndDate = $$v
-                                },
-                                expression: "taskEndDate"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "FormTaskStatus",
-                        {
-                          attrs: {
-                            "task-status-id": "taskStatusId",
-                            "task-status-name": "taskStatusName"
-                          },
-                          on: { onChange: _vm.taskStatusCheck },
-                          scopedSlots: _vm._u(
-                            [
-                              _vm.taskStatusError
-                                ? {
-                                    key: "task-status-error",
-                                    fn: function() {
-                                      return [
-                                        _c(
-                                          "p",
-                                          { staticClass: "text-danger" },
-                                          [
-                                            _vm._v(
-                                              "タスクのステータスが選択されていません。"
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    },
-                                    proxy: true
-                                  }
-                                : null
-                            ],
-                            null,
-                            true
-                          ),
-                          model: {
-                            value: _vm.taskStatus,
-                            callback: function($$v) {
-                              _vm.taskStatus = $$v
-                            },
-                            expression: "taskStatus"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                      ステータス" +
-                              _vm._s(_vm.taskStatus) +
-                              "\n                      "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "FormTaskTextArea",
-                        {
-                          attrs: { "task-textarea-id": "taskTextAreaId" },
-                          model: {
-                            value: _vm.taskMemo,
-                            callback: function($$v) {
-                              _vm.taskMemo = $$v
-                            },
-                            expression: "taskMemo"
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                      メモ" +
-                              _vm._s(_vm.taskMemo) +
-                              "\n                  "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "footer",
-                { staticClass: "l-modal-footer" },
-                [
-                  _vm._t("footer", [
+          _c("form", [
+            _c(
+              "div",
+              { staticClass: "l-modal-content" },
+              [
+                _c("Heading2", [_vm._v("タスク新規追加")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "l-task-input" },
+                  [
                     _c(
-                      "BtnSubmit",
+                      "FormTaskNameBox",
                       {
-                        staticClass: "w-50 mx-auto",
                         attrs: {
-                          "submit-id": "taskRegistration",
-                          "button-type": "submit"
+                          "task-name-id": "taskNameId",
+                          "task-name-input-type": "text",
+                          "task-name-placeholder": "親タスクを入力してください",
+                          "task-name": "taskNameId"
+                        },
+                        on: { onBlur: _vm.taskNameCheck },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "task-name-error",
+                            fn: function() {
+                              return [
+                                _vm.taskNameError
+                                  ? _c("p", { staticClass: "text-danger" }, [
+                                      _vm._v("タスク名が入力されていません。")
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _vm.taskNameDuplicateError
+                                  ? _c("p", { staticClass: "text-danger" }, [
+                                      _vm._v(
+                                        "既に登録済みのタスクと重複しています。"
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ]),
+                        model: {
+                          value: _vm.taskName,
+                          callback: function($$v) {
+                            _vm.taskName = $$v
+                          },
+                          expression: "taskName"
                         }
                       },
-                      [_vm._v("タスク登録")]
+                      [
+                        _vm._v(
+                          "\n                      親タスク入力" +
+                            _vm._s(_vm.taskName) +
+                            "\n                      "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FormTaskHourBox",
+                      {
+                        attrs: {
+                          "task-hour-id": "taskHourId",
+                          "task-hour-input-type": "text",
+                          "task-hour-placeholder": "予定工数を入力してください",
+                          "task-hour-name": "taskHourId"
+                        },
+                        on: { onBlur: _vm.taskHourCheck },
+                        scopedSlots: _vm._u(
+                          [
+                            _vm.taskHourError
+                              ? {
+                                  key: "task-hour-error",
+                                  fn: function() {
+                                    return [
+                                      _c("p", { staticClass: "text-danger" }, [
+                                        _vm._v("工数が入力されていません。")
+                                      ])
+                                    ]
+                                  },
+                                  proxy: true
+                                }
+                              : null
+                          ],
+                          null,
+                          true
+                        ),
+                        model: {
+                          value: _vm.taskHour,
+                          callback: function($$v) {
+                            _vm.taskHour = $$v
+                          },
+                          expression: "taskHour"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                      工数入力" +
+                            _vm._s(_vm.taskHour) +
+                            "\n                      "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "l-task-input-box" }, [
+                      _c(
+                        "div",
+                        { staticClass: "l-task-input-box-col2" },
+                        [
+                          _c("FormTaskStartDate", {
+                            attrs: {
+                              "task-start-date-id": "taskStartDateStartId",
+                              "task-start-date-input-type": "date",
+                              "task-start-date-min": "2021-01-01",
+                              "task-start-date-max": "2022-01-01",
+                              "task-start-date-id-name": "taskStartDateStartId",
+                              taskStartDateValue: ""
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "start",
+                                  fn: function() {
+                                    return [
+                                      _vm._v(
+                                        "期間（開始日）" +
+                                          _vm._s(_vm.taskStartDate)
+                                      )
+                                    ]
+                                  },
+                                  proxy: true
+                                },
+                                _vm.taskStartDateError
+                                  ? {
+                                      key: "task-startdate-error",
+                                      fn: function() {
+                                        return [
+                                          _c(
+                                            "p",
+                                            { staticClass: "text-danger" },
+                                            [
+                                              _vm._v(
+                                                "タスクの開始時期が入力されていません。"
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      },
+                                      proxy: true
+                                    }
+                                  : null
+                              ],
+                              null,
+                              true
+                            ),
+                            model: {
+                              value: _vm.taskStartDate,
+                              callback: function($$v) {
+                                _vm.taskStartDate = $$v
+                              },
+                              expression: "taskStartDate"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("FormTaskEndDate", {
+                            attrs: {
+                              "task-end-date-id": "taskEndDateStartId",
+                              "task-end-date-input-type": "date",
+                              "task-end-date-min": "2021-01-01",
+                              "task-end-date-max": "2022-01-01",
+                              "task-end-date-id-name": "taskEndDateStartId",
+                              taskEndDateValues: ""
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "end",
+                                  fn: function() {
+                                    return [
+                                      _vm._v(
+                                        "期間（開始日）" +
+                                          _vm._s(_vm.taskEndDate)
+                                      )
+                                    ]
+                                  },
+                                  proxy: true
+                                },
+                                _vm.taskEndDateError
+                                  ? {
+                                      key: "task-enddate-error",
+                                      fn: function() {
+                                        return [
+                                          _c(
+                                            "p",
+                                            { staticClass: "text-danger" },
+                                            [
+                                              _vm._v(
+                                                "タスクの開始時期が入力されていません。"
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      },
+                                      proxy: true
+                                    }
+                                  : null
+                              ],
+                              null,
+                              true
+                            ),
+                            model: {
+                              value: _vm.taskEndDate,
+                              callback: function($$v) {
+                                _vm.taskEndDate = $$v
+                              },
+                              expression: "taskEndDate"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "FormTaskStatus",
+                      {
+                        attrs: {
+                          "task-status-id": "taskStatusId",
+                          "task-status-name": "taskStatusName"
+                        },
+                        on: { onChange: _vm.taskStatusCheck },
+                        scopedSlots: _vm._u(
+                          [
+                            _vm.taskStatusError
+                              ? {
+                                  key: "task-status-error",
+                                  fn: function() {
+                                    return [
+                                      _c("p", { staticClass: "text-danger" }, [
+                                        _vm._v(
+                                          "タスクのステータスが選択されていません。"
+                                        )
+                                      ])
+                                    ]
+                                  },
+                                  proxy: true
+                                }
+                              : null
+                          ],
+                          null,
+                          true
+                        ),
+                        model: {
+                          value: _vm.taskStatus,
+                          callback: function($$v) {
+                            _vm.taskStatus = $$v
+                          },
+                          expression: "taskStatus"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                      ステータス" +
+                            _vm._s(_vm.taskStatus) +
+                            "\n                      "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FormTaskTextArea",
+                      {
+                        attrs: { "task-textarea-id": "taskTextAreaId" },
+                        model: {
+                          value: _vm.taskMemo,
+                          callback: function($$v) {
+                            _vm.taskMemo = $$v
+                          },
+                          expression: "taskMemo"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                      メモ" +
+                            _vm._s(_vm.taskMemo) +
+                            "\n                  "
+                        )
+                      ]
                     )
-                  ])
-                ],
-                2
-              )
-            ]
-          )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "l-modal-footer" },
+              [
+                _vm._t("footer", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "w-50 mx-auto",
+                      attrs: {
+                        "submit-id": "taskRegistration",
+                        "button-type": "submit"
+                      },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.taskRefresh($event)
+                        }
+                      }
+                    },
+                    [_vm._v("タスク登録")]
+                  )
+                ])
+              ],
+              2
+            )
+          ])
         ])
       ]
     )
@@ -40571,7 +40589,7 @@ var render = function() {
             expression: "showModal"
           }
         ],
-        on: { close: _vm.ToggleModal }
+        on: { taskRefresh: _vm.test, close: _vm.ToggleModal }
       })
     ],
     1

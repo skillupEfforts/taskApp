@@ -24,3 +24,4 @@ Route::get('/registrationTask', 'App\Http\Controllers\Task@registrationTask');
 Route::get('/getTask', 'App\Http\Controllers\Task@getTask');
 Route::get('/duplicateCheck', 'App\Http\Controllers\Account@duplicateCheck');
 Route::get('/duplicateCheckTask', 'App\Http\Controllers\Task@duplicateCheck');
+Route::post('/updateTask', 'App\Http\Controllers\Task@updateTask');

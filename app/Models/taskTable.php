@@ -23,4 +23,12 @@ class taskTable extends Model
         $duplicateCount = DB::table($this->table)->where('taskname', $taskname)->count();
         return $duplicateCount;
     }
+
+    public function updateData(array $task)
+    {
+        DB::table($this->table)->where('taskname', $task['taskname'])->update([
+            'jitsukosu' => $task['jitsukosu'],
+            'state' => $task['state']
+        ]);
+    }
 }

@@ -12037,7 +12037,6 @@ a.text-dark:focus {
 }
 
 .l-modal-footer {
-  background: #ccc;
   padding: 10px;
   text-align: center;
 }
@@ -12127,6 +12126,10 @@ a.text-dark:focus {
 
 .m-heading-1:visited {
   color: #fff;
+}
+
+.m-heading-date {
+  font-size: 16px;
 }
 
 .m-table-w0 {

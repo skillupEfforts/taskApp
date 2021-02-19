@@ -16,7 +16,7 @@
                     registration-id-name="registrationId"
                     @onBlur="registrationIdCheck"
                     v-model="registrationId"
-                >登録するIDを入力してください。
+                ><strong>登録するIDを入力してください。</strong>
                 <template #error>
                     <p class="text-danger" v-if="IdNotEntered">登録するログインIDを入力してください。</p>
                     <p class="text-danger" v-if="IdAlreadyUsed">登録するログインIDはすでに使われております。他のログインIDを試してください。</p>
@@ -28,20 +28,20 @@
                     registration-pass-input-type="password"
                     registration-pass-placeHolder="登録するパスワードを入力してください"
                     registration-pass-name="registrationPass"
-                >登録するパスワードを入力してください。
+                ><strong>登録するパスワードを入力してください。</strong>
                 </FormRegistrationPassBox>
             </div>
             <FormRegistrationSubmitBtn
                 class="mt-3"
                 registration-submit-id="registrationSubmitId"
                 registration-button-type="submit"
-            >登録
+            >アカウント新規登録
             </FormRegistrationSubmitBtn>
         </form>
         <!-- modal -->
         <ModalCreateAccount v-show="showModal">
             <template #footer>
-                <router-link :to="{name: 'PageIndex', params: {'userId': registrationId}}" class="btn btn-primary w-50">タスク一覧ページへ</router-link>
+                <router-link :to="{name: 'PageIndex', params: {'userId': registrationId}}" class="btn btn-success w-50">タスク一覧ページへ</router-link>
             </template>
         </ModalCreateAccount>
         <!-- /.modal -->
@@ -75,6 +75,9 @@ export default {
         registrationIdCheck () {//IDのテキストボックスblurイベント
             if(this.registrationId.trim() === ''){
                 this.IdNotEntered = true
+                if(this.IdAlreadyUsed){
+                    this.IdAlreadyUsed = false
+                }
             } else {
                 this.IdNotEntered = false
                 //blur時にBD登録まで行ってしまう。。
@@ -112,7 +115,7 @@ export default {
                 }
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
                 this.$router.push('/error');
             });
         },

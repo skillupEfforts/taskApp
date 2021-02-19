@@ -27,7 +27,8 @@ class Task extends Controller
             $taskTable->enddate = $request->enddate;
             $taskTable->state = $request->state;
             $taskTable->save();
-            return 'registration';
+            $getData = $taskTable->getData($request->userId);
+            return  $getData;
         } catch(\Exception $e) {
             return $e;
         }
@@ -61,6 +62,23 @@ class Task extends Controller
             } else {
                 return 'noDuplicate';
             }
+        } catch(\Exception $e) {
+            return $e;
+        }
+    }
+
+    //タスク更新
+    public function updateTask(Request $request)
+    {
+        try {
+            $tasks = $request->toArray();
+            $taskTable = new taskTable();
+            foreach($tasks as $task) {
+                // $tempTask = (array) $task;
+                // return $task;
+                $taskTable->updateData($task);
+            }
+            return 'update';
         } catch(\Exception $e) {
             return $e;
         }

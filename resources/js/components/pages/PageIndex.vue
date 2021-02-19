@@ -5,11 +5,10 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable :sendDbTaskData="dbTaskData"></DataTable>
-        <!-- <p>{{ dbTaskData }}</p> -->
+        <DataTable :receive-db-task-data="dbTaskData" @update="afterUpdateGetTask"></DataTable>
 
         <!-- modal -->
-        <ModalRegistration @close="ToggleModal" v-show="showModal"></ModalRegistration>
+        <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>
         <!-- /.modal -->
     </div>
 </template>
@@ -29,7 +28,8 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
-            dbTaskData: Array
+            dbTaskData: Array,
+            dbRefreshData: Array,
         }
     },
     props : {
@@ -39,23 +39,78 @@ export default {
         axios.get('/api/getTask', {
             params: {
                 userId: this.$route.params.userId,
-                // userId: 'test',
             }
         })
         .then(response => {
             this.dbTaskData = response.data
-            // console.log(this.dbTaskData)
 
         })
         .catch(error => {
-            // console.log(error)
             alert('エラーです')
         });
     },
     methods:{
         ToggleModal () {
-            this.showModal = !this.showModal;
+            this.showModal = !this.showModal
         },
+        refreshDbData (db) {
+            // console.log(this.dbTaskData)
+            this.dbTaskData = [];
+            // console.log(this.dbTaskData)
+            this.dbTaskData.push(...db.data)
+            // console.log(this.dbTaskData)
+        },
+        refreshData (taskValueObject) {
+            console.log('PageIndex.vueのrefreshDataのイベント確認。\n下はmodalRegistration.vueからemitで渡している引数taskValueObjectの値')
+            console.log(taskValueObject);
+            axios.get('/api/registrationTask', {
+                params: {
+                    userId: this.$route.params.userId,
+                    taskname: taskValueObject.taskName,
+                    kosu: taskValueObject.taskHour,
+                    jitsukosu: taskValueObject.taskHour,
+                    startdate: taskValueObject.taskStartDate,
+                    enddate: taskValueObject.taskEndDate,
+                    state: taskValueObject.taskStatus
+                }
+            })
+            .then(response => {
+                console.log(response)
+                if(response.data === 'duplicate') {
+                    alert('タスク名が重複しています。')
+                } else {
+                // } else if(response.data === 'registration'){
+                    alert('タスク登録しました。')
+                    this.refreshDbData(response);
+                    this.ToggleModal();
+                    // this.$router.push({
+                    //     name: 'PageIndex',
+                    //     params :{ taskname: response.data.taskname }
+                    // });
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                alert('エラーです')
+            });
+        },
+        afterUpdateGetTask() {
+            console.log(this.$route.params.userId);
+
+            axios.get('/api/getTask', {
+                params: {
+                    userId: this.$route.params.userId,
+                }
+            })
+            .then(response => {
+                // console.log(response.date);
+                this.refreshDbData(response);
+            })
+            .catch(error => {
+                console.log(error)
+                alert('エラーです')
+            })
+        }
     },
     components: {
         PageHeading,

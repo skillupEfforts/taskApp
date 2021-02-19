@@ -1,5 +1,5 @@
 <template>
-    <p id="today" class="badge badge-primary p-3">{{ today }}</p>
+    <p id="today" class="m-heading-date badge badge-success h6 p-3">{{ today }}</p>
 </template>
 
 <script>
