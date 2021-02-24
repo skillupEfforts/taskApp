@@ -94,22 +94,21 @@ export default {
                 alert('エラーです')
             });
         },
-        afterUpdateGetTask() {
-            console.log(this.$route.params.userId);
-
-            axios.get('/api/getTask', {
-                params: {
-                    userId: this.$route.params.userId,
-                }
-            })
+        afterUpdateGetTask(sendUpdateData) {
+            axios.post('/api/updateTask', sendUpdateData)
             .then(response => {
-                // console.log(response.date);
-                this.refreshDbData(response);
+                if(response.data === 'update') {
+                    this.dbTaskData.forEach((element, i) => {
+                        this.$set(this.dbTaskData[i], 'state', sendUpdateData[element.taskname].state);
+                        this.$set(this.dbTaskData[i], 'jitsukosu', sendUpdateData[element.taskname].jitsukosu)
+                    });
+                    alert('タスク更新完了')
+                }
+
             })
             .catch(error => {
-                console.log(error)
                 alert('エラーです')
-            })
+            });
         }
     },
     components: {

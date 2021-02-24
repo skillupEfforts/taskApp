@@ -64,7 +64,7 @@ export default {
                 type: Object,
                 required: false
             },
-            sendUpdateData: [],//更新データの配列
+            sendUpdateData: {},//更新データの配列
             updateHours: [],//実工数を入れるオブジェクト
 
         }
@@ -110,30 +110,12 @@ export default {
         },
     },
     methods: {
-        saveHours () {
-            let params = new FormData();
-            // const tasks = [['タスク',5], ['タスクタスクタスク',3,'着手前'], ['タスク１',2,'対応中']]
-            const tasks = [
-                {
-                    taskname: 'タスク',
-                    jitsukosu: 5,
-                    state: 'Dir確認中'
-                },
-                {
-                    taskname: 'タスクタスクタスク',
-                    jitsukosu: 3,
-                    state: '着手前'
-                },
-                {
-                    taskname: 'タスク１',
-                    jitsukosu: 2,
-                    state: '対応中'
-                }
-            ];
-        },
         getUpdateData () {
+            this.cloneDbData = []
             this.cloneDbData = [...this.receiveDbTaskData]
-            this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
+            console.log(this.cloneDbData)
+            // this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
+            this.sendUpdateData = {};
 
             //ステータスを{タスク名: スタータス}の形式でオブジェクトに格納
             updateStatuses = {}
@@ -144,32 +126,38 @@ export default {
             }
 
             this.cloneDbData.forEach((element, index) => {
-                //更新データの配列に{taskname: タスク名, jitsukosu: 実工数, state: ステータス}の形式で入れる
-                this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': this.updateHours[element.taskname], 'state': updateStatuses[element.taskname]})
-                if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
-                    this.sendUpdateData[index].jitsukosu = 0
+                //更新データの配列に
+                    // タスク名:{
+                    //     taskname: タスク名, jitsukosu: 実工数, state: ステータス
+                    // }の形式で入れる
+                // this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': this.updateHours[element.taskname], 'state': updateStatuses[element.taskname]})
+                // if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
+                //     this.sendUpdateData[index].jitsukosu = 0
+                // }
+                this.sendUpdateData[element.taskname] = {'taskname': element.taskname, 'jitsukosu': this.updateHours[element.taskname], 'state': updateStatuses[element.taskname]};
+                if(typeof this.sendUpdateData[element.taskname].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
+                    this.sendUpdateData[element.taskname].jitsukosu = 0
                 }
+                this.updateHours[element.taskname] = '';
                 //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
-                this.sendUpdateData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
+                // this.sendUpdateData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
+                this.sendUpdateData[element.taskname].jitsukosu = parseInt(this.sendUpdateData[element.taskname].jitsukosu) + parseInt(this.cloneDbData[index].jitsukosu);
             })
-
-            return [
-                this.sendUpdateData,
-            ]
         },
         update () {
             this.getUpdateData()
-            console.log(this.sendUpdateData)
+            this.$emit('update', [this.sendUpdateData, this.cloneDbData]);
 
-            axios.post('/api/updateTask', this.sendUpdateData)
-            .then(response => {
-                 alert('タスクを更新しました。')
+            // axios.post('/api/updateTask', this.sendUpdateData)
+            // .then(response => {
+            //     console.log(this.sendUpdateData)
+            //     this.$emit('update', this.sendUpdateData);
+            //     alert('タスクを更新しました。')
 
-            })
-            .catch(error => {
-                alert('エラーです')
-            });
-            this.$emit('update')
+            // })
+            // .catch(error => {
+            //     alert('エラーです')
+            // });
         },
     },
     components: {

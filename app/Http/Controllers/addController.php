@@ -92,19 +92,22 @@ class addController extends Controller
 
     public function postIndex(Request $request)
     {
-        $userId = $request->userId;
-        $password = $request->userPassword;
+        $userInput = $request->toArray();
+        $userId = $userInput['userId'];
+        $password = $userInput['userPassword'];
         $userstable = new usersTable();
         try {
             $getData = $userstable->getData($userId);
             if($getData->isEmpty()) {
                 return 0;
             }
+
             $getUserId = $getData[0]->name;
             $userInfo = array(
                 'userId' => $getUserId
             );
             return $userInfo;
+
             //ハッシュ問題一旦コメント
             // $getPass = $getData[0]->password;
             // if(Hash::check($password, $getPass)) {
@@ -114,7 +117,7 @@ class addController extends Controller
             //     );
             //     return $userInfo;
             // } else {
-            //     return 1;
+            //     return 0;
             // }
         } catch(\Exception $e) {
             return $e;

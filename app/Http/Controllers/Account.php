@@ -13,15 +13,16 @@ class Account extends Controller
     public function registrationAccount(Request $request)
     {
         try {
-            $userId = $request->userId;
+            $userInput = $request->toArray();
+            $userId = $userInput['userId'];
             $userstable = new usersTable();
             $duplicateCount = $userstable->duplicateCheck($userId);
             if($duplicateCount > 0) {
                 return 'duplicate';
             }
-            $password = $request->userPassword;
+            $password = $userInput['userPassword'];
             $userstable->name = $userId;
-            $userstable->password = password_hash($password, PASSWORD_BCRYPT);
+            $userstable->password = Hash::make($password);
             $userstable->save();
             $getUserId = $userId;
             $userInfo = array(
