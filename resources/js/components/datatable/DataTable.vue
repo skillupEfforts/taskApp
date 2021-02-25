@@ -65,7 +65,7 @@ export default {
                 required: false
             },
             sendUpdateData: [],//更新データの配列
-            updateHours: [],//実工数を入れるオブジェクト
+            updateHours: {},//実工数を入れるオブジェクト
 
         }
     },
@@ -145,17 +145,16 @@ export default {
 
             this.cloneDbData.forEach((element, index) => {
                 //更新データの配列に{taskname: タスク名, jitsukosu: 実工数, state: ステータス}の形式で入れる
-                this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': this.updateHours[element.taskname], 'state': updateStatuses[element.taskname]})
-                if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
-                    this.sendUpdateData[index].jitsukosu = 0
+                console.log(this.updateHours[element.taskname])
+                let tempHour = 0
+                if(typeof this.updateHours[element.taskname] !== 'undefined' && this.updateHours[element.taskname] !== '') {//実工数の入力がなければ実工数に0を入れる
+                    tempHour = this.updateHours[element.taskname];
                 }
                 //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
-                this.sendUpdateData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
+                const calcHour = parseInt(tempHour) + parseInt(this.cloneDbData[index].jitsukosu);
+                this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': calcHour, 'state': updateStatuses[element.taskname]})
+                this.updateHours[element.taskname] = '';
             })
-
-            return [
-                this.sendUpdateData,
-            ]
         },
         update () {
             this.getUpdateData()
@@ -163,13 +162,13 @@ export default {
 
             axios.post('/api/updateTask', this.sendUpdateData)
             .then(response => {
-                 alert('タスクを更新しました。')
+                this.$emit('update')
+                alert('タスクを更新しました。')
 
             })
             .catch(error => {
                 alert('エラーです')
             });
-            this.$emit('update')
         },
     },
     components: {
