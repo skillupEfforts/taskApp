@@ -5,7 +5,7 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable :receive-db-task-data="dbTaskData" @update="afterUpdateGetTask"></DataTable>
+        <DataTable :receiveDbTaskData="dbTaskData" @update="afterUpdateGetTask"></DataTable>
 
         <!-- modal -->
         <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>
@@ -28,22 +28,26 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
-            dbTaskData: Array,
+            dbTaskData: Object,
             dbRefreshData: Array,
         }
     },
     props : {
         userId: String,
     },
-    mounted() {
+    async created() {
         axios.get('/api/getTask', {
             params: {
                 userId: this.$route.params.userId,
             }
         })
         .then(response => {
+            console.log(response.data)
             this.dbTaskData = response.data
-
+        })
+        .then(data => {
+            console.log(data)
+            // this.dbTaskData = response.data
         })
         .catch(error => {
             alert('エラーです')
@@ -53,11 +57,11 @@ export default {
         ToggleModal () {
             this.showModal = !this.showModal
         },
-        refreshDbData (db) {
+        refreshDbData (dbData) {
             // console.log(this.dbTaskData)
             this.dbTaskData = [];
             // console.log(this.dbTaskData)
-            this.dbTaskData.push(...db.data)
+            this.dbTaskData.push(...dbData)
             // console.log(this.dbTaskData)
         },
         refreshData (taskValueObject) {
@@ -81,7 +85,7 @@ export default {
                 } else {
                 // } else if(response.data === 'registration'){
                     alert('タスク登録しました。')
-                    this.refreshDbData(response);
+                    this.refreshDbData(response.data);
                     this.ToggleModal();
                     // this.$router.push({
                     //     name: 'PageIndex',
@@ -94,20 +98,22 @@ export default {
                 alert('エラーです')
             });
         },
-        afterUpdateGetTask(sendUpdateData) {
-            axios.post('/api/updateTask', sendUpdateData)
+        afterUpdateGetTask(updateData) {
+            axios.post('/api/updateTask', updateData.sendUpdateData)
             .then(response => {
                 if(response.data === 'update') {
-                    this.dbTaskData.forEach((element, i) => {
-                        this.$set(this.dbTaskData[i], 'state', sendUpdateData[element.taskname].state);
-                        this.$set(this.dbTaskData[i], 'jitsukosu', sendUpdateData[element.taskname].jitsukosu)
-                    });
+                    // this.dbTaskData.forEach((element, i) => {
+                    //     this.$set(this.dbTaskData[i], 'state', updateData[0][element.taskname].state);
+                    //     this.$set(this.dbTaskData[i], 'jitsukosu', updateData[0][element.taskname].jitsukosu)
+                    // });
                     alert('タスク更新完了')
+                    this.refreshDbData(updateData.refreshDbData);
                 }
 
             })
             .catch(error => {
                 alert('エラーです')
+                console.log(error)
             });
         }
     },

@@ -64,8 +64,8 @@ export default {
                 type: Object,
                 required: false
             },
-            sendUpdateData: {},//更新データの配列
-            updateHours: [],//実工数を入れるオブジェクト
+            sendUpdateData: Array,//更新データの配列
+            updateHours: Object,//実工数を入れるオブジェクト
 
         }
     },
@@ -74,7 +74,7 @@ export default {
     //     event: 'input'
     // },
     props: {
-        receiveDbTaskData: Array,
+        receiveDbTaskData: Object,
         // cloneDbData: Object,
         // sendUpdateData: String,
     },
@@ -115,7 +115,7 @@ export default {
             this.cloneDbData = [...this.receiveDbTaskData]
             console.log(this.cloneDbData)
             // this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
-            this.sendUpdateData = {};
+            this.sendUpdateData = [];
 
             //ステータスを{タスク名: スタータス}の形式でオブジェクトに格納
             updateStatuses = {}
@@ -134,19 +134,31 @@ export default {
                 // if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
                 //     this.sendUpdateData[index].jitsukosu = 0
                 // }
-                this.sendUpdateData[element.taskname] = {'taskname': element.taskname, 'jitsukosu': this.updateHours[element.taskname], 'state': updateStatuses[element.taskname]};
-                if(typeof this.sendUpdateData[element.taskname].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
-                    this.sendUpdateData[element.taskname].jitsukosu = 0
+                console.log(this.updateHours[element.taskname])
+                let tempHour = 0
+                if(typeof this.updateHours[element.taskname] !== 'undefined' && this.updateHours[element.taskname] !== '') {//実工数の入力がなければ実工数に0を入れる
+                    tempHour = this.updateHours[element.taskname];
                 }
-                this.updateHours[element.taskname] = '';
                 //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
-                // this.sendUpdateData[index].jitsukosu = parseInt(this.sendUpdateData[index].jitsukosu) + parseInt(this.cloneDbData[index].kosu)
-                this.sendUpdateData[element.taskname].jitsukosu = parseInt(this.sendUpdateData[element.taskname].jitsukosu) + parseInt(this.cloneDbData[index].jitsukosu);
+                const calcHour = parseInt(tempHour) + parseInt(this.cloneDbData[index].jitsukosu);
+                this.sendUpdateData.push({
+                    'taskname': element.taskname,
+                    'jitsukosu': calcHour,
+                    'state': updateStatuses[element.taskname]
+                });
+                this.cloneDbData[index].jitsukosu = calcHour;
+                this.cloneDbData[index].state = updateStatuses[element.taskname];
+                this.updateHours[element.taskname] = '';
             })
         },
         update () {
-            this.getUpdateData()
-            this.$emit('update', [this.sendUpdateData, this.cloneDbData]);
+            this.getUpdateData();
+            const updateData = {
+                'sendUpdateData': this.sendUpdateData,
+                'refreshDbData': this.cloneDbData
+            }
+            console.log(updateData)
+            this.$emit('update', updateData);
 
             // axios.post('/api/updateTask', this.sendUpdateData)
             // .then(response => {
