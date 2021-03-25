@@ -69,14 +69,8 @@ export default {
 
         }
     },
-    // model: {
-    //     prop: 'sendUpdateData',
-    //     event: 'input'
-    // },
     props: {
-        receiveDbTaskData: Object,
-        // cloneDbData: Object,
-        // sendUpdateData: String,
+        receiveDbTaskData: Object
     },
     computed: {
         statuses () {
@@ -130,10 +124,6 @@ export default {
                     // タスク名:{
                     //     taskname: タスク名, jitsukosu: 実工数, state: ステータス
                     // }の形式で入れる
-                // this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': this.updateHours[element.taskname], 'state': updateStatuses[element.taskname]})
-                // if(typeof this.sendUpdateData[index].jitsukosu === 'undefined') {//実工数の入力がなければ実工数に0を入れる
-                //     this.sendUpdateData[index].jitsukosu = 0
-                // }
                 console.log(this.updateHours[element.taskname])
                 let tempHour = 0
                 if(typeof this.updateHours[element.taskname] !== 'undefined' && this.updateHours[element.taskname] !== '') {//実工数の入力がなければ実工数に0を入れる
@@ -159,17 +149,6 @@ export default {
             }
             console.log(updateData)
             this.$emit('update', updateData);
-
-            // axios.post('/api/updateTask', this.sendUpdateData)
-            // .then(response => {
-            //     console.log(this.sendUpdateData)
-            //     this.$emit('update', this.sendUpdateData);
-            //     alert('タスクを更新しました。')
-
-            // })
-            // .catch(error => {
-            //     alert('エラーです')
-            // });
         },
     },
     components: {
