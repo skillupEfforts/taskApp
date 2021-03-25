@@ -69,14 +69,8 @@ export default {
 
         }
     },
-    // model: {
-    //     prop: 'sendUpdateData',
-    //     event: 'input'
-    // },
     props: {
-        receiveDbTaskData: Array,
-        // cloneDbData: Object,
-        // sendUpdateData: String,
+        receiveDbTaskData: Object
     },
     computed: {
         statuses () {
@@ -144,7 +138,10 @@ export default {
             }
 
             this.cloneDbData.forEach((element, index) => {
-                //更新データの配列に{taskname: タスク名, jitsukosu: 実工数, state: ステータス}の形式で入れる
+                //更新データの配列に
+                    // タスク名:{
+                    //     taskname: タスク名, jitsukosu: 実工数, state: ステータス
+                    // }の形式で入れる
                 console.log(this.updateHours[element.taskname])
                 let tempHour = 0
                 if(typeof this.updateHours[element.taskname] !== 'undefined' && this.updateHours[element.taskname] !== '') {//実工数の入力がなければ実工数に0を入れる
@@ -157,18 +154,13 @@ export default {
             })
         },
         update () {
-            this.getUpdateData()
-            console.log(this.sendUpdateData)
-
-            axios.post('/api/updateTask', this.sendUpdateData)
-            .then(response => {
-                this.$emit('update')
-                alert('タスクを更新しました。')
-
-            })
-            .catch(error => {
-                alert('エラーです')
-            });
+            this.getUpdateData();
+            const updateData = {
+                'sendUpdateData': this.sendUpdateData,
+                'refreshDbData': this.cloneDbData
+            }
+            console.log(updateData)
+            this.$emit('update', updateData);
         },
     },
     components: {

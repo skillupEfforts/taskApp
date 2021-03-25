@@ -43,7 +43,6 @@ export default {
         })
         .then(response => {
             this.dbTaskData = response.data
-
         })
         .catch(error => {
             alert('エラーです')
@@ -79,14 +78,9 @@ export default {
                 if(response.data === 'duplicate') {
                     alert('タスク名が重複しています。')
                 } else {
-                // } else if(response.data === 'registration'){
                     alert('タスク登録しました。')
                     this.refreshDbData(response);
                     this.ToggleModal();
-                    // this.$router.push({
-                    //     name: 'PageIndex',
-                    //     params :{ taskname: response.data.taskname }
-                    // });
                 }
             })
             .catch(error => {
@@ -94,8 +88,13 @@ export default {
                 alert('エラーです')
             });
         },
-        afterUpdateGetTask() {
-            console.log(this.$route.params.userId);
+        afterUpdateGetTask(updateData) {
+            axios.post('/api/updateTask', updateData.sendUpdateData)
+            .then(response => {
+                if(response.data === 'update') {
+                    alert('タスク更新完了')
+                    this.refreshDbData(updateData.refreshDbData);
+                }
 
             axios.get('/api/getTask', {
                 params: {
