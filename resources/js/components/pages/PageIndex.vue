@@ -5,7 +5,7 @@
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
-        <DataTable :receive-db-task-data="dbTaskData" @update="afterUpdateGetTask"></DataTable>
+        <DataTable :receiveDbTaskData="dbTaskData" @update="afterUpdateGetTask"></DataTable>
 
         <!-- modal -->
         <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>
@@ -28,20 +28,21 @@ export default {
         return {
             showModal: false,
             parentTaskName: '',
-            dbTaskData: Array,
+            dbTaskData: Object,
             dbRefreshData: Array,
         }
     },
     props : {
         userId: String,
     },
-    mounted() {
+    async created() {
         axios.get('/api/getTask', {
             params: {
                 userId: this.$route.params.userId,
             }
         })
         .then(response => {
+            console.log(response.data)
             this.dbTaskData = response.data
         })
         .catch(error => {
@@ -52,11 +53,11 @@ export default {
         ToggleModal () {
             this.showModal = !this.showModal
         },
-        refreshDbData (db) {
+        refreshDbData (dbData) {
             // console.log(this.dbTaskData)
             this.dbTaskData = [];
             // console.log(this.dbTaskData)
-            this.dbTaskData.push(...db.data)
+            this.dbTaskData.push(...dbData)
             // console.log(this.dbTaskData)
         },
         refreshData (taskValueObject) {
@@ -79,7 +80,7 @@ export default {
                     alert('タスク名が重複しています。')
                 } else {
                     alert('タスク登録しました。')
-                    this.refreshDbData(response);
+                    this.refreshDbData(response.data);
                     this.ToggleModal();
                 }
             })
@@ -96,19 +97,11 @@ export default {
                     this.refreshDbData(updateData.refreshDbData);
                 }
 
-            axios.get('/api/getTask', {
-                params: {
-                    userId: this.$route.params.userId,
-                }
-            })
-            .then(response => {
-                // console.log(response.date);
-                this.refreshDbData(response);
             })
             .catch(error => {
-                console.log(error)
                 alert('エラーです')
-            })
+                console.log(error)
+            });
         }
     },
     components: {

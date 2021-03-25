@@ -64,8 +64,8 @@ export default {
                 type: Object,
                 required: false
             },
-            sendUpdateData: [],//更新データの配列
-            updateHours: {},//実工数を入れるオブジェクト
+            sendUpdateData: Array,//更新データの配列
+            updateHours: Object,//実工数を入れるオブジェクト
 
         }
     },
@@ -104,30 +104,12 @@ export default {
         },
     },
     methods: {
-        saveHours () {
-            let params = new FormData();
-            // const tasks = [['タスク',5], ['タスクタスクタスク',3,'着手前'], ['タスク１',2,'対応中']]
-            const tasks = [
-                {
-                    taskname: 'タスク',
-                    jitsukosu: 5,
-                    state: 'Dir確認中'
-                },
-                {
-                    taskname: 'タスクタスクタスク',
-                    jitsukosu: 3,
-                    state: '着手前'
-                },
-                {
-                    taskname: 'タスク１',
-                    jitsukosu: 2,
-                    state: '対応中'
-                }
-            ];
-        },
         getUpdateData () {
+            this.cloneDbData = []
             this.cloneDbData = [...this.receiveDbTaskData]
-            this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
+            console.log(this.cloneDbData)
+            // this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
+            this.sendUpdateData = [];
 
             //ステータスを{タスク名: スタータス}の形式でオブジェクトに格納
             updateStatuses = {}
@@ -149,7 +131,13 @@ export default {
                 }
                 //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
                 const calcHour = parseInt(tempHour) + parseInt(this.cloneDbData[index].jitsukosu);
-                this.sendUpdateData.splice(index, 0, {'taskname': element.taskname, 'jitsukosu': calcHour, 'state': updateStatuses[element.taskname]})
+                this.sendUpdateData.push({
+                    'taskname': element.taskname,
+                    'jitsukosu': calcHour,
+                    'state': updateStatuses[element.taskname]
+                });
+                this.cloneDbData[index].jitsukosu = calcHour;
+                this.cloneDbData[index].state = updateStatuses[element.taskname];
                 this.updateHours[element.taskname] = '';
             })
         },
