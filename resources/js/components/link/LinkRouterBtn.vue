@@ -8,7 +8,7 @@
 export default {
     name: 'BtnRouterLink',
     props: {
-        to: String,
+        to: String | Object,
         btnClass: {
             type: String,
             default: ''
