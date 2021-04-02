@@ -1,11 +1,13 @@
 <template>
-    <div>
+    <div class="col">
         <label :for="loginId"><slot></slot></label>
-        <input :type="loginInputType"
-            class="form-control" :id="loginId"
+        <input
+            class="form-control"
+            :type="loginInputType"
+            :id="loginId"
             :name="loginIdName"
-            :placeholder="loginPlaceHolder"
-            :value="loginIdvalue"
+            :placeholder="loginPlaceholder"
+            :value="loginIdValue"
             @input="$emit('input', $event.target.value)"
             :required="loginIdRequired">
     </div>
@@ -15,14 +17,14 @@
 export default {
     name: 'FormLoginIdBox',
     model: {
-        prop: 'loginIdvalue',
+        prop: 'loginIdValue',
         event: 'input'
     },
     props: {
         loginId: String,
         loginInputType: String,
-        loginPlaceHolder: String,
-        loginIdvalue: String,
+        loginPlaceholder: String,
+        loginIdValue: String,
         loginIdName: String,
         loginIdRequired: {
             type: Boolean,
