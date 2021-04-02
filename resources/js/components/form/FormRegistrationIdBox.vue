@@ -1,13 +1,13 @@
 <template>
-    <div>
+    <div class="col">
         <label :for="registrationId"><slot></slot></label>
         <input
-            :type="registrationInputType"
             class="form-control"
+            :type="registrationInputType"
             :id="registrationId"
             :name="registrationIdName"
-            :placeholder="registrationPlaceHolder"
-            :value="registrationIdvalue"
+            :placeholder="registrationPlaceholder"
+            :value="registrationIdValue"
             @input="$emit('input', $event.target.value)"
             @blur="onBlur"
             :required="registrationIdRequired">
@@ -19,14 +19,14 @@
 export default {
     name: 'FormRegistrationIdBox',
     model: {
-        prop: 'registrationIdvalue',
+        prop: 'registrationIdValue',
         event: 'input'
     },
     props: {
         registrationId: String,
         registrationInputType: String,
-        registrationPlaceHolder: String,
-        registrationIdvalue: String,
+        registrationPlaceholder: String,
+        registrationIdValue: String,
         registrationIdName: String,
         registrationIdRequired: {
             type: Boolean,

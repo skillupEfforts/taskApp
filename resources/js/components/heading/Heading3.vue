@@ -5,8 +5,5 @@
 <script>
 export default {
     name: 'Heading3',
-    props: {
-        headingTtl: String,
-    },
 }
 </script>
