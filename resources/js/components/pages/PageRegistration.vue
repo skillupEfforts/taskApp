@@ -2,20 +2,17 @@
     <div class="l-form">
         <Heading2
         >アカウント新規登録
-        <template #heading-sub v-if="danger">
-            <br><span class="text-danger">登録するIDもしくはパスワードを入力してください。</span>
-        </template>
         </Heading2>
         <form @submit.prevent="accountRegistration">
             <div class="form-row">
                 <FormRegistrationIdBox
-                    class="col"
                     registration-id="registrationId"
                     registration-input-type="text"
                     registration-placeholder="登録するIDを入力してください"
                     registration-id-name="registrationId"
                     @onBlur="registrationIdCheck"
                     v-model="registrationId"
+                    registration-id-required
                 ><strong>登録するIDを入力してください。</strong>
                 <template #error>
                     <p class="text-danger" v-if="IdNotEntered">登録するログインIDを入力してください。</p>
@@ -23,25 +20,29 @@
                 </template>
                 </FormRegistrationIdBox>
                 <FormRegistrationPassBox
-                    class="col"
                     registration-pass-id="registrationPassId"
                     registration-pass-input-type="password"
-                    registration-pass-placeHolder="登録するパスワードを入力してください"
+                    registration-pass-placeholder="登録するパスワードを入力してください"
                     registration-pass-name="registrationPass"
+                    registration-pass-required
                 ><strong>登録するパスワードを入力してください。</strong>
                 </FormRegistrationPassBox>
             </div>
             <FormRegistrationSubmitBtn
-                class="mt-3"
                 registration-submit-id="registrationSubmitId"
                 registration-button-type="submit"
+                btn-class="btn-primary w-100"
             >アカウント新規登録
             </FormRegistrationSubmitBtn>
         </form>
         <!-- modal -->
         <ModalCreateAccount v-show="showModal">
             <template #footer>
-                <router-link :to="{name: 'PageIndex', params: {'userId': registrationId}}" class="btn btn-success w-50">タスク一覧ページへ</router-link>
+                <LinkRouterBtn
+                    :to="{name: 'PageIndex', params: {'userId': registrationId}}"
+                    btn-class="btn-success w-50"
+                >タスク一覧ページへ
+                </LinkRouterBtn>
             </template>
         </ModalCreateAccount>
         <!-- /.modal -->
@@ -53,7 +54,8 @@ import FormRegistrationIdBox from '../form/FormRegistrationIdBox.vue';
 import FormRegistrationPassBox from '../form/FormRegistrationPassBox.vue';
 import FormRegistrationSubmitBtn from '../form/FormRegistrationSubmitBtn.vue';
 import Heading2 from '../heading/Heading2.vue';
-import ModalCreateAccount from '../modal/ModalCreateAccount.vue';
+import ModalCreateAccount from '../modal/ModalCreateAccount';
+import LinkRouterBtn from '../link/LinkRouterBtn.vue';
 
 export default {
     name: 'PageRegistration',
@@ -119,20 +121,14 @@ export default {
                 this.$router.push('/error');
             });
         },
-        // registrationApproval() {//アカウント新規追加クリック後のモーダル内ボタンイベント
-        //     console.log(params)
-        //     this.$router.push({
-        //         name: 'PageIndex',
-        //         params :{ userId: response.data.userId }
-        //     });
-        // }
     },
     components: {
         FormRegistrationSubmitBtn,
         FormRegistrationIdBox,
         FormRegistrationPassBox,
         Heading2,
-        ModalCreateAccount
+        ModalCreateAccount,
+        LinkRouterBtn
     }
 }
 </script>
