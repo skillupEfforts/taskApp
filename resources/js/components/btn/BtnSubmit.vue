@@ -1,6 +1,12 @@
 <template>
     <div class="text-center">
-        <button :id="SubmitId" :type="ButtonType" class="btn btn-primary w-100" @click.prevent="onClick"><slot></slot></button>
+        <button
+            class="btn btn-primary w-100"
+            :id="SubmitId"
+            :type="ButtonType"
+            @click.prevent="onClick"
+        ><slot></slot>
+        </button>
     </div>
 </template>
 
