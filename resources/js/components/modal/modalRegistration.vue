@@ -4,7 +4,7 @@
       <div class="l-modal-window">
         <form>
             <div class="l-modal-content">
-                <Heading2>タスク新規追加</Heading2>
+                <Heading3>タスク新規追加</Heading3>
                 <div class="l-task-input">
                     <FormTaskNameBox
                         task-name-id="taskNameId"
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import Heading2 from '../heading/Heading2.vue';
+import Heading3 from '../heading/Heading3.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
 import FormTaskNameBox from '../form/task/FormTaskNameBox.vue';
 import FormTaskHourBox from '../form/task/FormTaskHourBox.vue';
@@ -190,7 +190,7 @@ export default {
         }
     },
     components: {
-        Heading2,
+        Heading3,
         BtnSubmit,
         FormTaskNameBox,
         FormTaskHourBox,

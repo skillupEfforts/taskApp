@@ -1,11 +1,11 @@
 <template>
     <div class="l-form">
-        <PageHeading2
+        <Heading2
         >アカウント新規登録
         <template #heading-sub v-if="danger">
             <br><span class="text-danger">登録するIDもしくはパスワードを入力してください。</span>
         </template>
-        </PageHeading2>
+        </Heading2>
         <form @submit.prevent="accountRegistration">
             <div class="form-row">
                 <FormRegistrationIdBox
@@ -52,7 +52,7 @@
 import FormRegistrationIdBox from '../form/FormRegistrationIdBox.vue';
 import FormRegistrationPassBox from '../form/FormRegistrationPassBox.vue';
 import FormRegistrationSubmitBtn from '../form/FormRegistrationSubmitBtn.vue';
-import PageHeading2 from '../heading/PageHeading2.vue';
+import Heading2 from '../heading/Heading2.vue';
 import ModalCreateAccount from '../modal/ModalCreateAccount.vue';
 
 export default {
@@ -131,7 +131,7 @@ export default {
         FormRegistrationSubmitBtn,
         FormRegistrationIdBox,
         FormRegistrationPassBox,
-        PageHeading2,
+        Heading2,
         ModalCreateAccount
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="l-form">
-        <PageHeading2>ログイン</PageHeading2>
+        <Heading2>ログイン</Heading2>
         <form @submit.prevent="submit">
             <div class="form-row">
                 <FormLoginIdBox
@@ -28,12 +28,12 @@
                 login-submit-btn-type="submit"
             >ログイン
             </FormLoginSubmitBtn>
-            <BtnRouterLink
+            <LinkRouterBtn
                 wrap-class="mt-5"
                 btn-class="btn-secondary w-50"
                 to="/registration/"
             >アカウント新規作成
-            </BtnRouterLink>
+            </LinkRouterBtn>
         </form>
     </div>
 </template>
@@ -42,8 +42,8 @@
 import FormLoginIdBox from '../form/login/FormLoginIdBox.vue';
 import FormLoginPassBox from '../form/login/FormLoginPassBox.vue';
 import FormLoginSubmitBtn from '../form/login/FormLoginSubmitBtn.vue';
-import PageHeading2 from '../heading/PageHeading2.vue';
-import BtnRouterLink from '../btn/BtnRouterLink.vue';
+import Heading2 from '../heading/Heading2.vue';
+import LinkRouterBtn from '../link/LinkRouterBtn.vue';
 
 export default {
     name: 'PageLogin',
@@ -88,8 +88,8 @@ export default {
         FormLoginSubmitBtn,
         FormLoginIdBox,
         FormLoginPassBox,
-        PageHeading2,
-        BtnRouterLink
+        Heading2,
+        LinkRouterBtn
     }
 }
 </script>

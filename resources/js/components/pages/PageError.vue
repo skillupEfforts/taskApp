@@ -1,26 +1,26 @@
 <template>
     <div class="l-form-error">
-        <PageHeading2 class="text-danger"
+        <Heading2 class="text-danger"
         >IDまたはパスワードが間違っています。
-        </PageHeading2>
-        <BtnRouterLink
+        </Heading2>
+        <LinkRouterBtn
             wrap-class="mt-3"
             btn-class="btn-primary w-100"
             to="/"
         >TOPへ戻る
-        </BtnRouterLink>
+        </LinkRouterBtn>
     </div>
 </template>
 
 <script>
-import PageHeading2 from '../heading/PageHeading2.vue';
-import BtnRouterLink from '../btn/BtnRouterLink.vue';
+import Heading2 from '../heading/Heading2.vue';
+import LinkRouterBtn from '../link/LinkRouterBtn.vue';
 
 export default {
     name: 'PageError',
     components: {
-        PageHeading2,
-        BtnRouterLink,
+        Heading2,
+        LinkRouterBtn,
     },
 }
 </script>

@@ -3,7 +3,7 @@
     <div class="l-modal l-modal-overlay">
       <div class="l-modal-window l-modal-window-account">
         <div class="l-modal-content">
-            <Heading2 class="text-body">アカウント登録しました。</Heading2>
+            <Heading3 class="text-body">アカウント登録しました。</Heading3>
         </div>
         <footer class="l-modal-footer">
           <slot name="footer"></slot>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Heading2 from '../heading/Heading2.vue';
+import Heading3 from '../heading/Heading3.vue';
 
 export default {
     name: 'modalCreateAcount',
@@ -23,7 +23,7 @@ export default {
         }
     },
     components: {
-        Heading2,
+        Heading3,
     },
 }
 </script>

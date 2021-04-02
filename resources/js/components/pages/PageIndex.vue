@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container">
-            <PageHeading2>タスク一覧表示画面​</PageHeading2>
+            <Heading2>タスク一覧表示画面​</Heading2>
             <navigation @open="ToggleModal"></navigation>
         </div>
         <HeadingDate></HeadingDate>
@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import PageHeading2 from '../heading/PageHeading2.vue';
 import Heading2 from '../heading/Heading2.vue';
 import navigation from '../nav/navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
@@ -105,7 +104,6 @@ export default {
         }
     },
     components: {
-        PageHeading2,
         Heading2,
         navigation,
         HeadingDate,
