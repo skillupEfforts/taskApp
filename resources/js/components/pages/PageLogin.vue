@@ -23,11 +23,17 @@
                 </FormLoginPassBox>
             </div>
             <FormLoginSubmitBtn
+                wrap-class="mt-3"
                 login-submit-btn-id="loginSubmit"
                 login-submit-btn-type="submit"
             >ログイン
             </FormLoginSubmitBtn>
-            <BtnRouterLink to="/registration/">アカウント新規作成</BtnRouterLink>
+            <BtnRouterLink
+                wrap-class="mt-5"
+                btn-class="btn-secondary w-50"
+                to="/registration/"
+            >アカウント新規作成
+            </BtnRouterLink>
         </form>
     </div>
 </template>

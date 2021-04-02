@@ -3,19 +3,24 @@
         <PageHeading2 class="text-danger"
         >IDまたはパスワードが間違っています。
         </PageHeading2>
-        <router-link class="btn btn-primary w-100" to="/">TOPへ戻る</router-link>
+        <BtnRouterLink
+            wrap-class="mt-3"
+            btn-class="btn-primary w-100"
+            to="/"
+        >TOPへ戻る
+        </BtnRouterLink>
     </div>
 </template>
 
 <script>
 import PageHeading2 from '../heading/PageHeading2.vue';
-import UtilityBtn from '../btn/UtilityBtn.vue';
+import BtnRouterLink from '../btn/BtnRouterLink.vue';
 
 export default {
     name: 'PageError',
     components: {
         PageHeading2,
-        UtilityBtn,
+        BtnRouterLink,
     },
 }
 </script>
