@@ -1,6 +1,6 @@
 <template>
-    <div class="mt-5 text-center">
-        <router-link class="btn btn-secondary w-50" :to="to"><slot></slot></router-link>
+    <div :class="`text-center ${wrapClass}`">
+        <router-link :class="`btn ${btnClass}`" :to="to"><slot></slot></router-link>
     </div>
 </template>
 
@@ -9,6 +9,14 @@ export default {
     name: 'BtnRouterLink',
     props: {
         to: String,
+        btnClass: {
+            type: String,
+            default: ''
+        },
+        wrapClass: {
+            type: String,
+            default: ''
+        }
     }
 }
 </script>
