@@ -74,7 +74,9 @@ export default {
         ModalToggle () {
            this.showModal = !this.showModal
         },
-        registrationIdCheck () {//IDのテキストボックスblurイベント
+
+        //IDのテキストボックスblurイベント
+        registrationIdCheck () {
             if(this.registrationId.trim() === ''){
                 this.IdNotEntered = true
                 if(this.IdAlreadyUsed){
@@ -82,10 +84,10 @@ export default {
                 }
             } else {
                 this.IdNotEntered = false
-                //blur時にBD登録まで行ってしまう。。
                 axios.get('/api/duplicateCheck', {
                     params: {
                         userId: this.registrationId,
+                        // loginId: this.registrationId,
                     }
                 })
                 .then(response => {
@@ -100,16 +102,18 @@ export default {
                 });
             }
         },
-        accountRegistration() {//アカウント新規追加イベント
+
+        //アカウント新規追加イベント
+        accountRegistration() {
             axios.get('/api/registrationAccount', {
                 params: {
                     userId: this.registrationId,
                     userPassword: this.registrationPass
+                    // loginId: this.registrationId,
+                    // password: this.registrationPass
                 }
             })
             .then(response => {
-                console.log(response)
-                console.log(response.data.userId)
                 if(response.data === 'duplicate') {
                     this.$router.push('/error');
                 } else {
@@ -117,7 +121,6 @@ export default {
                 }
             })
             .catch(error => {
-                // console.log(error)
                 this.$router.push('/error');
             });
         },
