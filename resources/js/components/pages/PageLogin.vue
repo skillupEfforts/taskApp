@@ -1,60 +1,63 @@
 <template>
     <div class="l-form">
-        <PageHeading>ログイン</PageHeading>
+        <PageHeading2>ログイン</PageHeading2>
         <form @submit.prevent="submit">
             <div class="form-row">
-                <FormLoginIdBox class="col"
-                    loginId="loginId"
-                    loginInputType="text"
-                    loginPlaceHolder="ログインID"
-                    loginIdName="loginId"
+                <FormLoginIdBox
+                    login-id="loginId"
+                    login-input-type="text"
+                    login-placeholder="ログインID"
+                    login-id-name="loginId"
                     v-model="userId"
+                    login-id-required
                 ><strong>ログインID</strong>
                 </FormLoginIdBox>
-                <FormLoginPassBox class="col"
-                    loginPassId="loginPassId"
-                    loginPassInputType="password"
-                    loginPassPlaceHolder="ログインパスワード"
-                    loginPassName="loginPass"
+                <FormLoginPassBox
+                    login-pass-id="loginPassId"
+                    login-pass-inputType="password"
+                    login-pass-placeholder="ログインパスワード"
+                    login-pass-name="loginPass"
                     v-model="userPass"
+                    login-pass-required
                 ><strong>ログインパス</strong>
                 </FormLoginPassBox>
             </div>
-            <FormSubmitBtn class="mt-3"
-                loginSubmitId="loginSubmit"
-                loginButtonType="submit"
+            <FormLoginSubmitBtn
+                login-submit-btn-id="loginSubmit"
+                login-submit-btn-type="submit"
             >ログイン
-            </FormSubmitBtn>
-            <div class="mt-5 text-center">
-                <router-link class="btn btn-secondary w-50"
-                    to="/registration/"
-                >アカウント新規作成
-                </router-link>
-            </div>
+            </FormLoginSubmitBtn>
+            <BtnRouterLink to="/registration/">アカウント新規作成</BtnRouterLink>
         </form>
     </div>
 </template>
 
 <script>
-import FormLoginIdBox from '../form/FormLoginIdBox.vue';
-import FormLoginPassBox from '../form/FormLoginPassBox.vue';
-import FormSubmitBtn from '../form/FormSubmitBtn.vue';
-import PageHeading from '../heading/PageHeading.vue';
+import FormLoginIdBox from '../form/login/FormLoginIdBox.vue';
+import FormLoginPassBox from '../form/login/FormLoginPassBox.vue';
+import FormLoginSubmitBtn from '../form/login/FormLoginSubmitBtn.vue';
+import PageHeading2 from '../heading/PageHeading2.vue';
+import BtnRouterLink from '../btn/BtnRouterLink.vue';
 
 export default {
     name: 'PageLogin',
     data() {
         return {
             userId: '',
-            userPass: ''
+            userPass: '',
+            // loginId: '',
+            // password: ''
         }
     },
     methods: {
         submit() {
             axios.get('/api/home', {
+                // axios.get('/api/login', {
                 params: {
                     userId: this.userId,
-                    userPassword: this.userPass
+                    userPassword: this.userPass,
+                    // loginId: this.loginId,
+                    // password: this.password,
                 }
             })
             .then(response => {
@@ -65,6 +68,7 @@ export default {
                     this.$router.push({
                         name: 'PageIndex',
                         params :{ userId: response.data.userId }
+                        // params :{ loginId: response.data.loginId }
                     });
                 }
             })
@@ -75,10 +79,11 @@ export default {
         }
     },
     components: {
-        FormSubmitBtn,
+        FormLoginSubmitBtn,
         FormLoginIdBox,
         FormLoginPassBox,
-        PageHeading,
+        PageHeading2,
+        BtnRouterLink
     }
 }
 </script>
