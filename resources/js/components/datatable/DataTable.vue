@@ -5,7 +5,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col" class="text-center m-table-w20">タスク</th>
-                        <th scope="col" class="text-center m-table-w20">予定工数</th>
+                        <th scope="col" class="text-center m-table-w20">実工数/予定工数</th>
                         <th scope="col" class="text-center m-table-w20">ステータス</th>
                         <th scope="col" class="text-center m-table-w20">スケジュール</th>
                         <th scope="col" class="text-center w-auto">実工数入力</th>
@@ -17,7 +17,7 @@
                             <slot name="taskNames">{{ dbData.taskname }}</slot>
                         </th>
                         <td id="js-plan-workeffortTime" class="text-center">
-                            <slot name="taskHours">{{ dbData.jitsukosu }}／{{ dbData.kosu }}</slot>
+                            <slot name="taskHours">{{ dbData.jitsukosu }}h／{{ dbData.kosu }}h</slot>
                         </td>
                         <td id="js-status" class="text-center">
                             <select ref="statusSelect" :name="`taskStatusUpdateId` + dbData.taskname" :id="dbData.taskname">

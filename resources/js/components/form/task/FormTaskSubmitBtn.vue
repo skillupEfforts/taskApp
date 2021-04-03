@@ -18,7 +18,8 @@ export default {
             type: String,
             default:''
         },
-    },methods:{
+    },
+    methods:{
         onClick () {
             this.$emit('onClick')
         }
