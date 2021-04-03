@@ -12,7 +12,8 @@
                         task-name-placeholder="親タスクを入力してください"
                         task-name="taskNameId"
                         @onBlur="taskNameCheck"
-                        v-model="taskValueObject.taskName">
+                        v-model="taskValueObject.taskName"
+                        task-name-required>
                         <strong>親タスク入力</strong>
                         <template #task-name-error>
                             <p class="text-danger" v-if="taskNameError">タスク名が入力されていません。</p>
@@ -25,7 +26,8 @@
                         task-hour-placeholder="予定工数を入力してください"
                         task-hour-name="taskHourId"
                         @onBlur="taskHourCheck"
-                        v-model="taskValueObject.taskHour">
+                        v-model="taskValueObject.taskHour"
+                        task-hour-required>
                         <strong>工数入力</strong>
                         <template #task-hour-error v-if="taskHourError">
                             <p class="text-danger">工数が入力されていません。</p>
@@ -40,7 +42,8 @@
                                 task-start-date-max="2022-01-01"
                                 task-start-date-id-name="taskStartDateStartId"
                                 taskStartDateValue=""
-                                v-model="taskValueObject.taskStartDate">
+                                v-model="taskValueObject.taskStartDate"
+                                task-start-date-required>
                                 <template #start><strong>期間（開始日）</strong></template>
                                 <template #task-startdate-error v-if="taskStartDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
@@ -53,7 +56,8 @@
                                 task-end-date-max="2022-01-01"
                                 task-end-date-id-name="taskEndDateStartId"
                                 taskEndDateValues=""
-                                v-model="taskValueObject.taskEndDate">
+                                v-model="taskValueObject.taskEndDate"
+                                task-end-date-required>
                                 <template #end><strong>期間（開始日）</strong></template>
                                 <template #task-enddate-error v-if="taskEndDateError">
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
@@ -79,10 +83,11 @@
                 </div>
             </div>
             <footer class="l-modal-footer">
-            <slot name="footer">
-                <!-- <BtnSubmit :onClick="taskRefresh" submit-id="taskRegistration" button-type="submit" class="w-50 mx-auto">タスク登録</BtnSubmit> -->
-                <button @click.prevent="taskRefresh" submit-id="taskRegistration" button-type="submit" class="btn btn-success w-100 w-50 mx-auto">タスク登録</button>
-            </slot>
+                <FormTaskSubmitBtn
+                    taskSubmitBtnId="taskRegistration"
+                    taskSubmitBtnType="submit"
+                    @onClick="taskRefresh">
+                    タスク登録</FormTaskSubmitBtn>
             </footer>
         </form>
       </div>
@@ -99,6 +104,7 @@ import FormTaskStartDate from '../form/task/FormTaskStartDate.vue';
 import FormTaskEndDate from '../form/task/FormTaskEndDate.vue';
 import FormTaskStatus from '../form/task/FormTaskStatus.vue';
 import FormTaskTextArea from '../form/task/FormTaskTextArea.vue';
+import FormTaskSubmitBtn from '../form/task/FormTaskSubmitBtn.vue';
 
 export default {
     name: 'modalRegistration',
@@ -133,8 +139,7 @@ export default {
         userId: String,
     },
     mounted() {
-        //期日カレンダーの初期値をを今日、明日にする
-        // console.log(this.$el)
+        //期日カレンダーの初期値を今日、明日にする
         var getTimes = new Date();
         var year = getTimes.getFullYear();
         var month = getTimes.getMonth() + 1;
@@ -143,7 +148,6 @@ export default {
         const tommorow = year + '-' + month + '-' + (day + 1);
         this.taskStartDate = today
         this.taskEndDate = tommorow
-        // console.log(this.$route.params.userId)
     },
     methods: {
         taskNameCheck() {
@@ -198,6 +202,7 @@ export default {
         FormTaskStartDate,
         FormTaskEndDate,
         FormTaskTextArea,
+        FormTaskSubmitBtn,
     }
 }
 </script>
