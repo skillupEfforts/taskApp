@@ -97,7 +97,6 @@
 
 <script>
 import Heading3 from '../heading/Heading3.vue';
-import BtnSubmit from '../btn/BtnSubmit.vue';
 import FormTaskNameBox from '../form/task/FormTaskNameBox.vue';
 import FormTaskHourBox from '../form/task/FormTaskHourBox.vue';
 import FormTaskStartDate from '../form/task/FormTaskStartDate.vue';
@@ -195,7 +194,6 @@ export default {
     },
     components: {
         Heading3,
-        BtnSubmit,
         FormTaskNameBox,
         FormTaskHourBox,
         FormTaskStatus,

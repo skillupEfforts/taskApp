@@ -46,13 +46,13 @@
             </table>
         </div>
         <div class="l-w50-center mt-5">
-            <BtnSubmit submit-id="SubmitHours" button-type="button" @onClick="update">タスク更新</BtnSubmit>
+            <BtnUpdataTask btn-class="w-100" btn-id="SubmitHours" btn-type="button" @onClick="update">タスク更新</BtnUpdataTask>
         </div>
     </div>
 </template>
 
 <script>
-import BtnSubmit from '../btn/BtnSubmit.vue';
+import BtnUpdataTask from '../btn/BtnUpdataTask.vue';
 
 export default {
     name: 'DataTable',
@@ -150,7 +150,7 @@ export default {
         },
     },
     components: {
-        BtnSubmit,
+        BtnUpdataTask
     }
 }
 </script>

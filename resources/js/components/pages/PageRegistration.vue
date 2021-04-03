@@ -48,11 +48,11 @@
 </template>
 
 <script>
-import FormRegistrationIdBox from '../form/FormRegistrationIdBox.vue';
-import FormRegistrationPassBox from '../form/FormRegistrationPassBox.vue';
-import FormRegistrationSubmitBtn from '../form/FormRegistrationSubmitBtn.vue';
+import FormRegistrationIdBox from '../form/registration/FormRegistrationIdBox.vue';
+import FormRegistrationPassBox from '../form/registration/FormRegistrationPassBox.vue';
+import FormRegistrationSubmitBtn from '../form/registration/FormRegistrationSubmitBtn.vue';
 import Heading2 from '../heading/Heading2.vue';
-import ModalCreateAccount from '../modal/ModalCreateAccount';
+import ModalCreateAccount from '../modal/ModalCreateAccount.vue';
 import LinkRouterBtn from '../link/LinkRouterBtn.vue';
 
 export default {
