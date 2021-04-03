@@ -12,7 +12,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(dbData, key) in receiveDbTaskData" :key="key">
+                    <tr v-for="(dbData, key) in receiveDbData" :key="key">
                         <th scope="row" id="js-parentTask" class="text-center">
                             <slot name="taskNames">{{ dbData.taskname }}</slot>
                         </th>
@@ -53,8 +53,6 @@
 
 <script>
 import BtnSubmit from '../btn/BtnSubmit.vue';
-// let updateHours = {}
-let updateStatuses = {}
 
 export default {
     name: 'DataTable',
@@ -70,7 +68,7 @@ export default {
         }
     },
     props: {
-        receiveDbTaskData: Object
+        receiveDbData: Object
     },
     computed: {
         statuses () {
@@ -104,29 +102,29 @@ export default {
         },
     },
     methods: {
-        getUpdateData () {
+        getUpdateDatas () {
+            // DBデータのコピーと更新データの配列を初期化
             this.cloneDbData = []
-            this.cloneDbData = [...this.receiveDbTaskData]
+            this.cloneDbData = [...this.receiveDbData]
             console.log(this.cloneDbData)
-            // this.sendUpdateData.splice(0, this.sendUpdateData.length)//実工数配列を初期化
             this.sendUpdateData = [];
 
             //ステータスを{タスク名: スタータス}の形式でオブジェクトに格納
-            updateStatuses = {}
-            let statusLen = this.$refs.statusSelect.length
-            for(let i = 0; i < statusLen; i++){
-                let statusTaskName = this.$refs.statusSelect[i].getAttribute('id')
-                updateStatuses[statusTaskName] = this.$refs.statusSelect[i].value
-            }
+            let updateStatuses = {}
+            this.$refs.statusSelect.forEach((elem) => {
+                let statusTaskName = elem.getAttribute('id')
+                updateStatuses[statusTaskName] = elem.value
+            })
 
             this.cloneDbData.forEach((element, index) => {
                 //更新データの配列に
-                    // タスク名:{
-                    //     taskname: タスク名, jitsukosu: 実工数, state: ステータス
-                    // }の形式で入れる
-                console.log(this.updateHours[element.taskname])
+                // タスク名:{
+                //     taskname: タスク名, jitsukosu: 実工数, state: ステータス
+                // }の形式で入れる
+
                 let tempHour = 0
-                if(typeof this.updateHours[element.taskname] !== 'undefined' && this.updateHours[element.taskname] !== '') {//実工数の入力がなければ実工数に0を入れる
+                //実工数の入力があれば代入
+                if(typeof this.updateHours[element.taskname] !== 'undefined' && this.updateHours[element.taskname] !== '') {
                     tempHour = this.updateHours[element.taskname];
                 }
                 //入力した実工数とDBデータの工数を合算し、DBデータの実工数に挿入
@@ -142,12 +140,12 @@ export default {
             })
         },
         update () {
-            this.getUpdateData();
+            this.getUpdateDatas();
             const updateData = {
                 'sendUpdateData': this.sendUpdateData,
                 'refreshDbData': this.cloneDbData
             }
-            console.log(updateData)
+            // console.log(updateData)
             this.$emit('update', updateData);
         },
     },
