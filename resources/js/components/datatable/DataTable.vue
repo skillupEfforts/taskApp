@@ -68,7 +68,9 @@ export default {
         }
     },
     props: {
-        receiveDbData: Object
+        receiveDbData: {
+            type: Object | Function,
+        }
     },
     computed: {
         statuses () {
