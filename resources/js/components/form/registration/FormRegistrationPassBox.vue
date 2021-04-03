@@ -2,8 +2,8 @@
     <div class="col">
         <label :for="registrationPassId"><slot></slot></label>
         <input
-            :type="registrationPassInputType"
             class="form-control"
+            :type="registrationPassInputType"
             :id="registrationPassId"
             :name="registrationPassName"
             :placeholder="registrationPassPlaceholder"
