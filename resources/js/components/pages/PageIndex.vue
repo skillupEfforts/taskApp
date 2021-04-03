@@ -43,7 +43,6 @@ export default {
             }
         })
         .then(response => {
-            // console.log(response.data)
             this.dbTaskData = response.data
         })
         .catch(error => {
@@ -59,8 +58,6 @@ export default {
             this.dbTaskData.push(...dbData)
         },
         refreshData (taskValueObject) {
-            // console.log('PageIndex.vueのrefreshDataのイベント確認。\n下はmodalRegistration.vueからemitで渡している引数taskValueObjectの値')
-            // console.log(taskValueObject);
             axios.get('/api/registrationTask', {
                 params: {
                     userId: this.$route.params.userId,
@@ -80,7 +77,6 @@ export default {
                 }
             })
             .then(response => {
-                // console.log(response)
                 if(response.data === 'duplicate') {
                     alert('タスク名が重複しています。')
                 } else {
@@ -101,7 +97,6 @@ export default {
                     alert('タスク更新完了')
                     this.refreshDbData(updateData.refreshDbData);
                 }
-
             })
             .catch(error => {
                 alert('通信に失敗しました。ブラウザを更新してください。');
