@@ -2,9 +2,16 @@
     <div>
         <div class="container">
             <Heading2>タスク一覧表示画面​</Heading2>
-            <navigation @open="ToggleModal"></navigation>
+            <Navigation />
         </div>
-        <HeadingDate />
+        <div class="row">
+            <div class="col-2">
+                <HeadingDate />
+            </div>
+            <div class="col-2">
+                <BtnAddTask add-task-id="addtask" add-task-button-type="button" @onClick="ToggleModal">親タスク追加</BtnAddTask>
+            </div>
+        </div>
         <DataTable :receive-db-data="dbTaskData" @update="afterUpdateGetTask" />
 
         <!-- modal -->
@@ -15,9 +22,9 @@
 
 <script>
 import Heading2 from '../heading/Heading2.vue';
-import navigation from '../nav/navigation.vue';
+import Navigation from '../nav/Navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
-import BtnSubmit from '../btn/BtnSubmit.vue';
+import BtnAddTask from '../btn/BtnAddTask.vue';
 import DataTable from '../datatable/DataTable.vue';
 import ModalRegistration from '../modal/ModalRegistration.vue';
 
@@ -106,9 +113,9 @@ export default {
     },
     components: {
         Heading2,
-        navigation,
+        Navigation,
         HeadingDate,
-        BtnSubmit,
+        BtnAddTask,
         DataTable,
         ModalRegistration,
     }
