@@ -1,8 +1,6 @@
 <template>
     <div class="l-form">
-        <Heading2
-        >アカウント新規登録
-        </Heading2>
+        <Heading2>アカウント新規登録</Heading2>
         <form @submit.prevent="accountRegistration">
             <div class="form-row">
                 <FormRegistrationIdBox

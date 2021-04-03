@@ -2,8 +2,12 @@
     <div class="l-task-input-box">
         <label :for="taskStatusId"><slot></slot></label>
         <select :name="taskStatusName" :id="taskStatusId" @change="onChange">
-            <option v-for="(value, index) in status"
-                    :value="value.StatusValue">{{ value.StatusTxt }}</option>
+            <option
+                v-for="(value, index) in status"
+                :key="index"
+                :value="value.StatusValue">
+                {{ value.StatusTxt }}
+            </option>
         </select>
         <slot name="task-status-error"></slot>
     </div>

@@ -79,7 +79,8 @@ export default {
                 }
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
+                alert('通信に失敗しました。ブラウザを更新してください。');
                 this.$router.push('/error');
             });
         }
