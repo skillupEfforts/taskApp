@@ -4,11 +4,11 @@
             <Heading2>タスク一覧表示画面​</Heading2>
             <navigation @open="ToggleModal"></navigation>
         </div>
-        <HeadingDate></HeadingDate>
-        <DataTable :receiveDbTaskData="dbTaskData" @update="afterUpdateGetTask"></DataTable>
+        <HeadingDate />
+        <DataTable :receive-db-data="dbTaskData" @update="afterUpdateGetTask" />
 
         <!-- modal -->
-        <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal"></ModalRegistration>
+        <ModalRegistration @taskRefresh="refreshData" @close="ToggleModal" v-if="showModal" />
         <!-- /.modal -->
     </div>
 </template>
@@ -19,7 +19,7 @@ import navigation from '../nav/navigation.vue';
 import HeadingDate from '../heading/HeadingDate.vue';
 import BtnSubmit from '../btn/BtnSubmit.vue';
 import DataTable from '../datatable/DataTable.vue';
-import ModalRegistration from '../modal/ModalRegistration';
+import ModalRegistration from '../modal/ModalRegistration.vue';
 
 export default {
     name: 'PageIndex',
@@ -33,19 +33,21 @@ export default {
     },
     props : {
         userId: String,
+        // loginId: String,
     },
     async created() {
         axios.get('/api/getTask', {
             params: {
                 userId: this.$route.params.userId,
+                // loginId: this.$route.params.loginId,
             }
         })
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             this.dbTaskData = response.data
         })
         .catch(error => {
-            alert('エラーです')
+            alert('通信に失敗しました。ブラウザを更新してください。');
         });
     },
     methods:{
@@ -53,15 +55,12 @@ export default {
             this.showModal = !this.showModal
         },
         refreshDbData (dbData) {
-            // console.log(this.dbTaskData)
             this.dbTaskData = [];
-            // console.log(this.dbTaskData)
             this.dbTaskData.push(...dbData)
-            // console.log(this.dbTaskData)
         },
         refreshData (taskValueObject) {
-            console.log('PageIndex.vueのrefreshDataのイベント確認。\n下はmodalRegistration.vueからemitで渡している引数taskValueObjectの値')
-            console.log(taskValueObject);
+            // console.log('PageIndex.vueのrefreshDataのイベント確認。\n下はmodalRegistration.vueからemitで渡している引数taskValueObjectの値')
+            // console.log(taskValueObject);
             axios.get('/api/registrationTask', {
                 params: {
                     userId: this.$route.params.userId,
@@ -70,11 +69,18 @@ export default {
                     jitsukosu: taskValueObject.taskHour,
                     startdate: taskValueObject.taskStartDate,
                     enddate: taskValueObject.taskEndDate,
-                    state: taskValueObject.taskStatus
+                    state: taskValueObject.taskStatus,
+                    // loginId: this.$route.params.loginId,
+                    // taskname: taskValueObject.taskName,
+                    // kosu: taskValueObject.taskHour,
+                    // jitsukosu: taskValueObject.taskHour,
+                    // startdate: taskValueObject.taskStartDate,
+                    // enddate: taskValueObject.taskEndDate,
+                    // state: taskValueObject.taskStatus
                 }
             })
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 if(response.data === 'duplicate') {
                     alert('タスク名が重複しています。')
                 } else {
@@ -85,7 +91,7 @@ export default {
             })
             .catch(error => {
                 console.log(error)
-                alert('エラーです')
+                alert('通信に失敗しました。ブラウザを更新してください。');
             });
         },
         afterUpdateGetTask(updateData) {
@@ -98,7 +104,7 @@ export default {
 
             })
             .catch(error => {
-                alert('エラーです')
+                alert('通信に失敗しました。ブラウザを更新してください。');
                 console.log(error)
             });
         }
