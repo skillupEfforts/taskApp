@@ -1,8 +1,8 @@
 <template>
 <button
     :class="`btn btn-primary ${btnClass}`"
-    :id="addChildTaskId"
-    :type="addChildTaskButtonType"
+    :id="btnId"
+    :type="btnType"
     @click="onClick">
     <slot></slot>
 </button>
@@ -12,8 +12,8 @@
 export default {
     name: 'BtnAddChildTask',
     props: {
-        addChildTaskId: String,
-        addChildTaskButtonType: String,
+        btnId: String,
+        btnType: String,
         btnClass: {
             type: String,
             default: ''
