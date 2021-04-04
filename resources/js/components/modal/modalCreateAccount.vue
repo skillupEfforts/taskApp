@@ -17,7 +17,7 @@
 import Heading3 from '../heading/Heading3.vue';
 
 export default {
-    name: 'modalCreateAcount',
+    name: 'ModalCreateAccount',
     components: {
         Heading3,
     },

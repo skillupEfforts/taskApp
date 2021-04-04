@@ -106,7 +106,7 @@ import FormTaskTextArea from '../form/task/FormTaskTextArea.vue';
 import FormTaskSubmitBtn from '../form/task/FormTaskSubmitBtn.vue';
 
 export default {
-    name: 'modalRegistration',
+    name: 'ModalRegistration',
     data() {
         return {
             //higehogeErrorはエラー文言フラグ
