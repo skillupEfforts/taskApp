@@ -48,12 +48,12 @@
 </template>
 
 <script>
-import FormRegistrationIdBox from '../form/registration/FormRegistrationIdBox.vue';
-import FormRegistrationPassBox from '../form/registration/FormRegistrationPassBox.vue';
-import FormRegistrationSubmitBtn from '../form/registration/FormRegistrationSubmitBtn.vue';
-import Heading2 from '../heading/Heading2.vue';
-import ModalCreateAccount from '../modal/ModalCreateAccount.vue';
-import LinkRouterBtn from '../link/LinkRouterBtn.vue';
+import FormRegistrationIdBox from '../../components/form/registration/FormRegistrationIdBox.vue';
+import FormRegistrationPassBox from '../../components/form/registration/FormRegistrationPassBox.vue';
+import FormRegistrationSubmitBtn from '../../components/form/registration/FormRegistrationSubmitBtn.vue';
+import Heading2 from '../../components/heading/Heading2.vue';
+import ModalCreateAccount from '../../components/modal/ModalCreateAccount.vue';
+import LinkRouterBtn from '../../components/link/LinkRouterBtn.vue';
 
 export default {
     name: 'PageRegistration',

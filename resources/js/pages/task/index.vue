@@ -1,17 +1,10 @@
 <template>
     <div>
         <div class="container">
-            <Heading2>タスク一覧表示画面​</Heading2>
-            <Navigation />
+            <Heading2>本日のタスク一覧​</Heading2>
+            <Navigation :to-index="toPageIndex" :to-taskall="toPageTaskAll" />
         </div>
-        <div class="row">
-            <div class="col-2">
-                <HeadingDate />
-            </div>
-            <div class="col-2">
-                <BtnAddTask add-task-id="addtask" add-task-button-type="button" @onClick="ToggleModal">親タスク追加</BtnAddTask>
-            </div>
-        </div>
+        <HeadingDate />
         <DataTable :receive-db-data="dbTaskData" @update="afterUpdateGetTask" />
 
         <!-- modal -->
@@ -21,12 +14,12 @@
 </template>
 
 <script>
-import Heading2 from '../heading/Heading2.vue';
-import Navigation from '../nav/Navigation.vue';
-import HeadingDate from '../heading/HeadingDate.vue';
-import BtnAddTask from '../btn/BtnAddTask.vue';
-import DataTable from '../datatable/DataTable.vue';
-import ModalRegistration from '../modal/ModalRegistration.vue';
+import Heading2 from '../../components/heading/Heading2.vue';
+import Navigation from '../../components/nav/Navigation.vue';
+import HeadingDate from '../../components/heading/HeadingDate.vue';
+import BtnAddTask from '../../components/btn/BtnAddTask.vue';
+import DataTable from '../../components/datatable/DataTable.vue';
+import ModalRegistration from '../../components/modal/ModalRegistration.vue';
 
 export default {
     name: 'PageIndex',
@@ -36,11 +29,11 @@ export default {
             parentTaskName: '',
             dbTaskData: Object,
             dbRefreshData: Array,
+            loginId: String,
         }
     },
     props : {
         userId: String,
-        // loginId: String,
     },
     async created() {
         axios.get('/api/getTask', {
@@ -50,11 +43,35 @@ export default {
             }
         })
         .then(response => {
+            this.loginId = this.$route.params.userId
             this.dbTaskData = response.data
         })
         .catch(error => {
             alert('通信に失敗しました。ブラウザを更新してください。');
         });
+    },
+    computed:{
+        // Navigationコンポーネントで当日ページ遷移する際のパラメーター渡し関数
+        toPageIndex(){
+            const toPageIndex = {
+                name: 'PageIndex',
+                params: {
+                    'userId': this.loginId
+                }
+            }
+            return toPageIndex
+        },
+
+        // Navigationコンポーネントでタスク一覧ページ遷移する際のパラメーター渡し関数
+        toPageTaskAll(){
+            const toPageTaskAll = {
+                name: 'PageTaskAll',
+                params: {
+                    'userId': this.loginId
+                },
+            }
+            return toPageTaskAll
+        }
     },
     methods:{
         ToggleModal () {

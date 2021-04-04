@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Heading2 from '../heading/Heading2.vue';
-import LinkRouterBtn from '../link/LinkRouterBtn.vue';
+import Heading2 from '../../components/heading/Heading2.vue';
+import LinkRouterBtn from '../../components/link/LinkRouterBtn.vue';
 
 export default {
     name: 'PageError',
