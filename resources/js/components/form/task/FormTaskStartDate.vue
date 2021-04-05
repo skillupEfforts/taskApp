@@ -2,8 +2,8 @@
     <div>
         <label :for="taskStartDateId"><slot name="start"></slot></label>
         <input
-            :type="taskStartDateInputType"
             class="form-control"
+            :type="taskStartDateInputType"
             :id="taskStartDateId"
             :name="taskStartDateName"
             :min="taskStartDateMin"

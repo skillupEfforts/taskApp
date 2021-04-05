@@ -2,11 +2,11 @@
     <div class="l-task-input-box">
         <label :for="taskHourId"><slot></slot></label>
         <input
-            :type="taskHourInputType"
             class="form-control"
+            :type="taskHourInputType"
             :id="taskHourId"
             :name="taskHourName"
-            :placeholder="taskHourPlaceHolder"
+            :placeholder="taskHourPlaceholder"
             :value="taskHourValue"
             @input="$emit('input', $event.target.value)"
             @blur="onBlur"
@@ -25,7 +25,7 @@ export default {
     props: {
         taskHourId: String,
         taskHourInputType: String,
-        taskHourPlaceHolder: String,
+        taskHourPlaceholder: String,
         taskHourValue: String,
         taskHourName: String,
         taskHourRequired: {

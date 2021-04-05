@@ -1,13 +1,9 @@
 <template>
     <div class="l-task-input-box">
-        <label :for="taskStatusId"><slot></slot></label>
-        <select :name="taskStatusName" :id="taskStatusId" @change="onChange">
-            <option
-                v-for="(value, index) in status"
-                :key="index"
-                :value="value.StatusValue">
-                {{ value.StatusTxt }}
-            </option>
+        <label :for="taskUpdateStatusId"><slot></slot></label>
+        <select :name="taskStatusUpdataName" :id="taskUpdateStatusId" @change="onChange">
+            <option v-for="(value, index) in status"
+                    :value="value.StatusValue">{{ value.StatusTxt }}</option>
         </select>
         <slot name="task-status-error"></slot>
     </div>
@@ -16,16 +12,20 @@
 <script>
 
 export default {
-    name: 'FormTaskStatus',
+    name: 'FormTaskUpdateStatus',
     props: {
-        taskStatusId: String,
-        taskStatusName: String,
-        taskSelected: String,
-        statusObject: Object,
+        taskUpdateStatusId: String,
+        taskStatusUpdataName: String,
+        taskUpadateSelected: String,
+        dbDate: Array,
     },
     model: {
         prop: 'taskSelected',
         event: 'onChange'
+    },
+    mounted() {
+        // console.log('this.dbDate');
+        // console.log(this.dbDate);
     },
     computed: {
         status () {

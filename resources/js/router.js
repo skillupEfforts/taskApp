@@ -1,8 +1,9 @@
 import Router from 'vue-router'
-import PageRegistration from "./components/pages/PageRegistration.vue";
-import PageLogin from "./components/pages/PageLogin.vue";
-import PageIndex from "./components/pages/PageIndex.vue";
-import PageError from "./components/pages/PageError.vue";
+import PageLogin from "./pages/index.vue";
+import PageError from "./pages/error/index.vue";
+import PageRegistration from "./pages/index.vue";
+import PageIndex from "./pages/task/index.vue";
+import PageTaskAll from "./pages/task/taskall.vue";
 
 
 export default new Router({
@@ -15,20 +16,24 @@ export default new Router({
             component: PageLogin
         },
         {
+            path: "/error",
+            name: "PageError",
+            component: PageError
+        },
+        {
             path: "/registration",
             name: "PageRegistration",
             component: PageRegistration
         },
-
         {
-            path: "/home",
+            path: "/task",
             name: "PageIndex",
             component: PageIndex
         },
         {
-            path: "/error",
-            name: "PageError",
-            component: PageError
-        }
+            path: "/taskall",
+            name: "PageTaskAll",
+            component: PageTaskAll
+        },
     ]
 });

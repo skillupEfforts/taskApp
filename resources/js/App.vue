@@ -1,10 +1,10 @@
 <template>
     <div id="wrapper">
-        <Theheader></Theheader>
+        <Theheader />
         <div class="container-fluid">
             <router-view/>
         </div>
-        <Thefooter></Thefooter>
+        <Thefooter />
     </div>
 </template>
 
