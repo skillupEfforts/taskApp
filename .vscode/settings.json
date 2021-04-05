@@ -1,0 +1,17 @@
+{
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    // "[vue]": {
+    //     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    // },
+    // "[scss]": {
+    //     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    // },
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+}
