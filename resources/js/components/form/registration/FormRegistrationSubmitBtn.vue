@@ -3,8 +3,7 @@
         <button
             :id="registrationSubmitId"
             :type="registrationButtonType"
-            :class="`btn ${btnClass}`"
-        ><slot></slot></button>
+            :class="`btn ${btnClass}`"><slot></slot></button>
     </div>
 </template>
 
@@ -12,8 +11,14 @@
 export default {
     name: 'FormRegistrationSubmitBtn',
     props: {
-        registrationSubmitId: String,
-        registrationButtonType: String,
+        registrationSubmitId: {
+            type: String,
+            default: '',
+        },
+        registrationButtonType: {
+            type: String,
+            default: '',
+        },
         wrapClass: {
             type: String,
             default: ''

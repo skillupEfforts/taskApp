@@ -8,6 +8,7 @@
 export default {
     name: 'BtnRouterLink',
     props: {
+        // eslint-disable-next-line vue/require-default-prop
         to: String | Object,
         btnClass: {
             type: String,

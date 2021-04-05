@@ -12,13 +12,12 @@ const week = getTimes.getDay();
 const weekElem = ['日','月','火','水','木','金','土'];
 const today = year + '年' + month + '月' + day + '日' + weekElem[week] + '曜日';
 
-
 export default {
     name: 'HeadingDate',
     computed: {
-    today () {
-        return today
+        today () {
+            return today
+        }
     }
-  }
 }
 </script>

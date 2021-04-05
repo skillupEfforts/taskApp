@@ -7,85 +7,85 @@
                 <Heading3>タスク新規追加</Heading3>
                 <div class="l-task-input">
                     <FormTaskNameBox
+                        v-model="taskValueObject.taskName"
                         task-name-id="taskNameId"
                         task-name-input-type="text"
                         task-name-placeholder="親タスクを入力してください"
                         task-name="taskNameId"
-                        @onBlur="taskNameCheck"
-                        v-model="taskValueObject.taskName"
-                        task-name-required>
+                        task-name-required
+                        @onBlur="taskNameCheck">
                         <strong>親タスク入力</strong>
                         <template #task-name-error>
-                            <p class="text-danger" v-if="taskNameError">タスク名が入力されていません。</p>
-                            <p class="text-danger" v-if="taskNameDuplicateError">既に登録済みのタスクと重複しています。</p>
+                            <p v-if="taskNameError" class="text-danger">タスク名が入力されていません。</p>
+                            <p v-if="taskNameDuplicateError" class="text-danger">既に登録済みのタスクと重複しています。</p>
                         </template>
                     </FormTaskNameBox>
                     <FormTaskHourBox
+                        v-model="taskValueObject.taskHour"
                         task-hour-id="taskHourId"
                         task-hour-input-type="text"
                         task-hour-placeholder="予定工数を入力してください"
                         task-hour-name="taskHourId"
-                        @onBlur="taskHourCheck"
-                        v-model="taskValueObject.taskHour"
-                        task-hour-required>
+                        task-hour-required
+                        @onBlur="taskHourCheck">
                         <strong>工数入力</strong>
-                        <template #task-hour-error v-if="taskHourError">
+                        <template v-if="taskHourError" #task-hour-error>
                             <p class="text-danger">工数が入力されていません。</p>
                         </template>
                     </FormTaskHourBox>
                     <div class="l-task-input-box">
                         <div class="l-task-input-box-col2">
                             <FormTaskStartDate
+                                v-model="taskValueObject.taskStartDate"
                                 task-start-date-id="taskStartDateStartId"
                                 task-start-date-input-type="date"
                                 task-start-date-min="2021-01-01"
                                 task-start-date-max="2022-01-01"
                                 task-start-date-id-name="taskStartDateStartId"
-                                taskStartDateValue=""
-                                v-model="taskValueObject.taskStartDate"
+                                task-start-date-value=""
                                 task-start-date-required>
                                 <template #start><strong>期間（開始日）</strong></template>
-                                <template #task-startdate-error v-if="taskStartDateError">
+                                <template v-if="taskStartDateError" #task-startdate-error>
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
                                 </template>
                             </FormTaskStartDate>
                             <FormTaskEndDate
+                                v-model="taskValueObject.taskEndDate"
                                 task-end-date-id="taskEndDateStartId"
                                 task-end-date-input-type="date"
                                 task-end-date-min="2021-01-01"
                                 task-end-date-max="2022-01-01"
                                 task-end-date-id-name="taskEndDateStartId"
-                                taskEndDateValues=""
-                                v-model="taskValueObject.taskEndDate"
+                                task-end-date-values=""
                                 task-end-date-required>
                                 <template #end><strong>期間（開始日）</strong></template>
-                                <template #task-enddate-error v-if="taskEndDateError">
+                                <template v-if="taskEndDateError" #task-enddate-error>
                                     <p class="text-danger">タスクの開始時期が入力されていません。</p>
                                 </template>
                             </FormTaskEndDate>
                         </div>
                     </div>
                     <FormTaskStatus
+                        v-model="taskValueObject.taskStatus"
                         task-status-id="taskStatusId"
                         task-status-name="taskStatusName"
-                        v-model="taskValueObject.taskStatus"
                         @onChange="taskStatusCheck">
                         <strong>ステータス</strong>
-                        <template #task-status-error v-if="taskStatusError">
+                        <template v-if="taskStatusError" #task-status-error>
                             <p class="text-danger">タスクのステータスが選択されていません。</p>
                         </template>
                     </FormTaskStatus>
                     <FormTaskTextArea
-                        task-textarea-id="taskTextAreaId"
-                        v-model="taskMemo">
+                        v-model="taskMemo"
+                        task-textarea-id="taskTextAreaId">
                         <strong>メモ</strong>
                     </FormTaskTextArea>
                 </div>
             </div>
             <footer class="l-modal-footer">
                 <FormTaskSubmitBtn
-                    taskSubmitBtnId="taskRegistration"
-                    taskSubmitBtnType="submit"
+                    task-submit-btn-id="taskRegistration"
+                    task-submit-btn-type="submit"
                     @onClick="taskRefresh">
                     タスク登録</FormTaskSubmitBtn>
             </footer>
@@ -107,6 +107,22 @@ import FormTaskSubmitBtn from '../form/task/FormTaskSubmitBtn.vue';
 
 export default {
     name: 'ModalRegistration',
+    components: {
+        Heading3,
+        FormTaskNameBox,
+        FormTaskHourBox,
+        FormTaskStatus,
+        FormTaskStartDate,
+        FormTaskEndDate,
+        FormTaskTextArea,
+        FormTaskSubmitBtn,
+    },
+    props : {
+        userId: {
+            type: String,
+            default:''
+        },
+    },
     data() {
         return {
             //higehogeErrorはエラー文言フラグ
@@ -134,15 +150,12 @@ export default {
             }
         }
     },
-    props : {
-        userId: String,
-    },
     mounted() {
         //期日カレンダーの初期値を今日、明日にする
-        var getTimes = new Date();
-        var year = getTimes.getFullYear();
-        var month = getTimes.getMonth() + 1;
-        var day = getTimes.getDate();
+        let getTimes = new Date();
+        let year = getTimes.getFullYear();
+        let month = getTimes.getMonth() + 1;
+        let day = getTimes.getDate();
         const today = year + '-' + month + '-' + day;
         const tommorow = year + '-' + month + '-' + (day + 1);
         this.taskStartDate = today
@@ -160,17 +173,17 @@ export default {
                         taskname: this.taskValueObject.taskName
                     }
                 })
-                .then(response => {
-                    if(response.data === 'duplicate') {
-                        this.taskNameDuplicateError = true;
-                    } else {
-                        this.taskNameDuplicateError = false;
-                    }
-                })
-                .catch(error => {
-                // console.log(error)
-                    alert('エラーです')
-                });
+                    .then(response => {
+                        if(response.data === 'duplicate') {
+                            this.taskNameDuplicateError = true;
+                        } else {
+                            this.taskNameDuplicateError = false;
+                        }
+                    })
+                    .catch(error => {
+                        // console.log(error)
+                        alert('エラーです')
+                    });
             }
         },
         taskHourCheck() {
@@ -191,16 +204,6 @@ export default {
             console.log('modalRegistration.vueのtaskRefreshのイベント確認')
             this.$emit('taskRefresh', this.taskValueObject)
         }
-    },
-    components: {
-        Heading3,
-        FormTaskNameBox,
-        FormTaskHourBox,
-        FormTaskStatus,
-        FormTaskStartDate,
-        FormTaskEndDate,
-        FormTaskTextArea,
-        FormTaskSubmitBtn,
     }
 }
 </script>

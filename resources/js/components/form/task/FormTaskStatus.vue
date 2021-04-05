@@ -1,7 +1,7 @@
 <template>
     <div class="l-task-input-box">
         <label :for="taskStatusId"><slot></slot></label>
-        <select :name="taskStatusName" :id="taskStatusId" @change="onChange">
+        <select :id="taskStatusId" :name="taskStatusName" @change="onChange">
             <option
                 v-for="(value, index) in status"
                 :key="index"
@@ -17,15 +17,27 @@
 
 export default {
     name: 'FormTaskStatus',
-    props: {
-        taskStatusId: String,
-        taskStatusName: String,
-        taskSelected: String,
-        statusObject: Object,
-    },
     model: {
         prop: 'taskSelected',
         event: 'onChange'
+    },
+    props: {
+        taskStatusId: {
+            type: String,
+            default: '',
+        },
+        taskStatusName: {
+            type: String,
+            default: '',
+        },
+        taskSelected: {
+            type: String,
+            default: '',
+        },
+        statusObject: {
+            type: Object,
+            default: () => {},
+        },
     },
     computed: {
         status () {
@@ -60,7 +72,7 @@ export default {
     },
     methods: {
         onChange: function(e) {
-          this.$emit("onChange", e.target.value);
+          this.$emit('onChange', e.target.value);
         }
     },
 }

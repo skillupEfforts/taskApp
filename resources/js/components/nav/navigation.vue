@@ -10,12 +10,17 @@
 export default {
     name: 'Navigation',
     props: {
-        loginId: String,
+        loginId: {
+            type: String,
+            default: ''
+        },
         toIndex: {
+            // eslint-disable-next-line vue/require-prop-type-constructor
             type: Object | Function,
             default: () => {}
         },
         toTaskall: {
+            // eslint-disable-next-line vue/require-prop-type-constructor
             type: Object | Function,
             default: () => {}
         }

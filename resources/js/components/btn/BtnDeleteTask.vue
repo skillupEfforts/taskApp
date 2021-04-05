@@ -1,7 +1,7 @@
 <template>
 <button
-    :class="`btn btn-danger ${btnClass}`"
     :id="btnId"
+    :class="`btn btn-danger ${btnClass}`"
     :type="btnType"
     @click="onClick">
     <slot></slot>
@@ -10,10 +10,16 @@
 
 <script>
 export default {
-    name: 'BtnDeleteTask.vue',
+    name: 'BtnDeleteTask',
     props: {
-        btnId: String,
-        btnType: String,
+        btnId: {
+            type: String,
+            default: ''
+        },
+        btnType: {
+            type: String,
+            default: ''
+        },
         btnClass: {
             type: String,
             default: ''

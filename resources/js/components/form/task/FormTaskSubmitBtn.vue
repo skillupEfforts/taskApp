@@ -12,8 +12,14 @@
 export default {
     name: 'FormTaskSubmitBtn',
     props: {
-        taskSubmitBtnId: String,
-        taskSubmitBtnType: String,
+        taskSubmitBtnId: {
+            type: String,
+            default: ''
+        },
+        taskSubmitBtnType: {
+            type: String,
+            default: ''
+        },
         btnClass: {
             type: String,
             default:''

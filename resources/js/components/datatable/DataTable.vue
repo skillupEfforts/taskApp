@@ -13,19 +13,18 @@
                 </thead>
                 <tbody>
                     <tr v-for="(dbData, key) in receiveDbData" :key="key">
-                        <th scope="row" id="js-parentTask" class="text-center">
+                        <th id="js-parentTask" scope="row" class="text-center">
                             <slot name="taskNames">{{ dbData.taskname }}</slot>
                         </th>
                         <td id="js-plan-workeffortTime" class="text-center">
                             <slot name="taskHours">{{ dbData.jitsukosu }}h／{{ dbData.kosu }}h</slot>
                         </td>
                         <td id="js-status" class="text-center">
-                            <select ref="statusSelect" :name="`taskStatusUpdateId` + dbData.taskname" :id="dbData.taskname">
-                            <option v-for="(value, key) in statuses"
+                            <select :id="dbData.taskname" ref="statusSelect" :name="`taskStatusUpdateId` + dbData.taskname">
+                            <option v-for="(value, keys) in statuses"
+                                    :key="keys"
                                     :selected="value.statusValue === dbData.state"
-                                    :value="value.statusValue"
-                                    :key="key"
-                                    >{{ value.statusTxt }}</option>
+                                    :value="value.statusValue">{{ value.statusTxt }}</option>
                             </select>
                         </td>
                         <td id="js-schedule" class="text-center">
@@ -33,12 +32,12 @@
                         </td>
                         <td id="js-actual-workeffortTime">
                             <input
+                                :id="'actualHour' + dbData.taskname"
+                                v-model.trim="updateHours[dbData.taskname]"
                                 type="text"
                                 inputmode="numeric"
                                 :name="'actualHour' + dbData.taskname"
-                                :id="'actualHour' + dbData.taskname"
                                 class="form-control"
-                                v-model.trim="updateHours[dbData.taskname]"
                                 placeholder="実工数を入力してください。">
                         </td>
                     </tr>
@@ -56,6 +55,16 @@ import BtnUpdataTask from '../btn/BtnUpdataTask.vue';
 
 export default {
     name: 'DataTable',
+    components: {
+        BtnUpdataTask
+    },
+    props: {
+        receiveDbData: {
+            // eslint-disable-next-line vue/require-prop-type-constructor
+            type: Object | Function,
+            default: () => {}
+        }
+    },
     data () {
         return {
             cloneDbData: {//DBデータのコピー
@@ -65,11 +74,6 @@ export default {
             sendUpdateData: Array,//更新データの配列
             updateHours: Object,//実工数を入れるオブジェクト
 
-        }
-    },
-    props: {
-        receiveDbData: {
-            type: Object | Function,
         }
     },
     computed: {
@@ -150,9 +154,6 @@ export default {
             // console.log(updateData)
             this.$emit('update', updateData);
         },
-    },
-    components: {
-        BtnUpdataTask
     }
 }
 </script>

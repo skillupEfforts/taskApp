@@ -8,8 +8,14 @@
 export default {
     name: 'FormLoginSubmitBtn',
     props: {
-        loginSubmitBtnId: String,
-        loginSubmitBtnType: String,
+        loginSubmitBtnId: {
+            type: String,
+            default: ''
+        },
+        loginSubmitBtnType: {
+            type: String,
+            default: ''
+        },
         btnClass: {
             type: String,
             default:''

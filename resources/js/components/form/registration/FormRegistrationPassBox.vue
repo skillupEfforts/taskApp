@@ -2,14 +2,14 @@
     <div class="col">
         <label :for="registrationPassId"><slot></slot></label>
         <input
+            :id="registrationPassId"
             class="form-control"
             :type="registrationPassInputType"
-            :id="registrationPassId"
             :name="registrationPassName"
             :placeholder="registrationPassPlaceholder"
             :value="registrationPassValue"
-            @input="$emit('input', $event.target.value)"
-            :required="registrationPassRequired">
+            :required="registrationPassRequired"
+            @input="$emit('input', $event.target.value)">
     </div>
 </template>
 
@@ -21,11 +21,26 @@ export default {
         event: 'input'
     },
     props: {
-        registrationPassId: String,
-        registrationPassInputType: String,
-        registrationPassPlaceholder: String,
-        registrationPassValue: String,
-        registrationPassName: String,
+        registrationPassId: {
+            type: String,
+            default: '',
+        },
+        registrationPassInputType: {
+            type: String,
+            default: '',
+        },
+        registrationPassPlaceholder: {
+            type: String,
+            default: '',
+        },
+        registrationPassValue: {
+            type: String,
+            default: '',
+        },
+        registrationPassName: {
+            type: String,
+            default: '',
+        },
         registrationPassRequired: {
             type: Boolean,
             default: false,

@@ -21,9 +21,18 @@ export default {
         event: 'input'
     },
     props: {
-        taskTextAreaId: String,
-        taskStatusName: String,
-        taskMemo: String,
+        taskTextAreaId: {
+            type: String,
+            default: ''
+        },
+        taskStatusName: {
+            type: String,
+            default: ''
+        },
+        taskMemo: {
+            type: String,
+            default: ''
+        },
     }
 }
 </script>

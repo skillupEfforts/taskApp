@@ -16,5 +16,14 @@ module.exports = {
         'no-var': 2, // varは禁止
         'no-console': 0, // コンソールは許可
         'vue/html-closing-bracket-newline': [2, { multiline: 'never' }], // "never" ...閉じ括弧の前の改行を禁止します。
+        indent: [2, 4],
+        // 'vue/script-indent': [
+        //     'error',
+        //     {
+        //         baseIndent: 4,
+        //         switchCase: 0,
+        //         ignores: [],
+        //     },
+        // ],
     },
 }

@@ -2,15 +2,15 @@
     <div>
         <label :for="taskStartDateId"><slot name="start"></slot></label>
         <input
+            :id="taskStartDateId"
             class="form-control"
             :type="taskStartDateInputType"
-            :id="taskStartDateId"
             :name="taskStartDateName"
             :min="taskStartDateMin"
             :max="taskStartDateMax"
             :value="taskStartDateValue"
-            @input="$emit('input', $event.target.value)"
-            :required="taskStartDateRequired">
+            :required="taskStartDateRequired"
+            @input="$emit('input', $event.target.value)">
             <slot name="task-startdate-error"></slot>
     </div>
 </template>
@@ -24,12 +24,30 @@ export default {
         event: 'input'
     },
     props: {
-        taskStartDateId: String,
-        taskStartDateInputType: String,
-        taskStartDateMin: String,
-        taskStartDateMax: String,
-        taskStartDateValue: String,
-        taskStartDateName: String,
+        taskStartDateId: {
+            type: String,
+            default: '',
+        },
+        taskStartDateInputType: {
+            type: String,
+            default: '',
+        },
+        taskStartDateMin: {
+            type: String,
+            default: '',
+        },
+        taskStartDateMax: {
+            type: String,
+            default: '',
+        },
+        taskStartDateValue: {
+            type: String,
+            default: '',
+        },
+        taskStartDateName: {
+            type: String,
+            default: '',
+        },
         taskStartDateRequired: {
             type: Boolean,
             default: false,

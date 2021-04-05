@@ -1,7 +1,7 @@
 <template>
 <button
-    :class="`btn btn-info text-white ${btnClass}`"
     :id="btnId"
+    :class="`btn btn-info text-white ${btnClass}`"
     :type="btnType"
     @click="onClick">
     <slot></slot>
@@ -10,10 +10,16 @@
 
 <script>
 export default {
-    name: 'BtnInfoTask.vue',
+    name: 'BtnInfoTask',
     props: {
-        btnId: String,
-        btnType: String,
+        btnId: {
+            type: String,
+            default: ''
+        },
+        btnType: {
+            type: String,
+            default: ''
+        },
         btnClass: {
             type: String,
             default: ''

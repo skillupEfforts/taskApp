@@ -1,13 +1,11 @@
 <template>
     <div class="l-form-error">
-        <Heading2 class="text-danger"
-        >IDまたはパスワードが間違っています。
+        <Heading2 class="text-danger">IDまたはパスワードが間違っています。
         </Heading2>
         <LinkRouterBtn
             wrap-class="mt-3"
             btn-class="btn-primary w-100"
-            to="/"
-        >TOPへ戻る
+            to="/">TOPへ戻る
         </LinkRouterBtn>
     </div>
 </template>

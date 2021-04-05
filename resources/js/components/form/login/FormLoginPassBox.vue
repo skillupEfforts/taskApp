@@ -2,14 +2,14 @@
     <div class="col">
         <label :for="loginPassId"><slot></slot></label>
         <input
+            :id="loginPassId"
             class="form-control"
             :type="loginPassInputType"
-            :id="loginPassId"
             :name="loginPassName"
             :placeholder="loginPassPlaceholder"
             :value="loginPassValue"
-            @input="$emit('input', $event.target.value)"
-            :required="loginPassRequired">
+            :required="loginPassRequired"
+            @input="$emit('input', $event.target.value)">
     </div>
 </template>
 
@@ -21,11 +21,26 @@ export default {
         event: 'input'
     },
     props: {
-        loginPassId: String,
-        loginPassInputType: String,
-        loginPassPlaceholder: String,
-        loginPassValue: String,
-        loginPassName: String,
+        loginPassId: {
+            type:String,
+            default:''
+        },
+        loginPassInputType: {
+            type:String,
+            default:''
+        },
+        loginPassPlaceholder: {
+            type:String,
+            default:''
+        },
+        loginPassValue: {
+            type:String,
+            default:''
+        },
+        loginPassName: {
+            type:String,
+            default:''
+        },
         loginPassRequired: {
             type: Boolean,
             default: false,

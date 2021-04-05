@@ -2,15 +2,15 @@
     <div>
         <label :for="taskEndDateId"><slot name="end"></slot></label>
         <input
+            :id="taskEndDateId"
             class="form-control"
             :type="taskEndDateInputType"
-            :id="taskEndDateId"
             :name="taskEndDateName"
             :min="taskEndDateMin"
             :max="taskEndDateMax"
             :value="taskEndDateValue"
-            @input="$emit('input', $event.target.value)"
-            :required="taskEndDateRequired">
+            :required="taskEndDateRequired"
+            @input="$emit('input', $event.target.value)">
             <slot name="task-enddate-error"></slot>
     </div>
 </template>
@@ -24,12 +24,30 @@ export default {
         event: 'input'
     },
     props: {
-        taskEndDateId: String,
-        taskEndDateInputType: String,
-        taskEndDateMin: String,
-        taskEndDateMax: String,
-        taskEndDateValue: String,
-        taskEndDateName: String,
+        taskEndDateId: {
+            type: String,
+            default: '',
+        },
+        taskEndDateInputType: {
+            type: String,
+            default: '',
+        },
+        taskEndDateMin: {
+            type: String,
+            default: '',
+        },
+        taskEndDateMax: {
+            type: String,
+            default: '',
+        },
+        taskEndDateValue: {
+            type: String,
+            default: '',
+        },
+        taskEndDateName: {
+            type: String,
+            default: '',
+        },
         taskEndDateRequired: {
             type: Boolean,
             default: false,
