@@ -25,7 +25,6 @@
                 login-submit-btn-id="loginSubmit"
                 login-submit-btn-type="submit">ログイン
             </FormLoginSubmitBtn>
-            <router-link to="/components">コンポーネント集</router-link>
             <LinkRouterBtn
                 wrap-class="mt-5"
                 btn-class="btn-secondary w-50"

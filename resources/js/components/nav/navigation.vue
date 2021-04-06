@@ -15,13 +15,11 @@ export default {
             default: ''
         },
         toIndex: {
-            // eslint-disable-next-line vue/require-prop-type-constructor
-            type: Object | Function,
+            type: [Object, Function],
             default: () => {}
         },
         toTaskall: {
-            // eslint-disable-next-line vue/require-prop-type-constructor
-            type: Object | Function,
+            type: [Object, Function],
             default: () => {}
         }
     }

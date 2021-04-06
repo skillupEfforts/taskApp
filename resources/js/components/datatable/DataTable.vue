@@ -60,8 +60,7 @@ export default {
     },
     props: {
         receiveDbData: {
-            // eslint-disable-next-line vue/require-prop-type-constructor
-            type: Object | Function,
+            type: undefined,
             default: () => {}
         }
     },

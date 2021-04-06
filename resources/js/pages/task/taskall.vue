@@ -9,7 +9,7 @@
                 <HeadingDate />
             </div>
             <div class="col-2">
-                <BtnAddTask add-task-id="addtask" add-task-button-type="button" @onCLick="ToggleModal">親タスク追加</BtnAddTask>
+                <BtnAddTask add-task-id="addtask" add-task-button-type="button">親タスク追加</BtnAddTask>
             </div>
         </div>
 
